@@ -1,6 +1,6 @@
 ﻿namespace Pizzeria_Projekt_Schule
 {
-    partial class Form1
+    partial class Loginform
     {
         /// <summary>
         /// Required designer variable.
@@ -59,6 +59,7 @@
             // 
             this.passwortinput.Location = new System.Drawing.Point(186, 263);
             this.passwortinput.Name = "passwortinput";
+            this.passwortinput.PasswordChar = '●';
             this.passwortinput.Size = new System.Drawing.Size(100, 20);
             this.passwortinput.TabIndex = 2;
             // 
@@ -84,7 +85,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(45, 44);
+            this.label3.Location = new System.Drawing.Point(29, 66);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(739, 31);
             this.label3.TabIndex = 5;
@@ -100,7 +101,7 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // Form1
+            // Loginform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -112,7 +113,7 @@
             this.Controls.Add(this.passwortinput);
             this.Controls.Add(this.usernameinput);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
+            this.Name = "Loginform";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);

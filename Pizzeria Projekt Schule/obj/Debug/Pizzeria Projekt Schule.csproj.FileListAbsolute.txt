@@ -22,7 +22,6 @@ D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.AssemblyReference.cache
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Form1.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Properties.Resources.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.GenerateResource.cache
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.CoreCompileInputs.cache
@@ -30,3 +29,4 @@ D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeri
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.exe
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.pdb
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.mainpage.resources
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginform.resources

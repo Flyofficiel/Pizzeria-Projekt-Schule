@@ -20,7 +20,7 @@ namespace Pizzeria_Projekt_Schule
         private void logout_Click(object sender, EventArgs e)
         {
 
-            var loginForm = new Form1();
+            var loginForm = new Loginform();
             loginForm.FormClosed += (s, args) => this.Close();
             this.Hide();
             loginForm.Show();

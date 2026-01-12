@@ -11,9 +11,9 @@ using MySqlConnector;
 
 namespace Pizzeria_Projekt_Schule
 {
-    public partial class Form1 : Form
+    public partial class Loginform : Form
     {
-        public Form1()
+        public Loginform()
         {
             InitializeComponent();
         }
@@ -26,7 +26,7 @@ namespace Pizzeria_Projekt_Schule
         private void button1_Click(object sender, EventArgs e)
         {
             string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
-            string inputUsername = usernameinput.Text.Trim();
+            string inputUsername = usernameinput.Text;
             string inputPassword = passwortinput.Text;
 
             const string query = "SELECT username, passwort FROM User WHERE username = @username AND passwort = @passwort";
@@ -45,25 +45,25 @@ namespace Pizzeria_Projekt_Schule
                     {
                         if (reader.Read())
                         {
-                            string UsernameDB = reader["username"].ToString();
-                            string PasswortDB = reader["passwort"].ToString();
+
                             MessageBox.Show("Login Erfolgreich");
 
-                            // Show main page without terminating the application by closing the startup form
+                            // Show main page without terminating the application 
                             var m1 = new mainpage();
-                            // When mainpage closes, close the hidden login form so the app exits
-                            m1.FormClosed += (s, args) => this.Close();
+                            m1.FormClosed += (s, args) => this.Close(); // macht das erst wenn die Login page geschlossen wird das die mainpage geöffnet wird
                             this.Hide();
                             m1.Show();
                         }
                         else
                         {
+                            // Login failed und macht dann eine MessageBox auf wo dann geht das der Login fehlgeschlagen ist weil das Passwort oder der username falsch ist
                             MessageBox.Show("Username or password incorrect.", "Login failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
+                    // gibt den error an wenn es ein fehler gibt
                     MessageBox.Show("Database error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
