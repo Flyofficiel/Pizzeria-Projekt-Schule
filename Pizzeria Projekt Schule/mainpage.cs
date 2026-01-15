@@ -25,5 +25,33 @@ namespace Pizzeria_Projekt_Schule
             this.Hide();
             loginForm.Show();
         }
+
+        
+
+        private void bestellungenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Bestellungspage bestellungspage = new Bestellungspage();
+            bestellungspage.FormClosed += (s, args) => this.Close();
+            this.Hide();
+            bestellungspage.Show();
+        }
+
+        private void stammdatenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Stammdatenpage stammdatenpage = new Stammdatenpage();
+            stammdatenpage.FormClosed += (s, args) => this.Close();
+            this.Hide();
+            stammdatenpage.Show();
+        }
+
+        private void auswertungToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            auswertungspage auswertungspage = new auswertungspage();
+            auswertungspage.FormClosed += (s, args) => this.Close();
+            this.Hide();
+            auswertungspage.Show();
+        }
+
+        
     }
 }
