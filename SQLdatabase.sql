@@ -20,7 +20,7 @@ Create table Bestellungen (
 );
 insert into speisen (speisename, preis, zutaten) values ('Pizza Margherita', 8.50, 'Tomaten, Käse');
 insert into Bestellungen (bestellnr, speisename_fk) values (1, 'Pizza Margherita');
-
+insert into speisen (speisename, preis, zutaten) values ('Pizza Salami',8.50,'salami, tomaten, käse');
 CREATE VIEW Bestellungsübersicht AS
 SELECT 
     B.bestellnr, 
