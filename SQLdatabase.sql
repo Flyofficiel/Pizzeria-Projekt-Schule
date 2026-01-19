@@ -5,7 +5,7 @@ use pizzaprojekt;
 -- Tabellen
 
 create table speisen(
-speiseid int unique primary key,
+speise_id int unique primary key,
 speisename varchar(100) unique,
 preis double,
 zutaten varchar(100)
@@ -19,21 +19,20 @@ passwort varchar(100)
 );
 
 Create table tische (
-    tisch int not null,
+    tisch_id int not null,
     slot int not null,
-    datum datetime not null,
-    lage varchar(50),
+    aktiv boolean default true,
     -- Wir machen die Kombination aus Tisch, Slot und Datum zum Primärschlüssel
-    primary key (tisch, slot, datum)
+    primary key (tisch_id, slot)
 );
 
 CREATE TABLE bestellungen (
     bestellnr INT PRIMARY KEY,
     datum DATETIME,
-    tisch_fk INT,
+    tisch_id_fk INT,
     personalnr_fk int,
     foreign key(personalnr_fk) references mitarbeiter (personalnr),
-    foreign key(tisch_fk) references tische(tisch)
+    foreign key(tisch_id_fk) references tische(tisch_id)
 );
 
 CREATE TABLE bestellposition (
@@ -51,15 +50,15 @@ CREATE TABLE bestellposition (
 
 create table reservierungen(
     gastname varchar(100),
-    tisch_fk int,
+    tisch_id_fk int,
     slot_fk int,
-    datum_fk datetime,
+    datum datetime ,
     personenanzahl int,
     telephonnunmmr int,
-    primary key(telephonnunmmr,datum_fk,slot_fk),
+    primary key(telephonnunmmr,datum,slot_fk),
 
     -- Ein Fremdschlüssel, der auf alle drei Spalten gleichzeitig verweist
-    foreign key(tisch_fk, slot_fk, datum_fk) references tische (tisch, slot, datum)
+    foreign key(tisch_id_fk, slot_fk) references tische (tisch_id, slot)
 );
 
 create table rechnungen(
@@ -73,7 +72,7 @@ foreign key(bestellnr_fk) references Bestellungen (bestellnr)
 
 -- inserts
 
-INSERT INTO speisen (speiseid,speisename, preis, zutaten) VALUES
+INSERT INTO speisen (speise_id,speisename, preis, zutaten) VALUES
 -- 🍕 PIZZA
 (1,'Pizza Margherita', 8.50, 'Tomatensauce, Mozzarella'),
 (2,'Pizza Salami', 9.50, 'Tomatensauce, Mozzarella, Salami'),
@@ -153,13 +152,13 @@ GROUP BY m.name;
 -- Umsatz pro Tisch
 
 SELECT 
-    b.tisch_fk,
+    b.tisch_id_fk,
     SUM(p.menge * p.preis_fk) AS umsatz
 FROM bestellungen b
 
 JOIN bestellposition p 
     ON b.bestellnr = p.bestellnr_fk
-GROUP BY b.tisch_fk;
+GROUP BY b.tisch_id_fk;
 
 -- Beliebteste Speisen
 
