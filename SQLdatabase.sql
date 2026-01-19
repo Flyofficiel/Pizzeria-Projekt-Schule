@@ -2,13 +2,11 @@ drop database pizzaprojekt;
 Create database pizzaprojekt;
 use pizzaprojekt;
 
-Create table benutzer(
-username varchar(50),
-passwort varchar(50)
-);
+-- Tabellen
 
 create table speisen(
-speisename varchar(100) unique primary key,
+speiseid int unique primary key,
+speisename varchar(100) unique,
 preis double,
 zutaten varchar(100)
 );
@@ -16,7 +14,8 @@ zutaten varchar(100)
 create table mitarbeiter(
 personalnr int not null primary key,
 name varchar(100),
-berreich varchar(100)
+berreich varchar(100),
+passwort varchar(100)
 );
 
 Create table tische (
@@ -42,10 +41,10 @@ CREATE TABLE bestellposition (
     bestellnr_fk INT,
     speisename_fk VARCHAR(100),
     menge INT,
-    einzelpreis DOUBLE,
+    preis_fk DOUBLE,
 
     FOREIGN KEY (bestellnr_fk) REFERENCES bestellungen(bestellnr),
-    FOREIGN KEY (speisename_fk) REFERENCES speisen(speisename)
+    FOREIGN KEY (speisename_fk,preis_fk) REFERENCES speisen(speisename,preis)
 );
 
 
@@ -56,7 +55,8 @@ create table reservierungen(
     slot_fk int,
     datum_fk datetime,
     personenanzahl int,
-    primary key(gastname,datum_fk,slot_fk),
+    telephonnunmmr int,
+    primary key(telephonnunmmr,datum_fk,slot_fk),
 
     -- Ein Fremdschlüssel, der auf alle drei Spalten gleichzeitig verweist
     foreign key(tisch_fk, slot_fk, datum_fk) references tische (tisch, slot, datum)
@@ -73,67 +73,76 @@ foreign key(bestellnr_fk) references Bestellungen (bestellnr)
 
 -- inserts
 
-INSERT INTO speisen (speisename, preis, zutaten) VALUES
+INSERT INTO speisen (speiseid,speisename, preis, zutaten) VALUES
 -- 🍕 PIZZA
-('Pizza Margherita', 8.50, 'Tomatensauce, Mozzarella'),
-('Pizza Salami', 9.50, 'Tomatensauce, Mozzarella, Salami'),
-('Pizza Prosciutto', 10.00, 'Tomatensauce, Mozzarella, Schinken'),
-('Pizza Funghi', 9.00, 'Tomatensauce, Mozzarella, Champignons'),
-('Pizza Hawaii', 10.50, 'Schinken, Ananas, Käse'),
-('Pizza Tonno', 11.00, 'Thunfisch, Zwiebeln, Käse'),
-('Pizza Quattro Formaggi', 11.50, '4 Käsesorten'),
-('Pizza Vegetaria', 10.00, 'Gemüse, Käse'),
+(1,'Pizza Margherita', 8.50, 'Tomatensauce, Mozzarella'),
+(2,'Pizza Salami', 9.50, 'Tomatensauce, Mozzarella, Salami'),
+(3,'Pizza Prosciutto', 10.00, 'Tomatensauce, Mozzarella, Schinken'),
+(4,'Pizza Funghi', 9.00, 'Tomatensauce, Mozzarella, Champignons'),
+(5,'Pizza Hawaii', 10.50, 'Schinken, Ananas, Käse'),
+(6,'Pizza Tonno', 11.00, 'Thunfisch, Zwiebeln, Käse'),
+(7,'Pizza Quattro Formaggi', 11.50, '4 Käsesorten'),
+(8,'Pizza Vegetaria', 10.00, 'Gemüse, Käse'),
 
 -- 🍝 PASTA
-('Pasta Bolognese', 11.50, 'Rinderhack, Tomatensauce'),
-('Pasta Carbonara', 12.00, 'Sahnesauce, Ei, Speck'),
-('Pasta Napoli', 9.50, 'Tomatensauce'),
-('Pasta Alfredo', 12.50, 'Sahnesauce, Hähnchen'),
+(9,'Pasta Bolognese', 11.50, 'Rinderhack, Tomatensauce'),
+(10,'Pasta Carbonara', 12.00, 'Sahnesauce, Ei, Speck'),
+(11,'Pasta Napoli', 9.50, 'Tomatensauce'),
+(12,'Pasta Alfredo', 12.50, 'Sahnesauce, Hähnchen'),
 
 -- 🥗 SALATE
-('Insalata Mista', 6.50, 'Salat, Tomaten, Gurken'),
-('Caesar Salad', 9.00, 'Hähnchen, Parmesan, Croutons'),
+(12,'Insalata Mista', 6.50, 'Salat, Tomaten, Gurken'),
+(13,'Caesar Salad', 9.00, 'Hähnchen, Parmesan, Croutons'),
 
 -- 🥤 GETRÄNKE
-('Cola 0,33l', 3.00, 'Getränk'),
-('Cola Zero 0,33l', 3.00, 'Getränk'),
-('Fanta 0,33l', 3.00, 'Getränk'),
-('Sprite 0,33l', 3.00, 'Getränk'),
-('Mineralwasser 0,5l', 2.50, 'Getränk'),
-('Apfelschorle 0,5l', 3.00, 'Getränk'),
+(14,'Cola 0,33l', 3.00, ''),
+(15,'Cola Zero 0,33l', 3.00, ''),
+(16,'Fanta 0,33l', 3.00, ''),
+(17,'Sprite 0,33l', 3.00, ''),
+(18,'Mineralwasser 0,5l', 2.50, ''),
+(19,'Apfelschorle 0,5l', 3.00, ''),
 
 -- 🍰 DESSERT
-('Tiramisu', 5.00, 'Mascarpone, Kaffee'),
-('Panna Cotta', 4.50, 'Sahne, Vanille'),
-('Schokoladenkuchen', 4.00, 'Schokolade');
+(20,'Tiramisu', 5.00, 'Mascarpone, Kaffee'),
+(21,'Panna Cotta', 4.50, 'Sahne, Vanille'),
+(22,'Schokoladenkuchen', 4.00, 'Schokolade');
 
-INSERT INTO mitarbeiter (personalnr, name, berreich) VALUES
-(1, 'Marco Rossi', 'Service'),
-(2, 'Giulia Bianchi', 'Küche'),
-(3, 'Luca Romano', 'Service'),
-(4, 'Sara Conti', 'Kasse'),
-(5, 'Antonio Greco', 'Küche'),
-(6, 'Elena Ferrari', 'Service'),
-(7,'Lucas Huber','EDV Admin'),
-(8,'diaa','EDV Admin'),
-(9,'Julian','EDV Admin');
+INSERT INTO mitarbeiter (personalnr, name, berreich, passwort) VALUES
+(1, 'Marco Rossi', 'tisch 1','jsdhf'),
+(2, 'Giulia Bianchi', 'küche','kjdfsnklsf'),
+(3, 'Luca Romano', 'Tisch 2','ösldkfsk'),
+(4, 'Sara Conti', 'Kasse','lödgkdlöfgv'),
+(5, 'Antonio Greco', 'Küche','pdfglokjdsp'),
+(6, 'Elena Ferrari', 'Tisch 3','poigvjk'),
+(7,'Lucas Huber','EDV Admin','admin1'),
+(8,'diaa','EDV Admin','admin2'),
+(9,'Julian','EDV Admin','admin3');
+
+
 
 -- berechnungen
+
+-- Umsatz berechnen
+
 SELECT 
-    SUM(menge * einzelpreis) AS gesamtumsatz
+    SUM(menge * preis_fk) AS gesamtumsatz
 FROM bestellposition;
+
+-- Umsatz pro Tag
 
 SELECT 
     DATE(b.datum) AS tag,
-    SUM(p.menge * p.einzelpreis) AS umsatz
+    SUM(p.menge * p.preis_fk) AS umsatz
 FROM bestellungen b
 JOIN bestellposition p 
     ON b.bestellnr = p.bestellnr_fk
 GROUP BY DATE(b.datum);
 
+-- Umsatz pro Mitarbeiter
+
 SELECT 
     m.name,
-    SUM(p.menge * p.einzelpreis) AS umsatz
+    SUM(p.menge * p.preis_fk) AS umsatz
 FROM mitarbeiter m
 JOIN bestellungen b 
     ON m.personalnr = b.personalnr_fk
@@ -141,14 +150,18 @@ JOIN bestellposition p
     ON b.bestellnr = p.bestellnr_fk
 GROUP BY m.name;
 
+-- Umsatz pro Tisch
+
 SELECT 
     b.tisch_fk,
-    SUM(p.menge * p.einzelpreis) AS umsatz
+    SUM(p.menge * p.preis_fk) AS umsatz
 FROM bestellungen b
 
 JOIN bestellposition p 
     ON b.bestellnr = p.bestellnr_fk
 GROUP BY b.tisch_fk;
+
+-- Beliebteste Speisen
 
 SELECT 
     s.speisename,
@@ -159,16 +172,18 @@ JOIN bestellposition p
 GROUP BY s.speisename
 ORDER BY verkauft DESC;
 
+--
+
 CREATE VIEW UmsatzProTag AS
 SELECT 
     DATE(b.datum) AS tag,
-    SUM(p.menge * p.einzelpreis) AS umsatz
+    SUM(p.menge * p.preis_fk) AS umsatz
 FROM bestellungen b
 JOIN bestellposition p 
 ON b.bestellnr = p.bestellnr_fk
 GROUP BY DATE(b.datum);
 
 
+select * from speisen;
 
-insert into benutzer(username,passwort) value
-('admin','admin');
+select * from mitarbeiter
