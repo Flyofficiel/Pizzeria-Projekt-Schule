@@ -5,11 +5,19 @@ use pizzaprojekt;
 -- Tabellen
 
 create table speisen(
-speise_id int unique primary key,
+speise_id int primary key,
 speisename varchar(100) unique,
 preis double,
 zutaten varchar(100),
 aktiv boolean default true
+);
+create table gast(
+gastid int auto_increment unique primary key,
+gastvorname varchar(100),
+gastnachname varchar(100),
+telephonenr varchar(20),
+aktiv boolean default true
+
 );
 
 create table mitarbeiter(
@@ -30,12 +38,14 @@ Create table tische (
 );
 
 CREATE TABLE bestellungen (
-    bestellnr INT PRIMARY KEY,
+    bestellnr INT auto_increment PRIMARY KEY,
     datum DATETIME,
+    gast_id_fk int,
     tisch_id_fk INT,
     personalnr_fk int,
     foreign key(personalnr_fk) references mitarbeiter (personalnr),
-    foreign key(tisch_id_fk) references tische(tisch_id)
+    foreign key(tisch_id_fk) references tische(tisch_id),
+    foreign key(gast_id_fk) references gast(gastid)
 );
 
 
@@ -49,17 +59,10 @@ CREATE TABLE bestellposition (
     FOREIGN KEY (bestellnr_fk) REFERENCES bestellungen(bestellnr),
     FOREIGN KEY (speise_id_fk) REFERENCES speisen(speise_id)
 );
-create table gast(
-gastid int auto_increment unique primary key,
-gastvorname varchar(100),
-gastnachname varchar(100),
-telephonenr int,
-aktiv boolean default true
 
-);
 
 create table reservierungen(
-    reservierungs_id int,
+    reservierungs_id int auto_increment,
     tisch_id_fk int,
     slot int,
     datum datetime ,
@@ -70,7 +73,9 @@ create table reservierungen(
 
     -- Ein Fremdschlüssel, der auf alle drei Spalten gleichzeitig verweist
     foreign key(tisch_id_fk) references tische (tisch_id),
-    foreign key(gastid_fk) references gast (gastid)
+    foreign key(gastid_fk) references gast (gastid),
+    
+    unique(tisch_id_fk,datum,slot)
 );
 
 create table rechnungen(
@@ -186,6 +191,60 @@ FROM speisen s
 JOIN bestellposition p ON s.speise_id = p.speise_id_fk
 GROUP BY s.speisename
 ORDER BY verkauft DESC;
+
+-- umsatz pro woche
+
+DROP VIEW IF EXISTS UmsatzProWoche;
+
+CREATE VIEW UmsatzProWoche AS
+SELECT 
+    YEAR(b.datum) AS jahr,
+    WEEK(b.datum, 1) AS kalenderwoche,   -- ISO-Woche (Mo–So)
+    SUM(p.menge * p.preis_beim_kauf) AS umsatz
+FROM bestellungen b
+JOIN bestellposition p 
+    ON b.bestellnr = p.bestellnr_fk
+GROUP BY 
+    YEAR(b.datum),
+    WEEK(b.datum, 1);
+    
+-- pro monat
+
+DROP VIEW IF EXISTS UmsatzProMonat;
+
+CREATE VIEW UmsatzProMonat AS
+SELECT 
+    YEAR(b.datum) AS jahr,
+    MONTH(b.datum) AS monat,
+    SUM(p.menge * p.preis_beim_kauf) AS umsatz
+FROM bestellungen b
+JOIN bestellposition p 
+    ON b.bestellnr = p.bestellnr_fk
+GROUP BY 
+    YEAR(b.datum),
+    MONTH(b.datum);
+    
+-- pro gast
+
+-- pro gast
+
+DROP VIEW IF EXISTS UmsatzProGast;
+
+CREATE VIEW UmsatzProGast AS
+SELECT 
+    g.gastid,
+    g.gastvorname,
+    g.gastnachname,
+    SUM(p.menge * p.preis_beim_kauf) AS umsatz
+FROM gast g
+JOIN bestellungen b 
+    ON g.gastid = b.gast_id_fk -- Hier war der Fehler: gast_id_fk statt gastid_fk
+JOIN bestellposition p 
+    ON b.bestellnr = p.bestellnr_fk
+GROUP BY 
+    g.gastid, 
+    g.gastvorname, 
+    g.gastnachname;
 
 select * from speisen;
 
