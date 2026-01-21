@@ -38,7 +38,7 @@ CREATE TABLE bestellungen (
     foreign key(tisch_id_fk) references tische(tisch_id)
 );
 
-DROP TABLE IF EXISTS bestellposition;
+
 CREATE TABLE bestellposition (
     positionid INT AUTO_INCREMENT PRIMARY KEY,
     bestellnr_fk INT,
@@ -50,7 +50,7 @@ CREATE TABLE bestellposition (
     FOREIGN KEY (speise_id_fk) REFERENCES speisen(speise_id)
 );
 create table gast(
-gastid int unique primary key,
+gastid int auto_increment unique primary key,
 gastvorname varchar(100),
 gastnachname varchar(100),
 telephonenr int,
@@ -59,13 +59,14 @@ aktiv boolean default true
 );
 
 create table reservierungen(
+    reservierungs_id int,
     tisch_id_fk int,
     slot int,
     datum datetime ,
     personenanzahl int,
     gastid_fk int,
     zustand varchar(100),
-    
+    primary key(reservierungs_id),
 
     -- Ein Fremdschlüssel, der auf alle drei Spalten gleichzeitig verweist
     foreign key(tisch_id_fk) references tische (tisch_id),
