@@ -14,7 +14,7 @@ zutaten varchar(100)
 create table mitarbeiter(
 personalnr int not null primary key,
 name varchar(100),
-berreich varchar(100),
+bereich varchar(100),
 passwort varchar(100)
 );
 
@@ -131,7 +131,7 @@ INSERT INTO speisen (speise_id,speisename, preis, zutaten) VALUES
 (22,'Panna Cotta', 4.50, 'Sahne, Vanille'),
 (23,'Schokoladenkuchen', 4.00, 'Schokolade');
 
-INSERT INTO mitarbeiter (personalnr, name, berreich, passwort) VALUES
+INSERT INTO mitarbeiter (personalnr, name, bereich, passwort) VALUES
 (1, 'Marco Rossi', 'tisch 1','jsdhf'),
 (2, 'Giulia Bianchi', 'küche','kjdfsnklsf'),
 (3, 'Luca Romano', 'Tisch 2','ösldkfsk'),
