@@ -40,22 +40,18 @@ CREATE TABLE bestellposition (
     bestellnr_fk INT,
     speise_id_fk INT, 
     menge INT,
-    preis_beim_kauf DOUBLE, -- Hier wurde aus preis_fk -> preis_beim_kauf
+    preis_beim_kauf DOUBLE,
 
     FOREIGN KEY (bestellnr_fk) REFERENCES bestellungen(bestellnr),
     FOREIGN KEY (speise_id_fk) REFERENCES speisen(speise_id)
 );
 
-
-
 create table reservierungen(
-    gastname varchar(100),
     tisch_id_fk int,
     slot int,
     datum datetime ,
     personenanzahl int,
-    telephonnunmmr int,
-    primary key(telephonnunmmr,datum,slot),
+    primary key(datum,slot),
 
     -- Ein Fremdschlüssel, der auf alle drei Spalten gleichzeitig verweist
     foreign key(tisch_id_fk) references tische (tisch_id)
@@ -69,6 +65,12 @@ gesamtpreis double,
 foreign key(bestellnr_fk) references Bestellungen (bestellnr)
 );
 
+create table gast(
+gastvorname varchar(100),
+gastnachname varchar(100),
+telephonenr int
+
+);
 
 -- inserts
 
