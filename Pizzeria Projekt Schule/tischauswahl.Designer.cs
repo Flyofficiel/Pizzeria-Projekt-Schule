@@ -618,6 +618,7 @@
             this.button41.TabIndex = 12;
             this.button41.Text = "Zurück";
             this.button41.UseVisualStyleBackColor = false;
+            this.button41.Click += new System.EventHandler(this.button41_Click);
             // 
             // tischauswahl
             // 

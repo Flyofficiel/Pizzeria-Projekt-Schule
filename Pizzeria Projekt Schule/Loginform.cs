@@ -29,7 +29,7 @@ namespace Pizzeria_Projekt_Schule
             string inputUsername = usernameinput.Text;
             string inputPassword = passwortinput.Text;
 
-            const string query = "SELECT username, passwort FROM User WHERE username = @username AND passwort = @passwort";
+            const string query = "SELECT personalnr, passwort FROM mitarbeiter WHERE personalnr = @username AND passwort = @passwort";
 
             using (var conn = new MySqlConnection(connString))
             using (var cmd = new MySqlCommand(query, conn))
@@ -49,10 +49,9 @@ namespace Pizzeria_Projekt_Schule
                             MessageBox.Show("Login Erfolgreich");
 
                             // Show main page without terminating the application 
-                            var m1 = new mainpage();
-                            m1.FormClosed += (s, args) => this.Close(); // macht das erst wenn die Login page geschlossen wird das die mainpage geöffnet wird
+                            Hauptmenu mainpage = new Hauptmenu();
+                            mainpage.Show();
                             this.Hide();
-                            m1.Show();
                         }
                         else
                         {

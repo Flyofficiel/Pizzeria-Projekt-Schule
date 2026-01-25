@@ -31,5 +31,47 @@ namespace Pizzeria_Projekt_Schule
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Speissen speisenpage = new Speissen();
+            speisenpage.Show();
+            this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            reservierung reservierungpage = new reservierung();
+            reservierungpage.Show();
+            this.Close();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            tischauswahl tischauswahlpage = new tischauswahl();
+            tischauswahlpage.Show();
+            this.Close();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Zahlung zahlungsartpage = new Zahlung();
+            zahlungsartpage.Show();
+            this.Close();
+
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            auswertung01 auswertungpage = new auswertung01();
+            auswertungpage.Show();
+            this.Close();
+        }
     }
 }

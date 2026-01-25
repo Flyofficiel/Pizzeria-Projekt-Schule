@@ -16,5 +16,12 @@ namespace Pizzeria_Projekt_Schule
         {
             InitializeComponent();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Hauptmenu mainmenupage = new Hauptmenu();
+            mainmenupage.Show();
+            this.Close();
+        }
     }
 }
