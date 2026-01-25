@@ -30,3 +30,36 @@ D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeri
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.pdb
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.mainpage.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginform.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.exe.config
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.exe
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.pdb
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\MySqlConnector.dll
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Buffers.dll
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Memory.dll
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Numerics.Vectors.dll
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Threading.Tasks.Extensions.dll
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\MySqlConnector.xml
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Buffers.xml
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Memory.xml
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Numerics.Vectors.xml
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Threading.Tasks.Extensions.xml
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.AssemblyReference.cache
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginform.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.mainpage.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Properties.Resources.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.GenerateResource.cache
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.CoreCompileInputs.cache
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria.18FF98C5.Up2Date
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.exe
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.pdb
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Hauptmenu.resources

@@ -93,6 +93,49 @@
     <Compile Include="Bestellungspage.Designer.cs">
       <DependentUpon>Bestellungspage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Bestellungen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include=".Designer.cs">
+      <DependentUpon>Bestellungen.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="auswertung01.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="auswertung01.Designer.cs">
+      <DependentUpon>auswertung01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="tischauswahl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="tischauswahl.Designer.cs">
+      <DependentUpon>tischauswahl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="reservierung.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="reservierung.Designer.cs">
+      <DependentUpon>reservierung.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Zahlung.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Zahlung.Designer.cs">
+      <DependentUpon>Zahlung.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Speissen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Speissen.Designer.cs">
+      <DependentUpon>Speissen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Hauptmenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hauptmenu.Designer.cs">
+      <DependentUpon>Hauptmenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Loginform.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +162,24 @@
     <Compile Include="Stammdatenpage.Designer.cs">
       <DependentUpon>Stammdatenpage.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Bestellungen.resx">
+      <DependentUpon>Bestellungen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="auswertung01.resx">
+      <DependentUpon>auswertung01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tischauswahl.resx">
+      <DependentUpon>tischauswahl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="reservierung.resx">
+      <DependentUpon>reservierung.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Zahlung.resx">
+      <DependentUpon>Zahlung.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Hauptmenu.resx">
+      <DependentUpon>Hauptmenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Loginform.resx">
       <DependentUpon>Loginform.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,6 +195,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Speissen.resx">
+      <DependentUpon>Speissen.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
