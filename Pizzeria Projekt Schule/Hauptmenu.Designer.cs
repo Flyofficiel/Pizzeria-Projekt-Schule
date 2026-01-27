@@ -32,6 +32,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -41,7 +42,6 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -86,6 +86,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1046, 93);
             this.panel2.TabIndex = 1;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.ImageLocation = "D:\\C# projekte\\Pizzeria-Projekt-Schule\\Pizzeria Projekt Schule\\pizzerialogo.ico";
+            this.pictureBox1.Location = new System.Drawing.Point(47, 13);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(103, 68);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
@@ -209,16 +219,7 @@
             this.button8.TabIndex = 10;
             this.button8.Text = "Abmelden";
             this.button8.UseVisualStyleBackColor = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.ImageLocation = "D:\\C# projekte\\Pizzeria-Projekt-Schule\\Pizzeria Projekt Schule\\pizzerialogo.ico";
-            this.pictureBox1.Location = new System.Drawing.Point(47, 13);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(103, 68);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // Hauptmenu
             // 

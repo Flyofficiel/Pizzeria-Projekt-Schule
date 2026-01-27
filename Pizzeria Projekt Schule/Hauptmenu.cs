@@ -73,5 +73,12 @@ namespace Pizzeria_Projekt_Schule
             auswertungpage.Show();
             this.Close();
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Loginform loginform = new Loginform();
+            loginform.Show();
+            this.Close();
+        }
     }
 }

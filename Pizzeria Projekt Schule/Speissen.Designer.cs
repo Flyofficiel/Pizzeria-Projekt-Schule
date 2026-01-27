@@ -39,6 +39,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.Speisenid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Speisenname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.preis = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.zutaten = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.aktiv = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -69,6 +74,12 @@
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Speisenid,
+            this.Speisenname,
+            this.preis,
+            this.zutaten,
+            this.aktiv});
             this.dataGridView1.Location = new System.Drawing.Point(25, 173);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(678, 330);
@@ -173,6 +184,31 @@
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // Speisenid
+            // 
+            this.Speisenid.HeaderText = "Speisenid";
+            this.Speisenid.Name = "Speisenid";
+            // 
+            // Speisenname
+            // 
+            this.Speisenname.HeaderText = "Speisenname";
+            this.Speisenname.Name = "Speisenname";
+            // 
+            // preis
+            // 
+            this.preis.HeaderText = "preis";
+            this.preis.Name = "preis";
+            // 
+            // zutaten
+            // 
+            this.zutaten.HeaderText = "zutaten";
+            this.zutaten.Name = "zutaten";
+            // 
+            // aktiv
+            // 
+            this.aktiv.HeaderText = "aktiv";
+            this.aktiv.Name = "aktiv";
+            // 
             // Speissen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -210,5 +246,10 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Speisenid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Speisenname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn preis;
+        private System.Windows.Forms.DataGridViewTextBoxColumn zutaten;
+        private System.Windows.Forms.DataGridViewTextBoxColumn aktiv;
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MySqlConnector;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,6 +26,7 @@ namespace Pizzeria_Projekt_Schule
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            
 
         }
 
