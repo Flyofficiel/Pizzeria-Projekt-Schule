@@ -62,7 +62,6 @@ G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria.18
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.exe
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.pdb
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Hauptmenu.resources
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Form2.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.auswertung01.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.tischauswahl.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.reservierung.resources

@@ -41,5 +41,21 @@ namespace Pizzeria_Projekt_Schule
             mainmenupage.Show();
             this.Close();
         }
+
+        private void Speissen_Load(object sender, EventArgs e)
+        {
+            string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
+            string query = "SELECT * FROM speisen";
+
+            using (MySqlConnection con = new MySqlConnection(connString))
+            {
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, con);
+                DataTable table = new DataTable();
+
+                adapter.Fill(table);
+
+                dataGridView1.DataSource = table;
+            }
+        }
     }
 }
