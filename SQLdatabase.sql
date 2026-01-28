@@ -7,6 +7,7 @@ use pizzaprojekt;
 create table speisen(
 speise_id int primary key,
 speisename varchar(100) unique,
+speisentyp varchar(100),
 preis double,
 zutaten varchar(100),
 aktiv boolean default true
@@ -26,6 +27,7 @@ vorname varchar(100),
 nachname varchar(100),
 bereich varchar(100),
 passwort varchar(100),
+rolle varchar(100) ,
 aktiv boolean default true
 );
 
@@ -111,50 +113,50 @@ INSERT INTO tische VALUES
 INSERT INTO tische VALUES
 (36,10,true,'Frei'),(37,10,true,'Frei'),(38,10,true,'Frei'),(39,10,true,'Frei'),(40,10,true,'Frei');
 
-INSERT INTO speisen (speise_id,speisename, preis, zutaten,aktiv) VALUES
+INSERT INTO speisen (speise_id,speisename,speisentyp, preis, zutaten,aktiv) VALUES
 -- 🍕 PIZZA
-(1,'Pizza Margherita', 8.50, 'Tomatensauce, Mozzarella',true),
-(2,'Pizza Salami', 9.50, 'Tomatensauce, Mozzarella, Salami',true),
-(3,'Pizza Prosciutto', 10.00, 'Tomatensauce, Mozzarella, Schinken',true),
-(4,'Pizza Funghi', 9.00, 'Tomatensauce, Mozzarella, Champignons',true),
-(5,'Pizza Hawaii', 10.50, 'Schinken, Ananas, Käse',true),
-(6,'Pizza Tonno', 11.00, 'Thunfisch, Zwiebeln, Käse',true),
-(7,'Pizza Quattro Formaggi', 11.50, '4 Käsesorten',true),
-(8,'Pizza Vegetaria', 10.00, 'Gemüse, Käse',true),
+(1,'Pizza Margherita','🍕 PIZZA', 8.50, 'Tomatensauce, Mozzarella',true),
+(2,'Pizza Salami','🍕 PIZZA', 9.50, 'Tomatensauce, Mozzarella, Salami',true),
+(3,'Pizza Prosciutto','🍕 PIZZA', 10.00, 'Tomatensauce, Mozzarella, Schinken',true),
+(4,'Pizza Funghi','🍕 PIZZA', 9.00, 'Tomatensauce, Mozzarella, Champignons',true),
+(5,'Pizza Hawaii','🍕 PIZZA', 10.50, 'Schinken, Ananas, Käse',true),
+(6,'Pizza Tonno','🍕 PIZZA', 11.00, 'Thunfisch, Zwiebeln, Käse',true),
+(7,'Pizza Quattro Formaggi','🍕 PIZZA', 11.50, '4 Käsesorten',true),
+(8,'Pizza Vegetaria','🍕 PIZZA', 10.00, 'Gemüse, Käse',true),
 
 -- 🍝 PASTA
-(9,'Pasta Bolognese', 11.50, 'Rinderhack, Tomatensauce',true),
-(10,'Pasta Carbonara', 12.00, 'Sahnesauce, Ei, Speck',true),
-(11,'Pasta Napoli', 9.50, 'Tomatensauce',true),
-(12,'Pasta Alfredo', 12.50, 'Sahnesauce, Hähnchen',true),
+(9,'Pasta Bolognese','🍝 PASTA', 11.50, 'Rinderhack, Tomatensauce',true),
+(10,'Pasta Carbonara','🍝 PASTA', 12.00, 'Sahnesauce, Ei, Speck',true),
+(11,'Pasta Napoli','🍝 PASTA', 9.50, 'Tomatensauce',true),
+(12,'Pasta Alfredo','🍝 PASTA', 12.50, 'Sahnesauce, Hähnchen',true),
 
 -- 🥗 SALATE
-(13,'Insalata Mista', 6.50, 'Salat, Tomaten, Gurken',true),
-(14,'Caesar Salad', 9.00, 'Hähnchen, Parmesan, Croutons',true),
+(13,'Insalata Mista','🥗 SALATE', 6.50, 'Salat, Tomaten, Gurken',true),
+(14,'Caesar Salad','🥗 SALATE', 9.00, 'Hähnchen, Parmesan, Croutons',true),
 
 -- 🥤 GETRÄNKE
-(15,'Cola 0,33l', 3.00, '',true),
-(16,'Cola Zero 0,33l', 3.00, '',true),
-(17,'Fanta 0,33l', 3.00, '',true),
-(18,'Sprite 0,33l', 3.00, '',true),
-(19,'Mineralwasser 0,5l', 2.50, '',true),
-(20,'Apfelschorle 0,5l', 3.00, '',true),
+(15,'Cola 0,33l','🥤 GETRÄNKE', 3.00, '',true),
+(16,'Cola Zero 0,33l','🥤 GETRÄNKE', 3.00, '',true),
+(17,'Fanta 0,33l','🥤 GETRÄNKE', 3.00, '',true),
+(18,'Sprite 0,33l','🥤 GETRÄNKE', 3.00, '',true),
+(19,'Mineralwasser 0,5l','🥤 GETRÄNKE', 2.50, '',true),
+(20,'Apfelschorle 0,5l','🥤 GETRÄNKE', 3.00, '',true),
 
 -- 🍰 DESSERT
-(21,'Tiramisu', 5.00, 'Mascarpone, Kaffee',true),
-(22,'Panna Cotta', 4.50, 'Sahne, Vanille',true),
-(23,'Schokoladenkuchen', 4.00, 'Schokolade',true);
+(21,'Tiramisu','🍰 DESSERT', 5.00, 'Mascarpone, Kaffee',true),
+(22,'Panna Cotta','🍰 DESSERT', 4.50, 'Sahne, Vanille',true),
+(23,'Schokoladenkuchen','🍰 DESSERT', 4.00, 'Schokolade',true);
 
-INSERT INTO mitarbeiter (personalnr, vorname,nachname, bereich, passwort, aktiv) VALUES
-(1, 'Marco',' Rossi', 'tisch 1','jsdhf',true),
-(2, 'Giulia',' Bianchi', 'küche','kjdfsnklsf',true),
-(3, 'Luca',' Romano', 'Tisch 2','ösldkfsk',true),
-(4, 'Sara',' Conti', 'Kasse','lödgkdlöfgv',true),
-(5, 'Antonio',' Greco', 'Küche','pdfglokjdsp',true),
-(6, 'Elena',' Ferrari', 'Tisch 3','poigvjk',true),
-(7,'Lucas',' Huber','EDV Admin','admin1',true),
-(8,'diaa','','EDV Admin','admin2',true),
-(9,'Julian','','EDV Admin','admin3',true);
+INSERT INTO mitarbeiter (personalnr, vorname,nachname, bereich, passwort,rolle, aktiv) VALUES
+(1, 'Marco',' Rossi', 'tisch 1','jsdhf','service',true),
+(2, 'Giulia',' Bianchi', 'küche','kjdfsnklsf','koch',true),
+(3, 'Luca',' Romano', 'Tisch 2','ösldkfsk','service',true),
+(4, 'Sara',' Conti', 'Kasse','lödgkdlöfgv','service',true),
+(5, 'Antonio',' Greco', 'Küche','pdfglokjdsp','koch',true),
+(6, 'Elena',' Ferrari', 'Tisch 3','poigvjk','service',true),
+(7,'Lucas',' Huber','EDV Admin','admin1','admin',true),
+(8,'diaa','','EDV Admin','admin2','admin',true),
+(9,'Julian','','EDV Admin','admin3','admin',true);
 
 
 
@@ -224,8 +226,6 @@ GROUP BY
     YEAR(b.datum),
     MONTH(b.datum);
     
--- pro gast
-
 -- pro gast
 
 DROP VIEW IF EXISTS UmsatzProGast;
