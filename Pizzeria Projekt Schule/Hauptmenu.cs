@@ -80,5 +80,12 @@ namespace Pizzeria_Projekt_Schule
             loginform.Show();
             this.Close();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            mitarbeiterverwaltungrichtig mitarbeiterverwaltungrichtigpage = new mitarbeiterverwaltungrichtig();
+            mitarbeiterverwaltungrichtigpage.Show();
+            this.Hide();
+        }
     }
 }
