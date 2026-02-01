@@ -87,6 +87,18 @@
     <Compile Include="auswertung01.Designer.cs">
       <DependentUpon>auswertung01.cs</DependentUpon>
     </Compile>
+    <Compile Include="Bestellungspagerichtig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bestellungspagerichtig.Designer.cs">
+      <DependentUpon>Bestellungspagerichtig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="mitarbeiterverwaltungrichtig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="mitarbeiterverwaltungrichtig.Designer.cs">
+      <DependentUpon>mitarbeiterverwaltungrichtig.cs</DependentUpon>
+    </Compile>
     <Compile Include="tischauswahl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +139,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="auswertung01.resx">
       <DependentUpon>auswertung01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bestellungspagerichtig.resx">
+      <DependentUpon>Bestellungspagerichtig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="mitarbeiterverwaltungrichtig.resx">
+      <DependentUpon>mitarbeiterverwaltungrichtig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="tischauswahl.resx">
       <DependentUpon>tischauswahl.cs</DependentUpon>
