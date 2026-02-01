@@ -109,6 +109,47 @@
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40"});
             this.comboBox2.Location = new System.Drawing.Point(45, 178);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(200, 21);
@@ -124,6 +165,11 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "12-15",
+            "15-18",
+            "18-21",
+            "21-24"});
             this.comboBox1.Location = new System.Drawing.Point(45, 77);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(200, 21);
@@ -131,10 +177,12 @@
             // 
             // dateTimePicker1
             // 
+            this.dateTimePicker1.CustomFormat = "dd.MM.yyyy";
             this.dateTimePicker1.Location = new System.Drawing.Point(45, 34);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 0;
+            this.dateTimePicker1.Value = new System.DateTime(2026, 1, 28, 0, 0, 0, 0);
             // 
             // label2
             // 
@@ -209,6 +257,7 @@
             this.button1.TabIndex = 8;
             this.button1.Text = "Reservierung speichern";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -241,6 +290,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "reservierung";
             this.Text = "Reservierung";
+            this.Load += new System.EventHandler(this.reservierung_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

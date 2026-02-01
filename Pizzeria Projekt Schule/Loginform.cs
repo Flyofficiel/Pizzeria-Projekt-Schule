@@ -47,7 +47,7 @@ namespace Pizzeria_Projekt_Schule
                         {
 
                             MessageBox.Show("Login Erfolgreich");
-
+                            conn.Close();
                             // Show main page without terminating the application 
                             Hauptmenu mainpage = new Hauptmenu();
                             mainpage.Show();
@@ -73,7 +73,10 @@ namespace Pizzeria_Projekt_Schule
             Close();
         }
 
-        
+        private void button3_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
 
