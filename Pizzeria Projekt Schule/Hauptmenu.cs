@@ -41,7 +41,9 @@ namespace Pizzeria_Projekt_Schule
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            Bestellungspagerichtig bestellungspagerichtigpage = new Bestellungspagerichtig();
+            bestellungspagerichtigpage.Show();
+            this.Close();
         }
 
         private void button3_Click(object sender, EventArgs e)

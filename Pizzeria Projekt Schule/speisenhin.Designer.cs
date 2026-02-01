@@ -125,6 +125,12 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "🥤 GETRÄNKE",
+            "🍕 PIZZA",
+            "🥗 SALATE",
+            "🍝 PASTA",
+            "🍰 DESSERT"});
             this.comboBox1.Location = new System.Drawing.Point(162, 116);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(147, 21);
@@ -169,6 +175,7 @@
             this.button1.TabIndex = 13;
             this.button1.Text = "Hinzufügen/Updaten";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 

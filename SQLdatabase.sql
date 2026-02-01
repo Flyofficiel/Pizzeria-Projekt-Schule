@@ -148,7 +148,8 @@ INSERT INTO speisen (speise_id,speisename,speisentyp, preis, zutaten,aktiv) VALU
 (23,'Schokoladenkuchen','🍰 DESSERT', 4.00, 'Schokolade',true);
 
 INSERT INTO mitarbeiter (personalnr, vorname,nachname, bereich, passwort,rolle, aktiv) VALUES
-(1, 'Marco',' Rossi', 'tisch 1','jsdhf','service',true),
+(0,'Luigi','Rossi','CEO','iujsdghfksf','Geschäftsführer',true),
+(1, 'Marco',' habbibi', 'tisch 1','jsdhf','service',true),
 (2, 'Giulia',' Bianchi', 'küche','kjdfsnklsf','koch',true),
 (3, 'Luca',' Romano', 'Tisch 2','ösldkfsk','service',true),
 (4, 'Sara',' Conti', 'Kasse','lödgkdlöfgv','service',true),

@@ -166,6 +166,13 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Tisch 1-10",
+            "Tisch 10-20",
+            "Tisch 20-30",
+            "Tisch 30-40",
+            "Küche",
+            "Kasse"});
             this.comboBox1.Location = new System.Drawing.Point(925, 353);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
@@ -183,6 +190,7 @@
             this.button1.TabIndex = 12;
             this.button1.Text = "Neu";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -224,10 +232,14 @@
             this.button4.TabIndex = 15;
             this.button4.Text = "Abbrechen";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Service",
+            "Küche"});
             this.comboBox2.Location = new System.Drawing.Point(925, 320);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(121, 21);
