@@ -23,5 +23,15 @@ namespace Pizzeria_Projekt_Schule
             mainmenupage.Show();
             this.Close();
         }
+
+        private void auswertung01_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
