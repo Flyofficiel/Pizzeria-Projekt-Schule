@@ -7,11 +7,11 @@
       "RelativeMoniker": "D:0:0:{C76BD76F-2987-427F-BD0A-A5D1B75F0E94}|Pizzeria Projekt Schule.csproj|solutionrelative:reservierung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C76BD76F-2987-427F-BD0A-A5D1B75F0E94}|Pizzeria Projekt Schule.csproj|d:\\c# projekte\\pizzeria-projekt-schule\\pizzeria projekt schule\\reservierung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{C76BD76F-2987-427F-BD0A-A5D1B75F0E94}|Pizzeria Projekt Schule.csproj|D:\\C# projekte\\Pizzeria-Projekt-Schule\\Pizzeria Projekt Schule\\reservierung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{C76BD76F-2987-427F-BD0A-A5D1B75F0E94}|Pizzeria Projekt Schule.csproj|solutionrelative:reservierung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C76BD76F-2987-427F-BD0A-A5D1B75F0E94}|Pizzeria Projekt Schule.csproj|d:\\c# projekte\\pizzeria-projekt-schule\\pizzeria projekt schule\\hauptmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{C76BD76F-2987-427F-BD0A-A5D1B75F0E94}|Pizzeria Projekt Schule.csproj|D:\\C# projekte\\Pizzeria-Projekt-Schule\\Pizzeria Projekt Schule\\hauptmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{C76BD76F-2987-427F-BD0A-A5D1B75F0E94}|Pizzeria Projekt Schule.csproj|solutionrelative:hauptmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
@@ -60,7 +60,7 @@
               "RelativeDocumentMoniker": "reservierung.cs",
               "ToolTip": "D:\\C# projekte\\Pizzeria-Projekt-Schule\\Pizzeria Projekt Schule\\reservierung.cs",
               "RelativeToolTip": "reservierung.cs",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAAAGQAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAswDYAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-28T18:33:12.425Z",
               "EditorCaption": ""
@@ -86,8 +86,7 @@
               "ToolTip": "D:\\C# projekte\\Pizzeria-Projekt-Schule\\Pizzeria Projekt Schule\\Loginform.cs [Design]",
               "RelativeToolTip": "Loginform.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T18:10:57.277Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-01-28T18:10:57.277Z"
             },
             {
               "$type": "Document",
@@ -112,8 +111,7 @@
               "RelativeToolTip": "Speissen.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAiwC4AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-22T16:15:01.103Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-22T16:15:01.103Z"
             },
             {
               "$type": "Document",
@@ -125,8 +123,7 @@
               "RelativeToolTip": "Loginform.cs",
               "ViewState": "AgIAAD4AAAAAAAAAAAArwE0AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T10:01:02.06Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-25T10:01:02.06Z"
             }
           ]
         }

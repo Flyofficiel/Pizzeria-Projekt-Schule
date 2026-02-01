@@ -30,28 +30,44 @@ namespace Pizzeria_Projekt_Schule
             mainmenupage.Show();
             this.Close();
         }
-        void LadeTische()
+        void LadeTische(int personen)
         {
             string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
-            string sql = "SELECT tisch_id, lage FROM tische WHERE aktiv = true";
+            string sql = @"
+        SELECT tisch_id, max_personen
+        FROM tische
+        WHERE aktiv = true
+        AND max_personen >= @personen
+        ORDER BY max_personen ASC";
 
             using (var con = new MySqlConnection(connString))
-            using (var da = new MySqlDataAdapter(sql, con))
+            using (var cmd = new MySqlCommand(sql, con))
             {
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+                cmd.Parameters.AddWithValue("@personen", personen);
 
-                comboBox2.DataSource = dt;
-                comboBox2.DisplayMember = "tisch_id";     // was man sieht
-                comboBox2.ValueMember = "tisch_id";   // was gespeichert wird
-                if (comboBox2.SelectedValue == null)
+                using (var da = new MySqlDataAdapter(cmd))
                 {
-                    MessageBox.Show("Bitte einen Tisch auswählen");
-                    return;
-                }
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
 
+                    comboBox2.DataSource = dt;
+                    comboBox2.DisplayMember = "tisch_id";
+                    comboBox2.ValueMember = "tisch_id";
+                    dt.Columns.Add("anzeige", typeof(string));
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        row["anzeige"] = $"Tisch {row["tisch_id"]} ({row["max_personen"]} Personen)";
+                    }
+
+                    comboBox2.DisplayMember = "anzeige";
+                    comboBox2.ValueMember = "tisch_id";
+
+                }
             }
         }
+
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -155,7 +171,16 @@ namespace Pizzeria_Projekt_Schule
 
         private void reservierung_Load(object sender, EventArgs e)
         {
-            LadeTische();
+            
         }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            int personen = (int)numericUpDown1.Value;
+
+            if (personen > 0)
+                LadeTische(personen);
+        }
+
     }
 }

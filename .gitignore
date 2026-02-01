@@ -1,0 +1,74 @@
+# =========================
+# Visual Studio / C#
+# =========================
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build-Ergebnisse
+bin/
+obj/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# =========================
+# Rider / VS Code
+# =========================
+.idea/
+.vscode/
+
+# =========================
+# NuGet
+# =========================
+packages/
+*.nupkg
+*.snupkg
+
+# =========================
+# Logs & temporäre Dateien
+# =========================
+*.log
+*.tmp
+*.temp
+*.cache
+
+# =========================
+# Datenbank / Secrets
+# =========================
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sql~
+.env
+appsettings.json
+appsettings.Development.json
+
+# =========================
+# Windows
+# =========================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# Mac (falls jemand Mac nutzt)
+# =========================
+.DS_Store
+
+# =========================
+# Backups
+# =========================
+*.bak
+*.old
+*.backup
+
+# =========================
+# Veröffentlichungen
+# =========================
+publish/
