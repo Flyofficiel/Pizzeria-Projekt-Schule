@@ -123,12 +123,7 @@ namespace Pizzeria_Projekt_Schule
 
                     using (var resCmd = new MySqlCommand(resSql, conn))
                     {
-                        if (Convert.ToInt16(numericUpDown1) == 0)
-                        {
-                            MessageBox.Show("geben sie eine personanzahl aus");
-                        }
-                        else
-                        {
+                        
                             
                                 resCmd.Parameters.AddWithValue("@tisch", Convert.ToInt32(comboBox2.SelectedValue));
                                 resCmd.Parameters.AddWithValue("@slot", slot);
@@ -139,7 +134,7 @@ namespace Pizzeria_Projekt_Schule
 
                                 resCmd.ExecuteNonQuery();
                             
-                        }
+                        
 
                     }
                 }

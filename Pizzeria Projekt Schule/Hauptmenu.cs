@@ -55,8 +55,8 @@ namespace Pizzeria_Projekt_Schule
 
         private void button4_Click(object sender, EventArgs e)
         {
-            tischauswahl tischauswahlpage = new tischauswahl();
-            tischauswahlpage.Show();
+            Zahlung zahlen = new Zahlung();
+            zahlen.Show();
             this.Close();
         }
 
