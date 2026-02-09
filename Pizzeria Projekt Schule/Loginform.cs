@@ -30,8 +30,8 @@ namespace Pizzeria_Projekt_Schule
             string inputPassword = passwortinput.Text;
 
             const string query = "SELECT personalnr, passwort FROM mitarbeiter WHERE personalnr = @username AND passwort = @passwort";
+            MySqlConnection conn = Database.GetConnection();
 
-            using (var conn = new MySqlConnection(connString))
             using (var cmd = new MySqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@username", inputUsername);
@@ -39,7 +39,7 @@ namespace Pizzeria_Projekt_Schule
 
                 try
                 {
-                    conn.Open();
+                    
 
                     using (var reader = cmd.ExecuteReader())
                     {

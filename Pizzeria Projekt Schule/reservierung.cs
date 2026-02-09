@@ -123,20 +123,29 @@ namespace Pizzeria_Projekt_Schule
 
                     using (var resCmd = new MySqlCommand(resSql, conn))
                     {
-                        
-                            
-                                resCmd.Parameters.AddWithValue("@tisch", Convert.ToInt32(comboBox2.SelectedValue));
-                                resCmd.Parameters.AddWithValue("@slot", slot);
-                                resCmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value);
 
-                                resCmd.Parameters.AddWithValue("@personen", Convert.ToInt32(numericUpDown1.Value));
-                                resCmd.Parameters.AddWithValue("@gastid", gastId);
 
-                                resCmd.ExecuteNonQuery();
-                            
-                        
+                        resCmd.Parameters.AddWithValue("@tisch", Convert.ToInt32(comboBox2.SelectedValue));
+                        resCmd.Parameters.AddWithValue("@slot", slot);
+                        resCmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value);
+
+                        resCmd.Parameters.AddWithValue("@personen", Convert.ToInt32(numericUpDown1.Value));
+                        resCmd.Parameters.AddWithValue("@gastid", gastId);
+
+                        resCmd.ExecuteNonQuery();
+
+
 
                     }
+                    string qury = "UPDATE tische SET lage = 'Besetzt' WHERE tisch_id = @tisch;";
+                    using (var tCmd = new MySqlCommand(qury, conn))
+                    {
+                        tCmd.Parameters.AddWithValue("@tisch", Convert.ToInt32(comboBox2.SelectedValue));
+                        tCmd.ExecuteNonQuery();
+                    }
+                    ;
+                    
+                    
                 }
 
                 MessageBox.Show("Reservierung gespeichert ✅");

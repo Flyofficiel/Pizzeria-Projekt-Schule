@@ -24,9 +24,9 @@ namespace Pizzeria_Projekt_Schule
             string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
             string query = "SELECT * FROM Mitarbeiter";
 
-            using (MySqlConnection con = new MySqlConnection(connString))
+            MySqlConnection conn = Database.GetConnection();
             {
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, con);
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                 DataTable table = new DataTable();
 
                 adapter.Fill(table);
@@ -61,15 +61,15 @@ namespace Pizzeria_Projekt_Schule
             WHERE personalnr = @personalnr
             ";
 
-            using (MySqlConnection con = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand(query, con))
+            MySqlConnection conn = Database.GetConnection();
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue(
                     "@personalnr",
                     dataGridView1.CurrentRow.Cells["personalnr"].Value
                 );
 
-                con.Open();
+                
                 cmd.ExecuteNonQuery();
             }
 
@@ -114,8 +114,8 @@ namespace Pizzeria_Projekt_Schule
         WHERE personalnr = @personalnr
     ";
 
-            using (MySqlConnection con = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand(query, con))
+            MySqlConnection conn = Database.GetConnection();
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@vorname", textBox2.Text);
                 cmd.Parameters.AddWithValue("@nachname", "");
@@ -123,7 +123,6 @@ namespace Pizzeria_Projekt_Schule
                 cmd.Parameters.AddWithValue("@passwort", textBox3.Text);
                 cmd.Parameters.AddWithValue("@personalnr", textBox1.Text);
 
-                con.Open();
                 cmd.ExecuteNonQuery();
             }
 
@@ -135,9 +134,9 @@ namespace Pizzeria_Projekt_Schule
             string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
             string query = "SELECT personalnr, vorname, nachname, bereich, passwort FROM mitarbeiter WHERE aktiv = 1";
 
-            using (MySqlConnection con = new MySqlConnection(connString))
+            MySqlConnection conn = Database.GetConnection();
             {
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, con);
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                 DataTable table = new DataTable();
                 adapter.Fill(table);
                 dataGridView1.DataSource = table;
@@ -164,8 +163,8 @@ namespace Pizzeria_Projekt_Schule
         (@personalnr, @vorname, @nachname, @bereich, @passwort, @rolle, 1)
     ";
 
-            using (MySqlConnection con = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand(query, con))
+            MySqlConnection conn = Database.GetConnection();
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@personalnr", textBox1.Text);
                 cmd.Parameters.AddWithValue("@vorname", textBox2.Text);
@@ -174,7 +173,7 @@ namespace Pizzeria_Projekt_Schule
                 cmd.Parameters.AddWithValue("@passwort", textBox3.Text);
                 cmd.Parameters.AddWithValue("@rolle", comboBox2.Text);
 
-                con.Open();
+                
                 cmd.ExecuteNonQuery(); // 🔥 DAS HAT GEFEHLT
             }
 

@@ -207,6 +207,7 @@
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "speisenhin";
             this.Text = "Form2";
+            this.Load += new System.EventHandler(this.speisenhin_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

@@ -28,15 +28,15 @@ namespace Pizzeria_Projekt_Schule
         WHERE speise_id = @speise_id
     ";
 
-            using (MySqlConnection con = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand(query, con))
+            MySqlConnection conn = Database.GetConnection();
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue(
                     "@speise_id",
                     dataGridView1.CurrentRow.Cells["speise_id"].Value
                 );
 
-                con.Open();
+                
                 cmd.ExecuteNonQuery();
             }
 
@@ -105,9 +105,9 @@ namespace Pizzeria_Projekt_Schule
             string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
             string query = "SELECT speise_id, speisename, speisentyp, preis, zutaten FROM speisen WHERE aktiv = 1";
 
-            using (MySqlConnection con = new MySqlConnection(connString))
+            MySqlConnection conn = Database.GetConnection();
             {
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, con);
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                 DataTable table = new DataTable();
                 adapter.Fill(table);
 

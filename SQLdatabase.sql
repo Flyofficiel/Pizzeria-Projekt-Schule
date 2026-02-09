@@ -36,6 +36,7 @@ Create table tische (
     max_personen int,
     aktiv boolean default true,
     lage varchar(100),
+    berreich varchar(100),
     primary key (tisch_id)
 );
 
@@ -92,26 +93,26 @@ foreign key(bestellnr_fk) references Bestellungen (bestellnr)
 
 -- 2er Tische
 INSERT INTO tische VALUES
-(1,2,true,'Frei'),(2,2,true,'Frei'),(3,2,true,'Frei'),(4,2,true,'Frei'),(5,2,true,'Frei'),
-(6,2,true,'Frei'),(7,2,true,'Frei'),(8,2,true,'Frei'),(9,2,true,'Frei'),(10,2,true,'Frei');
+(1,2,true,'Frei','Innen vorne'),(2,2,true,'Frei','Innen vorne'),(3,2,true,'Frei','Innen vorne'),(4,2,true,'Frei','Innen vorne'),(5,2,true,'Frei','Innen vorne'),
+(6,2,true,'Frei','Innen vorne'),(7,2,true,'Frei','Innen vorne'),(8,2,true,'Frei','Innen vorne'),(9,2,true,'Frei','Innen vorne'),(10,2,true,'Frei','Innen vorne');
 
 -- 4er Tische
 INSERT INTO tische VALUES
-(11,4,true,'Frei'),(12,4,true,'Frei'),(13,4,true,'Frei'),(14,4,true,'Frei'),(15,4,true,'Frei'),
-(16,4,true,'Frei'),(17,4,true,'Frei'),(18,4,true,'Frei'),(19,4,true,'Frei'),(20,4,true,'Frei');
+(11,4,true,'Frei','Innen hinten'),(12,4,true,'Frei','Innen hinten'),(13,4,true,'Frei','Innen hinten'),(14,4,true,'Frei','Innen hinten'),(15,4,true,'Frei','Innen hinten'),
+(16,4,true,'Frei','Innen hinten'),(17,4,true,'Frei','Innen hinten'),(18,4,true,'Frei','Innen hinten'),(19,4,true,'Frei','Innen hinten'),(20,4,true,'Frei','Innen hinten');
 
 -- 6er Tische
 INSERT INTO tische VALUES
-(21,6,true,'Frei'),(22,6,true,'Frei'),(23,6,true,'Frei'),(24,6,true,'Frei'),(25,6,true,'Frei'),
-(26,6,true,'Frei'),(27,6,true,'Frei'),(28,6,true,'Frei'),(29,6,true,'Frei'),(30,6,true,'Frei');
+(21,6,true,'Frei',''),(22,6,true,'Frei',''),(23,6,true,'Frei',''),(24,6,true,'Frei',''),(25,6,true,'Frei',''),
+(26,6,true,'Frei',''),(27,6,true,'Frei',''),(28,6,true,'Frei',''),(29,6,true,'Frei',''),(30,6,true,'Frei','');
 
 -- 8er Tische
 INSERT INTO tische VALUES
-(31,8,true,'Frei'),(32,8,true,'Frei'),(33,8,true,'Frei'),(34,8,true,'Frei'),(35,8,true,'Frei');
+(31,8,true,'Frei','Terrasse'),(32,8,true,'Frei','Terrasse'),(33,8,true,'Frei','Terrasse'),(34,8,true,'Frei','Terrasse'),(35,8,true,'Frei','Terrasse');
 
 -- 10er Tische
 INSERT INTO tische VALUES
-(36,10,true,'Frei'),(37,10,true,'Frei'),(38,10,true,'Frei'),(39,10,true,'Frei'),(40,10,true,'Frei');
+(36,10,true,'Frei','VIP / Gruppen'),(37,10,true,'Frei','VIP / Gruppen'),(38,10,true,'Frei','VIP / Gruppen'),(39,10,true,'Frei','VIP / Gruppen'),(40,10,true,'Frei','VIP / Gruppen');
 
 INSERT INTO speisen (speise_id,speisename,speisentyp, preis, zutaten,aktiv) VALUES
 -- 🍕 PIZZA
@@ -147,9 +148,11 @@ INSERT INTO speisen (speise_id,speisename,speisentyp, preis, zutaten,aktiv) VALU
 (22,'Panna Cotta','🍰 DESSERT', 4.50, 'Sahne, Vanille',true),
 (23,'Schokoladenkuchen','🍰 DESSERT', 4.00, 'Schokolade',true);
 
+-- Mitarbeiter inserts
+
 INSERT INTO mitarbeiter (personalnr, vorname,nachname, bereich, passwort,rolle, aktiv) VALUES
-(0,'Luigi','Rossi','CEO','iujsdghfksf','Geschäftsführer',true),
-(1, 'Marco',' habbibi', 'tisch 1','jsdhf','service',true),
+(0, 'Luigi',' Rossi', 'CEO','fdgfgdjsdhf','Geschäftsführer',true),
+(1, 'Marco',' Habibi', 'tisch 1','jsdhf','service',true),
 (2, 'Giulia',' Bianchi', 'küche','kjdfsnklsf','koch',true),
 (3, 'Luca',' Romano', 'Tisch 2','ösldkfsk','service',true),
 (4, 'Sara',' Conti', 'Kasse','lödgkdlöfgv','service',true),
@@ -160,6 +163,13 @@ INSERT INTO mitarbeiter (personalnr, vorname,nachname, bereich, passwort,rolle, 
 (9,'Julian','','EDV Admin','admin3','admin',true);
 
 
+-- 1.2 Bereich nur als Anzeige nutzen
+UPDATE mitarbeiter SET bereich = 'Service' WHERE rolle = 'service';
+UPDATE mitarbeiter SET bereich = 'Küche' WHERE rolle = 'koch';
+UPDATE mitarbeiter SET bereich = 'Verwaltung' WHERE rolle IN ('admin','chef');
+-- .3 Personalnummer als Primary Key
+ALTER TABLE mitarbeiter
+ADD PRIMARY KEY (personalnr);
 
 -- berechnungen
 
@@ -247,7 +257,12 @@ GROUP BY
     g.gastvorname, 
     g.gastnachname;
 
+-- Mysql Workbench ausgabe
+
 select * from speisen;
 
 select * from mitarbeiter;
 select* from tische;
+select* from reservierungen;
+select * from bestellposition;
+DESCRIBE bestellposition;

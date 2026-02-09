@@ -55,14 +55,15 @@ namespace Pizzeria_Projekt_Schule
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Zahlung zahlen = new Zahlung();
-            zahlen.Show();
+            tischauswahl tischauswahlpage = new tischauswahl();
+            tischauswahlpage.Show();
             this.Close();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Zahlung zahlungsartpage = new Zahlung();
+            int bestellnr = 0;
+            Zahlung zahlungsartpage = new Zahlung(bestellnr);
             zahlungsartpage.Show();
             this.Close();
 

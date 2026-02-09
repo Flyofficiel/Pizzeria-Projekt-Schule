@@ -93,6 +93,7 @@
     <Compile Include="Bestellungspagerichtig.Designer.cs">
       <DependentUpon>Bestellungspagerichtig.cs</DependentUpon>
     </Compile>
+    <Compile Include="Databseconnection.cs" />
     <Compile Include="speisenhin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +118,7 @@
     <Compile Include="reservierung.Designer.cs">
       <DependentUpon>reservierung.cs</DependentUpon>
     </Compile>
+    <Compile Include="tischitem.cs" />
     <Compile Include="Zahlung.cs">
       <SubType>Form</SubType>
     </Compile>
