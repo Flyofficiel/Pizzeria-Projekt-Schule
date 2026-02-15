@@ -94,6 +94,12 @@
       <DependentUpon>Bestellungspagerichtig.cs</DependentUpon>
     </Compile>
     <Compile Include="Databseconnection.cs" />
+    <Compile Include="rechnungsubersicht.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="rechnungsubersicht.Designer.cs">
+      <DependentUpon>rechnungsubersicht.cs</DependentUpon>
+    </Compile>
     <Compile Include="speisenhin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bestellungspagerichtig.resx">
       <DependentUpon>Bestellungspagerichtig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rechnungsubersicht.resx">
+      <DependentUpon>rechnungsubersicht.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="speisenhin.resx">
       <DependentUpon>speisenhin.cs</DependentUpon>
