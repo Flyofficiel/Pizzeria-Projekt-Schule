@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Pizzeria_Projekt_Schule.Bestellungspagerichtig;
 
 namespace Pizzeria_Projekt_Schule
 {
@@ -28,6 +29,8 @@ namespace Pizzeria_Projekt_Schule
             comboBox1.DrawMode = DrawMode.OwnerDrawFixed;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.DrawItem += comboBox1_DrawItem;
+
+
             LadeTische();
 
 
@@ -106,15 +109,26 @@ namespace Pizzeria_Projekt_Schule
         }
         private void mitarbeiterLaden()
         {
-            string query = "SELECT vorname FROM mitarbeiter WHERE aktiv = 1";
-            MySqlConnection conn = Database.GetConnection();
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-            MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            DataTable table = new DataTable();
-            adapter.Fill(table);
+            // 🔒 Nur Servicekräfte laden
+            string query = @"
+        SELECT personalnr,
+               CONCAT(vorname,' ',nachname) AS name
+        FROM mitarbeiter
+        WHERE rolle = 'service'
+        AND aktiv = true";
 
-            comboBox2.DataSource = table;
+            using (var conn = Database.GetConnection())
+            {
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+
+                comboBox2.DisplayMember = "name";       // Anzeigename
+                comboBox2.ValueMember = "personalnr";   // Wichtige ID
+                comboBox2.DataSource = table;
+            }
         }
+
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -129,28 +143,32 @@ namespace Pizzeria_Projekt_Schule
         }
         private int BestellungAnlegen()
         {
-            string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
+            TischItem tisch = (TischItem)comboBox1.SelectedItem;
 
             string query = @"
-        INSERT INTO bestellungen (datum, tisch_id_fk, personalnr_fk)
-        VALUES (NOW(), @tisch, @mitarbeiter);
-        SELECT LAST_INSERT_ID();
+    INSERT INTO bestellungen (datum, tisch_id_fk, personalnr_fk, status)
+    VALUES (NOW(), @tisch, @mitarbeiter, 'offen');
+
+    SELECT LAST_INSERT_ID();
     ";
 
-            MySqlConnection conn = Database.GetConnection();
-            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
             {
-                cmd.Parameters.AddWithValue("@tisch", comboBox1.SelectedValue);
+                cmd.Parameters.AddWithValue("@tisch", tisch.TischId);
                 cmd.Parameters.AddWithValue("@mitarbeiter", comboBox2.SelectedValue);
-
 
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
 
 
+
+
+
         private void button3_Click(object sender, EventArgs e)
-        { // 1️⃣ Pflichtprüfungen
+        {
+            // 1️⃣ Prüfungen
             if (warenkorb.Count == 0)
             {
                 MessageBox.Show("Warenkorb ist leer!");
@@ -158,6 +176,7 @@ namespace Pizzeria_Projekt_Schule
             }
 
             if (comboBox1.SelectedItem == null)
+
             {
                 MessageBox.Show("Bitte einen Tisch auswählen!");
                 return;
@@ -169,17 +188,16 @@ namespace Pizzeria_Projekt_Schule
                 return;
             }
 
-            // 2️⃣ Tisch holen (DAS war deine Frage)
+            // 2️⃣ Werte holen
             TischItem tisch = (TischItem)comboBox1.SelectedItem;
             int tischId = tisch.TischId;
 
-            // 3️⃣ Mitarbeiter holen
             int mitarbeiterId = Convert.ToInt32(comboBox2.SelectedValue);
 
-            // 4️⃣ Bestellung anlegen
+            // 3️⃣ Bestellung anlegen
             int bestellNr = BestellungAnlegen();
 
-            // 5️⃣ Bestellpositionen speichern
+            // 4️⃣ Positionen speichern
             using (var conn = Database.GetConnection())
             {
                 foreach (var item in warenkorb)
@@ -199,27 +217,25 @@ namespace Pizzeria_Projekt_Schule
                 }
             }
 
-            // 6️⃣ Tisch auf BESetzt setzen 🔴
+            // 5️⃣ Tisch auf Besetzt setzen
             string update = @"UPDATE tische
                       SET lage = 'Besetzt'
                       WHERE tisch_id = @tid";
 
-            using (var cmd = new MySqlCommand(update, Database.GetConnection()))
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(update, conn))
             {
                 cmd.Parameters.AddWithValue("@tid", tischId);
                 cmd.ExecuteNonQuery();
             }
 
-            // 7️⃣ Aufräumen & neu laden
-            MessageBox.Show("Bestellung an Küche gesendet 🍕🔥");
+            MessageBox.Show("Bestellung gespeichert 🍕");
 
+            // 6️⃣ Aufräumen
             warenkorb.Clear();
             WarenkorbAktualisieren();
-            LadeTische();
             comboBox1.SelectedIndex = -1;
-        
         }
-
         private void dataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -233,11 +249,8 @@ namespace Pizzeria_Projekt_Schule
             var item = warenkorb.FirstOrDefault(x => x.SpeiseId == speiseId);
 
             if (item != null)
-            {
                 item.Menge++;
-            }
             else
-            {
                 warenkorb.Add(new WarenkorbItem
                 {
                     SpeiseId = speiseId,
@@ -245,16 +258,38 @@ namespace Pizzeria_Projekt_Schule
                     Preis = preis,
                     Menge = 1
                 });
-            }
 
             WarenkorbAktualisieren();
         }
 
+
+
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (comboBox2.SelectedValue == null)
+                return;
 
+            int personalNr = Convert.ToInt32(comboBox2.SelectedValue);
 
+            string query = "SELECT bereich FROM mitarbeiter WHERE personalnr = @pnr";
+
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@pnr", personalNr);
+
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
+                {
+                    string bereich = result.ToString();
+
+                    // 🔥 Nur Tische dieses Bereichs laden
+                    LadeTische(bereich);
+                }
+            }
         }
+
 
         private void comboBox2_DropDown(object sender, EventArgs e)
         {
@@ -288,10 +323,9 @@ namespace Pizzeria_Projekt_Schule
         }
         private void LadeTische()
         {
-
             comboBox1.Items.Clear();
 
-            string query = "SELECT tisch_id, lage, berreich FROM tische WHERE aktiv = true";
+            string query = "SELECT tisch_id, lage, bereich FROM tische WHERE aktiv = true";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
@@ -302,14 +336,45 @@ namespace Pizzeria_Projekt_Schule
                     comboBox1.Items.Add(new TischItem
                     {
                         TischId = reader.GetInt32("tisch_id"),
-                        Status = reader.GetString("lage").Trim(),   // 🔥 HIER
-                        Bereich = reader.GetString("berreich")
+                        Status = reader.GetString("lage"),
+                        Bereich = reader.GetString("bereich")
                     });
                 }
             }
-
-            comboBox1.Invalidate(); // Erzwingt Neuzeichnen
         }
+        private void LadeTische(string bereich)
+        {
+            comboBox1.Items.Clear();
+
+            string query = @"
+        SELECT tisch_id, lage, bereich
+        FROM tische
+        WHERE aktiv = true
+        AND bereich = @bereich";
+
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@bereich", bereich);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        comboBox1.Items.Add(new TischItem
+                        {
+                            TischId = reader.GetInt32("tisch_id"),
+                            Status = reader.GetString("lage"),
+                            Bereich = reader.GetString("bereich")
+                        });
+                    }
+                }
+            }
+        }
+
+
+
+
 
 
         private void comboBox1_DrawItem(object sender, DrawItemEventArgs e)
@@ -343,7 +408,8 @@ namespace Pizzeria_Projekt_Schule
             e.DrawFocusRectangle();
         }
 
-            
+
+
 
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -392,3 +458,5 @@ namespace Pizzeria_Projekt_Schule
         }
     }
 }
+
+

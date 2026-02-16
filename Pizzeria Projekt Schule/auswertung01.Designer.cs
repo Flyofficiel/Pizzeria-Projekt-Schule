@@ -53,11 +53,11 @@
             this.button6 = new System.Windows.Forms.Button();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -177,6 +177,7 @@
             this.button1.TabIndex = 13;
             this.button1.Text = "Auswertung";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button3
             // 
@@ -300,14 +301,6 @@
             this.label7.TabIndex = 37;
             this.label7.Text = "Umsatz pro Gast:";
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(43, 311);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(309, 153);
-            this.dataGridView1.TabIndex = 39;
-            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -330,14 +323,25 @@
             this.label11.Text = "Datenstand: XXXX.XX.XX";
             this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AllowUserToAddRows = false;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.GridColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dataGridView2.Location = new System.Drawing.Point(43, 311);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.ReadOnly = true;
+            this.dataGridView2.Size = new System.Drawing.Size(254, 150);
+            this.dataGridView2.TabIndex = 42;
+            // 
             // auswertung01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1006, 612);
+            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.button6);
@@ -367,7 +371,7 @@
             this.Load += new System.EventHandler(this.auswertung01_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -400,8 +404,8 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.DataGridView dataGridView2;
     }
 }

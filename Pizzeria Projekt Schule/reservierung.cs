@@ -73,6 +73,22 @@ namespace Pizzeria_Projekt_Schule
         {
             try
             {
+                // 🔥 Pflichtfeld-Prüfung
+                if (dateTimePicker1.Value.Date < DateTime.Today)
+                {
+                    MessageBox.Show("Reservierung in der Vergangenheit nicht möglich!");
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(textBox1.Text) ||   // Nachname
+                    string.IsNullOrWhiteSpace(textBox2.Text) ||   // Telefon
+                    numericUpDown1.Value == 0 ||                  // Personen
+                    comboBox1.SelectedItem == null ||             // Slot
+                    comboBox2.SelectedItem == null)               // Tisch
+                {
+                    MessageBox.Show("Bitte alle Pflichtfelder ausfüllen!");
+                    return;
+                }
+
                 string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
 
                 const string guestadd = "INSERT INTO gast (gastvorname, gastnachname, telephonenr) VALUES (@vorname, @nachname, @telefon);";
@@ -85,21 +101,37 @@ namespace Pizzeria_Projekt_Schule
                     conn.Open();
 
                     // 1️⃣ GAST INSERT
+                    // 🔥 Gast prüfen oder neu anlegen
                     int gastId;
-                    string gastSql = @"
+                    string checkGast = "SELECT gastid FROM gast WHERE telephonenr = @telefon LIMIT 1";
+
+                    using (var checkCmd = new MySqlCommand(checkGast, conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@telefon", textBox2.Text);
+                        var result = checkCmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            gastId = Convert.ToInt32(result);
+                        }
+                        else
+                        {
+                            string gastSql = @"
         INSERT INTO gast (gastvorname, gastnachname, telephonenr)
         VALUES (@vorname, @nachname, @telefon);
         SELECT LAST_INSERT_ID();";
 
-                    using (var gastCmd = new MySqlCommand(gastSql, conn))
-                    {
+                            using (var gastCmd = new MySqlCommand(gastSql, conn))
+                            {
+                                gastCmd.Parameters.AddWithValue("@vorname", textBox1.Text);
+                                gastCmd.Parameters.AddWithValue("@nachname", "");
+                                gastCmd.Parameters.AddWithValue("@telefon", textBox2.Text);
 
-                        gastCmd.Parameters.AddWithValue("@vorname", "");
-                        gastCmd.Parameters.AddWithValue("@nachname", textBox1.Text);
-                        gastCmd.Parameters.AddWithValue("@telefon", textBox2.Text);
-
-                        gastId = Convert.ToInt32(gastCmd.ExecuteScalar());
+                                gastId = Convert.ToInt32(gastCmd.ExecuteScalar());
+                            }
+                        }
                     }
+
 
                     // 2️⃣ SLOT bestimmen
                     int slot;
@@ -137,7 +169,7 @@ namespace Pizzeria_Projekt_Schule
 
 
                     }
-                    string qury = "UPDATE tische SET lage = 'Besetzt' WHERE tisch_id = @tisch;";
+                    string qury = "UPDATE tische SET lage = 'reserviert' WHERE tisch_id = @tisch;";
                     using (var tCmd = new MySqlCommand(qury, conn))
                     {
                         tCmd.Parameters.AddWithValue("@tisch", Convert.ToInt32(comboBox2.SelectedValue));

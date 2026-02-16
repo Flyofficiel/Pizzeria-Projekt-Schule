@@ -113,7 +113,7 @@ INSERT INTO tische VALUES
 -- 10er Tische
 INSERT INTO tische VALUES
 (36,10,true,'Frei','VIP / Gruppen'),(37,10,true,'Frei','VIP / Gruppen'),(38,10,true,'Frei','VIP / Gruppen'),(39,10,true,'Frei','VIP / Gruppen'),(40,10,true,'Frei','VIP / Gruppen');
-
+   
 INSERT INTO speisen (speise_id,speisename,speisentyp, preis, zutaten,aktiv) VALUES
 -- 🍕 PIZZA
 (1,'Pizza Margherita','🍕 PIZZA', 8.50, 'Tomatensauce, Mozzarella',true),
@@ -151,25 +151,20 @@ INSERT INTO speisen (speise_id,speisename,speisentyp, preis, zutaten,aktiv) VALU
 -- Mitarbeiter inserts
 
 INSERT INTO mitarbeiter (personalnr, vorname,nachname, bereich, passwort,rolle, aktiv) VALUES
-(0, 'Luigi',' Rossi', 'CEO','fdgfgdjsdhf','Geschäftsführer',true),
-(1, 'Marco',' Habibi', 'tisch 1','jsdhf','service',true),
+(0, 'Luigi',' Rossi', 'CEO','fdgfgdjsdhf','Verwaltung',true),
+(1, 'Marco',' Habibi', 'service','jsdhf','service',true),
 (2, 'Giulia',' Bianchi', 'küche','kjdfsnklsf','koch',true),
-(3, 'Luca',' Romano', 'Tisch 2','ösldkfsk','service',true),
+(3, 'Luca',' Romano', 'service','ösldkfsk','service',true),
 (4, 'Sara',' Conti', 'Kasse','lödgkdlöfgv','service',true),
 (5, 'Antonio',' Greco', 'Küche','pdfglokjdsp','koch',true),
-(6, 'Elena',' Ferrari', 'Tisch 3','poigvjk','service',true),
-(7,'Lucas',' Huber','EDV Admin','admin1','admin',true),
-(8,'diaa','','EDV Admin','admin2','admin',true),
-(9,'Julian','','EDV Admin','admin3','admin',true);
+(6, 'Elena',' Ferrari', 'service','poigvjk','service',true),
+(7,'Lucas',' Huber','EDV Admin','admin1','Verwaltung',true),
+(8,'diaa','','EDV Admin','admin2','Verwaltung',true),
+(9,'Julian','','EDV Admin','admin3','Verwaltung',true);
 
 
--- 1.2 Bereich nur als Anzeige nutzen
-UPDATE mitarbeiter SET bereich = 'Service' WHERE rolle = 'service';
-UPDATE mitarbeiter SET bereich = 'Küche' WHERE rolle = 'koch';
-UPDATE mitarbeiter SET bereich = 'Verwaltung' WHERE rolle IN ('admin','chef');
--- .3 Personalnummer als Primary Key
-ALTER TABLE mitarbeiter
-ADD PRIMARY KEY (personalnr);
+
+
 
 -- berechnungen
 
@@ -257,6 +252,30 @@ GROUP BY
     g.gastvorname, 
     g.gastnachname;
 
+-- test
+
+UPDATE tische
+SET lage = 'Frei'
+WHERE tisch_id >= 1;
+UPDATE tische
+SET lage = 'Reserviert'
+WHERE tisch_id = 2;
+
+UPDATE tische
+SET lage = 'Besetzt'
+WHERE tisch_id = 3;
+SELECT tisch_id, lage
+FROM tische
+ORDER BY tisch_id;
+
+ALTER TABLE rechnungen
+MODIFY rechnungsnr INT AUTO_INCREMENT;
+
+ALTER TABLE rechnungen
+ADD COLUMN datum DATETIME,
+ADD COLUMN zahlungsart VARCHAR(20),
+ADD COLUMN trinkgeld DOUBLE;
+
 -- Mysql Workbench ausgabe
 
 select * from speisen;
@@ -265,4 +284,4 @@ select * from mitarbeiter;
 select* from tische;
 select* from reservierungen;
 select * from bestellposition;
-DESCRIBE bestellposition;
+
