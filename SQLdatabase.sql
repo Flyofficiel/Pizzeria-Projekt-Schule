@@ -5,10 +5,11 @@ use pizzaprojekt;
 -- Tabellen
 
 create table speisen(
-speise_id int primary key,
+speise_id INT AUTO_INCREMENT PRIMARY KEY,
 speisename varchar(100) unique,
 speisentyp varchar(100),
-preis double,
+preis DECIMAL(10,2),
+
 zutaten varchar(100),
 aktiv boolean default true
 );
@@ -29,16 +30,51 @@ bereich varchar(100),
 passwort varchar(100),
 rolle varchar(100) ,
 aktiv boolean default true
+
+
+
+);
+ALTER TABLE mitarbeiter 
+MODIFY rolle ENUM(
+'service',
+'koch',
+'kasse',
+'admin',
+'management'
+);
+ALTER TABLE mitarbeiter 
+MODIFY bereich ENUM(
+'Innen vorne',
+'Innen hinten',
+'Terrasse',
+'Terrasse groß',
+'VIP / Gruppen',
+'Küche',
+'Kasse',
+'EDV',
+'Management'
 );
 
-Create table tische (
-    tisch_id int not null,
-    max_personen int,
-    aktiv boolean default true,
-    lage varchar(100),
-    berreich varchar(100),
-    primary key (tisch_id)
+
+
+CREATE TABLE tische (
+    tisch_id INT NOT NULL PRIMARY KEY,
+    max_personen INT,
+    aktiv BOOLEAN DEFAULT true,
+    bereich ENUM(
+        'Innen vorne',
+        'Innen hinten',
+        'Terrasse',
+        'Terrasse groß',
+        'VIP / Gruppen'
+    ),
+    lage VARCHAR(50) DEFAULT 'Frei'
 );
+
+
+
+
+
 
 CREATE TABLE bestellungen (
     bestellnr INT auto_increment PRIMARY KEY,
@@ -46,10 +82,18 @@ CREATE TABLE bestellungen (
     gast_id_fk int,
     tisch_id_fk INT,
     personalnr_fk int,
+        status VARCHAR(20) DEFAULT 'offen',
+
     foreign key(personalnr_fk) references mitarbeiter (personalnr),
     foreign key(tisch_id_fk) references tische(tisch_id),
     foreign key(gast_id_fk) references gast(gastid)
 );
+ALTER TABLE bestellungen
+MODIFY datum DATETIME DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE bestellungen 
+MODIFY status ENUM('offen','bezahlt','storniert') DEFAULT 'offen';
+
+
 
 
 CREATE TABLE bestellposition (
@@ -57,11 +101,17 @@ CREATE TABLE bestellposition (
     bestellnr_fk INT,
     speise_id_fk INT, 
     menge INT,
-    preis_beim_kauf DOUBLE,
+    preis_beim_kauf DECIMAL(10,2),
 
-    FOREIGN KEY (bestellnr_fk) REFERENCES bestellungen(bestellnr),
-    FOREIGN KEY (speise_id_fk) REFERENCES speisen(speise_id)
+    FOREIGN KEY (bestellnr_fk) 
+        REFERENCES bestellungen(bestellnr)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (speise_id_fk) 
+        REFERENCES speisen(speise_id)
 );
+
+
 
 
 create table reservierungen(
@@ -80,87 +130,128 @@ create table reservierungen(
     
     unique(tisch_id_fk,datum,slot)
 );
+ALTER TABLE reservierungen
+MODIFY zustand ENUM('offen','abgeschlossen','storniert');
 
-create table rechnungen(
-rechnungsnr int not null unique primary key,
-bestellnr_fk int,
-gesamtpreis double,
 
-foreign key(bestellnr_fk) references Bestellungen (bestellnr)
+CREATE TABLE rechnungen(
+    rechnungsnr INT AUTO_INCREMENT PRIMARY KEY,
+    bestellnr_fk INT,
+    
+    datum DATETIME,
+    zahlungsart VARCHAR(50),
+    gesamtpreis DECIMAL(10,2),
+trinkgeld DECIMAL(10,2),
+
+    FOREIGN KEY (bestellnr_fk) REFERENCES bestellungen(bestellnr)
 );
+INSERT INTO tische (tisch_id, max_personen, aktiv, bereich, lage) VALUES
 
--- inserts
+-- 🔹 2er Tische (Innen vorne)
+(1,2,true,'Innen vorne','Frei'),
+(2,2,true,'Innen vorne','Frei'),
+(3,2,true,'Innen vorne','Frei'),
+(4,2,true,'Innen vorne','Frei'),
+(5,2,true,'Innen vorne','Frei'),
+(6,2,true,'Innen vorne','Frei'),
+(7,2,true,'Innen vorne','Frei'),
+(8,2,true,'Innen vorne','Frei'),
+(9,2,true,'Innen vorne','Frei'),
+(10,2,true,'Innen vorne','Frei'),
 
--- 2er Tische
-INSERT INTO tische VALUES
-(1,2,true,'Frei','Innen vorne'),(2,2,true,'Frei','Innen vorne'),(3,2,true,'Frei','Innen vorne'),(4,2,true,'Frei','Innen vorne'),(5,2,true,'Frei','Innen vorne'),
-(6,2,true,'Frei','Innen vorne'),(7,2,true,'Frei','Innen vorne'),(8,2,true,'Frei','Innen vorne'),(9,2,true,'Frei','Innen vorne'),(10,2,true,'Frei','Innen vorne');
+-- 🔹 4er Tische (Innen hinten)
+(11,4,true,'Innen hinten','Frei'),
+(12,4,true,'Innen hinten','Frei'),
+(13,4,true,'Innen hinten','Frei'),
+(14,4,true,'Innen hinten','Frei'),
+(15,4,true,'Innen hinten','Frei'),
+(16,4,true,'Innen hinten','Frei'),
+(17,4,true,'Innen hinten','Frei'),
+(18,4,true,'Innen hinten','Frei'),
+(19,4,true,'Innen hinten','Frei'),
+(20,4,true,'Innen hinten','Frei'),
 
--- 4er Tische
-INSERT INTO tische VALUES
-(11,4,true,'Frei','Innen hinten'),(12,4,true,'Frei','Innen hinten'),(13,4,true,'Frei','Innen hinten'),(14,4,true,'Frei','Innen hinten'),(15,4,true,'Frei','Innen hinten'),
-(16,4,true,'Frei','Innen hinten'),(17,4,true,'Frei','Innen hinten'),(18,4,true,'Frei','Innen hinten'),(19,4,true,'Frei','Innen hinten'),(20,4,true,'Frei','Innen hinten');
+-- 🔹 6er Tische (Terrasse)
+(21,6,true,'Terrasse','Frei'),
+(22,6,true,'Terrasse','Frei'),
+(23,6,true,'Terrasse','Frei'),
+(24,6,true,'Terrasse','Frei'),
+(25,6,true,'Terrasse','Frei'),
+(26,6,true,'Terrasse','Frei'),
+(27,6,true,'Terrasse','Frei'),
+(28,6,true,'Terrasse','Frei'),
+(29,6,true,'Terrasse','Frei'),
+(30,6,true,'Terrasse','Frei'),
 
--- 6er Tische
-INSERT INTO tische VALUES
-(21,6,true,'Frei',''),(22,6,true,'Frei',''),(23,6,true,'Frei',''),(24,6,true,'Frei',''),(25,6,true,'Frei',''),
-(26,6,true,'Frei',''),(27,6,true,'Frei',''),(28,6,true,'Frei',''),(29,6,true,'Frei',''),(30,6,true,'Frei','');
+-- 🔹 8er Tische (Terrasse groß)
+(31,8,true,'Terrasse groß','Frei'),
+(32,8,true,'Terrasse groß','Frei'),
+(33,8,true,'Terrasse groß','Frei'),
+(34,8,true,'Terrasse groß','Frei'),
+(35,8,true,'Terrasse groß','Frei'),
 
--- 8er Tische
-INSERT INTO tische VALUES
-(31,8,true,'Frei','Terrasse'),(32,8,true,'Frei','Terrasse'),(33,8,true,'Frei','Terrasse'),(34,8,true,'Frei','Terrasse'),(35,8,true,'Frei','Terrasse');
+-- 🔹 10er Tische (VIP / Gruppen)
+(36,10,true,'VIP / Gruppen','Frei'),
+(37,10,true,'VIP / Gruppen','Frei'),
+(38,10,true,'VIP / Gruppen','Frei'),
+(39,10,true,'VIP / Gruppen','Frei'),
+(40,10,true,'VIP / Gruppen','Frei');
 
--- 10er Tische
-INSERT INTO tische VALUES
-(36,10,true,'Frei','VIP / Gruppen'),(37,10,true,'Frei','VIP / Gruppen'),(38,10,true,'Frei','VIP / Gruppen'),(39,10,true,'Frei','VIP / Gruppen'),(40,10,true,'Frei','VIP / Gruppen');
-   
-INSERT INTO speisen (speise_id,speisename,speisentyp, preis, zutaten,aktiv) VALUES
+
+
+
+
+INSERT INTO speisen (speisename,speisentyp, preis, zutaten,aktiv) VALUES
 -- 🍕 PIZZA
-(1,'Pizza Margherita','🍕 PIZZA', 8.50, 'Tomatensauce, Mozzarella',true),
-(2,'Pizza Salami','🍕 PIZZA', 9.50, 'Tomatensauce, Mozzarella, Salami',true),
-(3,'Pizza Prosciutto','🍕 PIZZA', 10.00, 'Tomatensauce, Mozzarella, Schinken',true),
-(4,'Pizza Funghi','🍕 PIZZA', 9.00, 'Tomatensauce, Mozzarella, Champignons',true),
-(5,'Pizza Hawaii','🍕 PIZZA', 10.50, 'Schinken, Ananas, Käse',true),
-(6,'Pizza Tonno','🍕 PIZZA', 11.00, 'Thunfisch, Zwiebeln, Käse',true),
-(7,'Pizza Quattro Formaggi','🍕 PIZZA', 11.50, '4 Käsesorten',true),
-(8,'Pizza Vegetaria','🍕 PIZZA', 10.00, 'Gemüse, Käse',true),
+('Pizza Margherita','🍕 PIZZA', 8.50, 'Tomatensauce, Mozzarella',true),
+('Pizza Salami','🍕 PIZZA', 9.50, 'Tomatensauce, Mozzarella, Salami',true),
+('Pizza Prosciutto','🍕 PIZZA', 10.00, 'Tomatensauce, Mozzarella, Schinken',true),
+('Pizza Funghi','🍕 PIZZA', 9.00, 'Tomatensauce, Mozzarella, Champignons',true),
+('Pizza Hawaii','🍕 PIZZA', 10.50, 'Schinken, Ananas, Käse',true),
+('Pizza Tonno','🍕 PIZZA', 11.00, 'Thunfisch, Zwiebeln, Käse',true),
+('Pizza Quattro Formaggi','🍕 PIZZA', 11.50, '4 Käsesorten',true),
+('Pizza Vegetaria','🍕 PIZZA', 10.00, 'Gemüse, Käse',true),
 
 -- 🍝 PASTA
-(9,'Pasta Bolognese','🍝 PASTA', 11.50, 'Rinderhack, Tomatensauce',true),
-(10,'Pasta Carbonara','🍝 PASTA', 12.00, 'Sahnesauce, Ei, Speck',true),
-(11,'Pasta Napoli','🍝 PASTA', 9.50, 'Tomatensauce',true),
-(12,'Pasta Alfredo','🍝 PASTA', 12.50, 'Sahnesauce, Hähnchen',true),
+('Pasta Bolognese','🍝 PASTA', 11.50, 'Rinderhack, Tomatensauce',true),
+('Pasta Carbonara','🍝 PASTA', 12.00, 'Sahnesauce, Ei, Speck',true),
+('Pasta Napoli','🍝 PASTA', 9.50, 'Tomatensauce',true),
+('Pasta Alfredo','🍝 PASTA', 12.50, 'Sahnesauce, Hähnchen',true),
 
 -- 🥗 SALATE
-(13,'Insalata Mista','🥗 SALATE', 6.50, 'Salat, Tomaten, Gurken',true),
-(14,'Caesar Salad','🥗 SALATE', 9.00, 'Hähnchen, Parmesan, Croutons',true),
+('Insalata Mista','🥗 SALATE', 6.50, 'Salat, Tomaten, Gurken',true),
+('Caesar Salad','🥗 SALATE', 9.00, 'Hähnchen, Parmesan, Croutons',true),
 
 -- 🥤 GETRÄNKE
-(15,'Cola 0,33l','🥤 GETRÄNKE', 3.00, '',true),
-(16,'Cola Zero 0,33l','🥤 GETRÄNKE', 3.00, '',true),
-(17,'Fanta 0,33l','🥤 GETRÄNKE', 3.00, '',true),
-(18,'Sprite 0,33l','🥤 GETRÄNKE', 3.00, '',true),
-(19,'Mineralwasser 0,5l','🥤 GETRÄNKE', 2.50, '',true),
-(20,'Apfelschorle 0,5l','🥤 GETRÄNKE', 3.00, '',true),
+('Cola 0,33l','🥤 GETRÄNKE', 3.00, '',true),
+('Cola Zero 0,33l','🥤 GETRÄNKE', 3.00, '',true),
+('Fanta 0,33l','🥤 GETRÄNKE', 3.00, '',true),
+('Sprite 0,33l','🥤 GETRÄNKE', 3.00, '',true),
+('Mineralwasser 0,5l','🥤 GETRÄNKE', 2.50, '',true),
+('Apfelschorle 0,5l','🥤 GETRÄNKE', 3.00, '',true),
 
 -- 🍰 DESSERT
-(21,'Tiramisu','🍰 DESSERT', 5.00, 'Mascarpone, Kaffee',true),
-(22,'Panna Cotta','🍰 DESSERT', 4.50, 'Sahne, Vanille',true),
-(23,'Schokoladenkuchen','🍰 DESSERT', 4.00, 'Schokolade',true);
+('Tiramisu','🍰 DESSERT', 5.00, 'Mascarpone, Kaffee',true),
+('Panna Cotta','🍰 DESSERT', 4.50, 'Sahne, Vanille',true),
+('Schokoladenkuchen','🍰 DESSERT', 4.00, 'Schokolade',true);
 
 -- Mitarbeiter inserts
 
 INSERT INTO mitarbeiter (personalnr, vorname,nachname, bereich, passwort,rolle, aktiv) VALUES
-(0, 'Luigi',' Rossi', 'CEO','fdgfgdjsdhf','Verwaltung',true),
-(1, 'Marco',' Habibi', 'service','jsdhf','service',true),
-(2, 'Giulia',' Bianchi', 'küche','kjdfsnklsf','koch',true),
-(3, 'Luca',' Romano', 'service','ösldkfsk','service',true),
-(4, 'Sara',' Conti', 'Kasse','lödgkdlöfgv','service',true),
+(0, 'Luigi',' Rossi', 'Management','fdgfgdjsdhf','management',true),
+
+(1, 'Marco',' Habibi', 'Innen vorne','jsdhf','service',true),
+(3, 'Luca',' Romano', 'Innen hinten','ösldkfsk','service',true),
+(6, 'Elena',' Ferrari', 'Terrasse','poigvjk','service',true),
+
+(2, 'Giulia',' Bianchi', 'Küche','kjdfsnklsf','koch',true),
 (5, 'Antonio',' Greco', 'Küche','pdfglokjdsp','koch',true),
-(6, 'Elena',' Ferrari', 'service','poigvjk','service',true),
-(7,'Lucas',' Huber','EDV Admin','admin1','Verwaltung',true),
-(8,'diaa','','EDV Admin','admin2','Verwaltung',true),
-(9,'Julian','','EDV Admin','admin3','Verwaltung',true);
+
+(4, 'Sara',' Conti', 'Kasse','lödgkdlöfgv','kasse',true),
+
+(7,'Lucas',' Huber','EDV','admin1','admin',true),
+(8,'diaa','','EDV','admin2','admin',true),
+(9,'Julian','','EDV','admin3','admin',true);
 
 
 
@@ -252,30 +343,6 @@ GROUP BY
     g.gastvorname, 
     g.gastnachname;
 
--- test
-
-UPDATE tische
-SET lage = 'Frei'
-WHERE tisch_id >= 1;
-UPDATE tische
-SET lage = 'Reserviert'
-WHERE tisch_id = 2;
-
-UPDATE tische
-SET lage = 'Besetzt'
-WHERE tisch_id = 3;
-SELECT tisch_id, lage
-FROM tische
-ORDER BY tisch_id;
-
-ALTER TABLE rechnungen
-MODIFY rechnungsnr INT AUTO_INCREMENT;
-
-ALTER TABLE rechnungen
-ADD COLUMN datum DATETIME,
-ADD COLUMN zahlungsart VARCHAR(20),
-ADD COLUMN trinkgeld DOUBLE;
-
 -- Mysql Workbench ausgabe
 
 select * from speisen;
@@ -284,4 +351,12 @@ select * from mitarbeiter;
 select* from tische;
 select* from reservierungen;
 select * from bestellposition;
+DESCRIBE bestellposition;
+DESCRIBE rechnungen;
+SELECT * FROM bestellungen;
+SELECT * FROM bestellposition;
+SELECT * FROM rechnungen;
+SELECT * FROM bestellungen;
+SELECT bestellnr, status FROM bestellungen;
 
+SELECT bestellnr, datum FROM bestellungen;

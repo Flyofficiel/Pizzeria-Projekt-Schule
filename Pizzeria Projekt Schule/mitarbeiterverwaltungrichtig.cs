@@ -45,7 +45,6 @@ namespace Pizzeria_Projekt_Schule
 
             DataGridViewRow row = dataGridView1.CurrentRow;
 
-            textBox1.Text = row.Cells["personalnr"].Value?.ToString();
             textBox2.Text = row.Cells["vorname"].Value + " " + row.Cells["nachname"].Value;
             comboBox1.Text = row.Cells["bereich"].Value?.ToString();
             textBox3.Text = row.Cells["passwort"].Value?.ToString();
@@ -121,7 +120,6 @@ namespace Pizzeria_Projekt_Schule
                 cmd.Parameters.AddWithValue("@nachname", "");
                 cmd.Parameters.AddWithValue("@bereich", comboBox1.Text);
                 cmd.Parameters.AddWithValue("@passwort", textBox3.Text);
-                cmd.Parameters.AddWithValue("@personalnr", textBox1.Text);
 
                 cmd.ExecuteNonQuery();
             }
@@ -144,7 +142,6 @@ namespace Pizzeria_Projekt_Schule
         }
         private void FelderLeeren()
         {
-            textBox1.Clear();
             textBox2.Clear();
             textBox3.Clear();
             textBox4.Clear();
@@ -166,7 +163,6 @@ namespace Pizzeria_Projekt_Schule
             MySqlConnection conn = Database.GetConnection();
             using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
-                cmd.Parameters.AddWithValue("@personalnr", textBox1.Text);
                 cmd.Parameters.AddWithValue("@vorname", textBox2.Text);
                 cmd.Parameters.AddWithValue("@nachname", textBox4.Text);
                 cmd.Parameters.AddWithValue("@bereich", comboBox1.Text);
@@ -185,23 +181,14 @@ namespace Pizzeria_Projekt_Schule
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
-            {
-                MessageBox.Show("Bitte zuerst einen Mitarbeiter auswählen.");
-                return;
-            }
+            
 
             MitarbeiterUpdate();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text) ||
-                string.IsNullOrWhiteSpace(textBox2.Text))
-            {
-                MessageBox.Show("Bitte alle Pflichtfelder ausfüllen.");
-                return;
-            }
+            
 
             MitarbeiterHinzufuegen();
         }

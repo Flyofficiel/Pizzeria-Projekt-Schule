@@ -33,22 +33,13 @@ namespace Pizzeria_Projekt_Schule
             using (MySqlConnection conn = Database.GetConnection())
             {
                 // 1️⃣ Speise-ID
-                if (!int.TryParse(textBox1.Text, out int speiseId))
-                {
-                    MessageBox.Show("Speise-ID muss eine Zahl sein!");
-                    return;
-                }
+                
 
                 // Existenz prüfen
                 string checkQuery = "SELECT COUNT(*) FROM speisen WHERE speise_id = @id";
                 using (var checkCmd = new MySqlCommand(checkQuery, conn))
                 {
-                    checkCmd.Parameters.AddWithValue("@id", speiseId);
-                    if (Convert.ToInt32(checkCmd.ExecuteScalar()) > 0)
-                    {
-                        MessageBox.Show("Speise-ID existiert bereits!");
-                        return;
-                    }
+                    
                 }
 
                 // 2️⃣ Name
@@ -85,7 +76,6 @@ namespace Pizzeria_Projekt_Schule
                 }
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@id", speiseId);
                     cmd.Parameters.AddWithValue("@name", textBox2.Text);
                     cmd.Parameters.AddWithValue("@typ", comboBox1.SelectedItem);
                     cmd.Parameters.AddWithValue("@preis", preis);

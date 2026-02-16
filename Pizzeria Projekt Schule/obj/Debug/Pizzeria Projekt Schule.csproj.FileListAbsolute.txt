@@ -111,3 +111,4 @@ C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-
 C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-main\Pizzeria Projekt Schule\obj\Debug\Pizzeria.18FF98C5.Up2Date
 C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-main\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.exe
 C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-main\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.pdb
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.rechnungsubersicht.resources
