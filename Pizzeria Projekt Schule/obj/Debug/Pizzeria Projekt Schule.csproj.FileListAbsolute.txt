@@ -28,7 +28,6 @@ D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeri
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria.18FF98C5.Up2Date
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.exe
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.pdb
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginform.resources
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.exe.config
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.exe
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.pdb
@@ -62,15 +61,8 @@ G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria.18
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.exe
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.pdb
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Hauptmenu.resources
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.auswertung01.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.tischauswahl.resources
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.reservierung.resources
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Zahlung.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Hauptmenu.resources
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Speissen.resources
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Bestellungspagerichtig.resources
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.mitarbeiterverwaltungrichtig.resources
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.speisenhin.resources
 C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-main\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.exe.config
 C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-main\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.exe
 C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-main\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.pdb
@@ -111,7 +103,6 @@ C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-
 C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-main\Pizzeria Projekt Schule\obj\Debug\Pizzeria.18FF98C5.Up2Date
 C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-main\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.exe
 C:\Users\diaaa\OneDrive\Desktop\projektbearbeitet 15.02\Pizzeria-Projekt-Schule-main\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.pdb
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.rechnungsubersicht.resources
 C:\Users\diaaa\OneDrive\Desktop\Pizzeria-Projekt-Schule 16.02\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.exe.config
 C:\Users\diaaa\OneDrive\Desktop\Pizzeria-Projekt-Schule 16.02\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.exe
 C:\Users\diaaa\OneDrive\Desktop\Pizzeria-Projekt-Schule 16.02\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.pdb
@@ -153,3 +144,12 @@ C:\Users\diaaa\OneDrive\Desktop\Pizzeria-Projekt-Schule 16.02\Pizzeria Projekt S
 C:\Users\diaaa\OneDrive\Desktop\Pizzeria-Projekt-Schule 16.02\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Zahlungsseite.resources
 C:\Users\diaaa\OneDrive\Desktop\Pizzeria-Projekt-Schule 16.02\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginpizzeriavesus.resources
 C:\Users\diaaa\OneDrive\Desktop\Pizzeria-Projekt-Schule 16.02\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.SpeisenMenu.resources
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Umsatzauswertung.resources
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Bestellungsseite.resources
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Rechnungsuebersicht.resources
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Speisehinzufügen.resources
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.mitarbeiterverwaltung0.resources
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Reservierungsseite.resources
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Zahlungsseite.resources
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginpizzeriavesus.resources
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.SpeisenMenu.resources

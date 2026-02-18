@@ -25,15 +25,9 @@ namespace Pizzeria_Projekt_Schule
 
             // 🔥 BEREICH ENUM WERTE
             comboBox1.Items.Clear();
-            comboBox1.Items.Add("Innen vorne");
-            comboBox1.Items.Add("Innen hinten");
-            comboBox1.Items.Add("Terrasse");
-            comboBox1.Items.Add("Terrasse groß");
-            comboBox1.Items.Add("VIP / Gruppen");
-            comboBox1.Items.Add("Küche");
-            comboBox1.Items.Add("Kasse");
-            comboBox1.Items.Add("EDV");
-            comboBox1.Items.Add("Management");
+            
+            
+            
 
             // 🔥 ROLLE ENUM WERTE
             comboBox2.Items.Clear();
@@ -227,6 +221,28 @@ namespace Pizzeria_Projekt_Schule
             Hauptmenu hauptmenu = new Hauptmenu();
             hauptmenu.Show();
             this.Close();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox2.SelectedItem == "service")
+            {
+                comboBox1.Items.Clear();
+                comboBox1.Items.Add("Innen hinten");
+                comboBox1.Items.Add("Terrasse");
+                comboBox1.Items.Add("Terrasse groß");
+                comboBox1.Items.Add("VIP / Gruppen");
+            }
+            else
+            {
+                comboBox1.Items.Clear();
+                comboBox1.Items.Add("Küche");
+                comboBox1.Items.Add("Kasse");
+                comboBox1.Items.Add("EDV");
+                comboBox1.Items.Add("Management");
+            }
+
+
         }
     }
 }

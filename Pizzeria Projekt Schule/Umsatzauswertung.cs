@@ -33,7 +33,7 @@ namespace Pizzeria_Projekt_Schule
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView2.ReadOnly = true;
             dataGridView2.AllowUserToAddRows = false;
-
+            label11.Text = DateTime.Now.ToString("dd.MM.yyyy");
 
         }
 
@@ -126,7 +126,7 @@ namespace Pizzeria_Projekt_Schule
                 if (reader.Read())
                 {
                     int stunde = reader.GetInt32("Stunde");
-                    textBox3.Text = stunde + ":00 Uhr";
+                    label11.Text = stunde + ":00 Uhr";
                 }
                 else
                 {
@@ -253,7 +253,7 @@ namespace Pizzeria_Projekt_Schule
                 if (result != null && result != DBNull.Value)
                     umsatz = Convert.ToDecimal(result);
 
-                label11.Text = umsatz.ToString("0.00 €");
+                textBox1.Text = umsatz.ToString("0.00 €");
             }
         }
 
@@ -289,7 +289,7 @@ namespace Pizzeria_Projekt_Schule
                 object result = cmd.ExecuteScalar();
                 decimal umsatz = result != DBNull.Value ? Convert.ToDecimal(result) : 0;
 
-                textBox5.Text = umsatz.ToString("0.00 €");
+                textBox1.Text = umsatz.ToString("0.00 €");
             }
         }
 

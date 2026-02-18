@@ -262,6 +262,8 @@ INSERT INTO mitarbeiter (vorname,nachname, bereich, passwort,rolle, aktiv) VALUE
 ('diaa','','EDV','admin2','admin',true),
 ('Julian','','EDV','admin3','admin',true);
 
+insert into bestellungen(datum, tisch_id_fk, personalnr_fk, status) values
+(now(),11,8,'offen');
 
 
 

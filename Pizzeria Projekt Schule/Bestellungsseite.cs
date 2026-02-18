@@ -189,6 +189,8 @@ namespace Pizzeria_Projekt_Schule
 
             int mitarbeiterId = Convert.ToInt32(comboBox2.SelectedValue);
 
+            DateTime jetzt = DateTime.Now;
+
             // 3️⃣ Bestellung anlegen
             int bestellNr = BestellungAnlegen();
 
@@ -198,8 +200,8 @@ namespace Pizzeria_Projekt_Schule
                 foreach (var item in warenkorb)
                 {
                     string query = @"INSERT INTO bestellposition
-                             (bestellnr_fk, speise_id_fk, menge, preis_beim_kauf)
-                             VALUES (@bnr, @sid, @menge, @preis)";
+                             (bestellnr_fk,   speise_id_fk, menge, preis_beim_kauf)
+                             VALUES (@bnr ,@sid, @menge, @preis)";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {

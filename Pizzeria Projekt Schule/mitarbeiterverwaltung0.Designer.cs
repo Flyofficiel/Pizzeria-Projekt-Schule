@@ -225,6 +225,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(121, 21);
             this.comboBox2.TabIndex = 19;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // textBox4
             // 
@@ -253,7 +254,7 @@
             this.label9.TabIndex = 16;
             this.label9.Text = "Nachname";
             // 
-            // mitarbeiterverwaltungrichtig
+            // mitarbeiterverwaltung0
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -276,7 +277,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
-            this.Name = "mitarbeiterverwaltungrichtig";
+            this.Name = "mitarbeiterverwaltung0";
             this.Text = "Mitarbeiterverwaltung";
             this.Load += new System.EventHandler(this.mitarbeiterverwaltungrichtig_Load);
             this.panel1.ResumeLayout(false);
