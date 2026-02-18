@@ -12,30 +12,39 @@ using System.Xml.Linq;
 
 namespace Pizzeria_Projekt_Schule
 {
-    public partial class mitarbeiterverwaltungrichtig : Form
+    public partial class mitarbeiterverwaltung0 : Form
     {
-        public mitarbeiterverwaltungrichtig()
+        public mitarbeiterverwaltung0()
         {
             InitializeComponent();
         }
 
         private void mitarbeiterverwaltungrichtig_Load(object sender, EventArgs e)
         {
-            string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
-            string query = "SELECT * FROM Mitarbeiter";
+            MitarbeiterLaden();
 
-            MySqlConnection conn = Database.GetConnection();
-            {
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
-                DataTable table = new DataTable();
+            // 🔥 BEREICH ENUM WERTE
+            comboBox1.Items.Clear();
+            comboBox1.Items.Add("Innen vorne");
+            comboBox1.Items.Add("Innen hinten");
+            comboBox1.Items.Add("Terrasse");
+            comboBox1.Items.Add("Terrasse groß");
+            comboBox1.Items.Add("VIP / Gruppen");
+            comboBox1.Items.Add("Küche");
+            comboBox1.Items.Add("Kasse");
+            comboBox1.Items.Add("EDV");
+            comboBox1.Items.Add("Management");
 
-                adapter.Fill(table);
-
-                dataGridView1.DataSource = table;
-            }
-
+            // 🔥 ROLLE ENUM WERTE
+            comboBox2.Items.Clear();
+            comboBox2.Items.Add("service");
+            comboBox2.Items.Add("koch");
+            comboBox2.Items.Add("kasse");
+            comboBox2.Items.Add("admin");
+            comboBox2.Items.Add("management");
         }
-       
+
+
 
         private void dataGridView1_SelectionChanged_1(object sender, EventArgs e)
         {
@@ -47,12 +56,20 @@ namespace Pizzeria_Projekt_Schule
 
             textBox2.Text = row.Cells["vorname"].Value + " " + row.Cells["nachname"].Value;
             comboBox1.Text = row.Cells["bereich"].Value?.ToString();
-            textBox3.Text = row.Cells["passwort"].Value?.ToString();
+            if (dataGridView1.Columns.Contains("passwort"))
+            {
+                textBox3.Text = row.Cells["passwort"].Value?.ToString();
+            }
+            else
+            {
+                textBox3.Text = "";
+            }
+
         }
 
         private void MitarbeiterLoeschen()
         {
-            string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
+            
 
             string query = @"
             UPDATE mitarbeiter
@@ -101,25 +118,31 @@ namespace Pizzeria_Projekt_Schule
         }
         private void MitarbeiterUpdate()
         {
-            string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
+            if (dataGridView1.CurrentRow == null)
+                return;
 
             string query = @"
-        UPDATE mitarbeiter
-        SET 
-            vorname = @vorname,
-            nachname = @nachname,
-            bereich = @bereich,
-            passwort = @passwort
-        WHERE personalnr = @personalnr
+    UPDATE mitarbeiter
+    SET 
+        vorname = @vorname,
+        nachname = @nachname,
+        bereich = @bereich,
+        passwort = @passwort,
+        rolle = @rolle
+    WHERE personalnr = @personalnr
     ";
 
-            MySqlConnection conn = Database.GetConnection();
-            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@vorname", textBox2.Text);
-                cmd.Parameters.AddWithValue("@nachname", "");
+                cmd.Parameters.AddWithValue("@nachname", textBox4.Text);
                 cmd.Parameters.AddWithValue("@bereich", comboBox1.Text);
                 cmd.Parameters.AddWithValue("@passwort", textBox3.Text);
+                cmd.Parameters.AddWithValue("@rolle", comboBox2.Text);
+
+                cmd.Parameters.AddWithValue("@personalnr",
+                    dataGridView1.CurrentRow.Cells["personalnr"].Value);
 
                 cmd.ExecuteNonQuery();
             }
@@ -127,9 +150,10 @@ namespace Pizzeria_Projekt_Schule
             MessageBox.Show("Mitarbeiter gespeichert ✔");
             MitarbeiterLaden();
         }
+
         private void MitarbeiterLaden()
         {
-            string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
+           
             string query = "SELECT personalnr, vorname, nachname, bereich, passwort FROM mitarbeiter WHERE aktiv = 1";
 
             MySqlConnection conn = Database.GetConnection();
@@ -151,17 +175,21 @@ namespace Pizzeria_Projekt_Schule
 
         private void MitarbeiterHinzufuegen()
         {
-            string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
+            if (comboBox1.SelectedItem == null || comboBox2.SelectedItem == null)
+            {
+                MessageBox.Show("Bitte Bereich und Rolle auswählen!");
+                return;
+            }
 
             string query = @"
-        INSERT INTO mitarbeiter
-        (personalnr, vorname, nachname, bereich, passwort, rolle, aktiv)
-        VALUES
-        (@personalnr, @vorname, @nachname, @bereich, @passwort, @rolle, 1)
+    INSERT INTO mitarbeiter
+    (vorname, nachname, bereich, passwort, rolle, aktiv)
+    VALUES
+    (@vorname, @nachname, @bereich, @passwort, @rolle, 1)
     ";
 
-            MySqlConnection conn = Database.GetConnection();
-            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@vorname", textBox2.Text);
                 cmd.Parameters.AddWithValue("@nachname", textBox4.Text);
@@ -169,14 +197,15 @@ namespace Pizzeria_Projekt_Schule
                 cmd.Parameters.AddWithValue("@passwort", textBox3.Text);
                 cmd.Parameters.AddWithValue("@rolle", comboBox2.Text);
 
-                
-                cmd.ExecuteNonQuery(); // 🔥 DAS HAT GEFEHLT
+                cmd.ExecuteNonQuery();
             }
 
             MessageBox.Show("Mitarbeiter hinzugefügt ✔");
+
             MitarbeiterLaden();
             FelderLeeren();
         }
+
 
 
         private void button2_Click(object sender, EventArgs e)
@@ -186,7 +215,7 @@ namespace Pizzeria_Projekt_Schule
             MitarbeiterUpdate();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             
 

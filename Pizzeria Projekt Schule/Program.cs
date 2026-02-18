@@ -16,7 +16,7 @@ namespace Pizzeria_Projekt_Schule
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Loginform());
+            Application.Run(new Loginpizzeriavesus());
         }
     }
 }

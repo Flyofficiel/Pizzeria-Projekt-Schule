@@ -11,9 +11,9 @@ using MySqlConnector;
 
 namespace Pizzeria_Projekt_Schule
 {
-    public partial class Loginform : Form
+    public partial class Loginpizzeriavesus : Form
     {
-        public Loginform()
+        public Loginpizzeriavesus()
         {
             InitializeComponent();
         }
@@ -23,9 +23,9 @@ namespace Pizzeria_Projekt_Schule
             
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
-            string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
+           
             string inputUsername = usernameinput.Text;
             string inputPassword = passwortinput.Text;
 

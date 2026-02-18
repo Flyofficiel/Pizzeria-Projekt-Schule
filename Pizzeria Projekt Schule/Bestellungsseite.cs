@@ -9,32 +9,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Pizzeria_Projekt_Schule.Bestellungspagerichtig;
+using static Pizzeria_Projekt_Schule.Bestellungsseite;
 
 namespace Pizzeria_Projekt_Schule
 {
-    public partial class Bestellungspagerichtig : Form
+    public partial class Bestellungsseite : Form
     {
-        public Bestellungspagerichtig()
+        public Bestellungsseite()
         {
             InitializeComponent();
 
-            button1.Click += button1_Click; // +
-            button2.Click += button2_Click; // -
+            //button1.Click += Button1_Click; // +
+           // button2.Click += Button2_Click; // -
         }
 
 
         private void Bestellungspagerichtig_Load(object sender, EventArgs e)
         {
-            comboBox1.DrawMode = DrawMode.OwnerDrawFixed;
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.DrawItem += comboBox1_DrawItem;
+            tischauswahl.DrawMode = DrawMode.OwnerDrawFixed;
+            tischauswahl.DropDownStyle = ComboBoxStyle.DropDownList;
+            tischauswahl.DrawItem += comboBox1_DrawItem;
 
 
             LadeTische();
 
 
-            string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
+            
             string query = "SELECT speise_id, speisename, preis FROM speisen WHERE aktiv = 1";
 
             MySqlConnection conn = Database.GetConnection();
@@ -95,16 +95,11 @@ namespace Pizzeria_Projekt_Schule
 
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem == null)
-            {
-                MessageBox.Show("Bitte zuerst ein Gericht auswählen.");
-                return;
-            }
+            
 
-            var item = (WarenkorbItem)listBox1.SelectedItem;
-            item.Menge++;
+            WarenkorbAdd(dataGridView1.CurrentCell.RowIndex);
             WarenkorbAktualisieren();
         }
         private void mitarbeiterLaden()
@@ -130,7 +125,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Button2_Click(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem is WarenkorbItem item)
             {
@@ -143,7 +138,7 @@ namespace Pizzeria_Projekt_Schule
         }
         private int BestellungAnlegen()
         {
-            TischItem tisch = (TischItem)comboBox1.SelectedItem;
+            TischItem tisch = (TischItem)tischauswahl.SelectedItem;
 
             string query = @"
     INSERT INTO bestellungen (datum, tisch_id_fk, personalnr_fk, status)
@@ -166,7 +161,7 @@ namespace Pizzeria_Projekt_Schule
 
 
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Button3_Click_aa(object sender, EventArgs e)
         {
             // 1️⃣ Prüfungen
             if (warenkorb.Count == 0)
@@ -175,7 +170,7 @@ namespace Pizzeria_Projekt_Schule
                 return;
             }
 
-            if (comboBox1.SelectedItem == null)
+            if (tischauswahl.SelectedItem == null)
 
             {
                 MessageBox.Show("Bitte einen Tisch auswählen!");
@@ -189,7 +184,7 @@ namespace Pizzeria_Projekt_Schule
             }
 
             // 2️⃣ Werte holen
-            TischItem tisch = (TischItem)comboBox1.SelectedItem;
+            TischItem tisch = (TischItem)tischauswahl.SelectedItem;
             int tischId = tisch.TischId;
 
             int mitarbeiterId = Convert.ToInt32(comboBox2.SelectedValue);
@@ -234,14 +229,24 @@ namespace Pizzeria_Projekt_Schule
             // 6️⃣ Aufräumen
             warenkorb.Clear();
             WarenkorbAktualisieren();
-            comboBox1.SelectedIndex = -1;
+            tischauswahl.SelectedIndex = -1;
         }
         private void dataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
 
+
+            //WarenkorbAdd(e.RowIndex);
+
+            WarenkorbAktualisieren();
+        }
+
+        private void WarenkorbAdd(int quelle)
+           
+        {
+            if (quelle < 0) return;
+            DataGridViewRow row = dataGridView1.Rows[quelle];
             int speiseId = Convert.ToInt32(row.Cells["speise_id"].Value);
             string name = row.Cells["speisename"].Value.ToString();
             double preis = Convert.ToDouble(row.Cells["preis"].Value);
@@ -258,10 +263,7 @@ namespace Pizzeria_Projekt_Schule
                     Preis = preis,
                     Menge = 1
                 });
-
-            WarenkorbAktualisieren();
         }
-
 
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -311,7 +313,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void TextBox1_TextChanged(object sender, EventArgs e)
         {
             //textBox1 DefaultCellStyle.FormatProvider =
             //   System.Globalization.CultureInfo.GetCultureInfo("de-DE"); 
@@ -323,7 +325,7 @@ namespace Pizzeria_Projekt_Schule
         }
         private void LadeTische()
         {
-            comboBox1.Items.Clear();
+            tischauswahl.Items.Clear();
 
             string query = "SELECT tisch_id, lage, bereich FROM tische WHERE aktiv = true";
 
@@ -333,7 +335,7 @@ namespace Pizzeria_Projekt_Schule
             {
                 while (reader.Read())
                 {
-                    comboBox1.Items.Add(new TischItem
+                    tischauswahl.Items.Add(new TischItem
                     {
                         TischId = reader.GetInt32("tisch_id"),
                         Status = reader.GetString("lage"),
@@ -344,7 +346,7 @@ namespace Pizzeria_Projekt_Schule
         }
         private void LadeTische(string bereich)
         {
-            comboBox1.Items.Clear();
+            tischauswahl.Items.Clear();
 
             string query = @"
         SELECT tisch_id, lage, bereich
@@ -361,7 +363,7 @@ namespace Pizzeria_Projekt_Schule
                 {
                     while (reader.Read())
                     {
-                        comboBox1.Items.Add(new TischItem
+                        tischauswahl.Items.Add(new TischItem
                         {
                             TischId = reader.GetInt32("tisch_id"),
                             Status = reader.GetString("lage"),
@@ -381,7 +383,7 @@ namespace Pizzeria_Projekt_Schule
         {
             if (e.Index < 0) return;
 
-            TischItem tisch = (TischItem)comboBox1.Items[e.Index];
+            TischItem tisch = (TischItem)tischauswahl.Items[e.Index];
             e.DrawBackground();
 
             string status = tisch.Status.Trim().ToLower();
@@ -413,7 +415,7 @@ namespace Pizzeria_Projekt_Schule
 
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            TischItem tisch = (TischItem)comboBox1.SelectedItem;
+            TischItem tisch = (TischItem)tischauswahl.SelectedItem;
             string status = tisch.Status.ToLower();
 
             // 🟠 FALL: RESERVIERT
@@ -426,34 +428,46 @@ namespace Pizzeria_Projekt_Schule
                     MessageBoxIcon.Question
                 );
 
-                // ❌ Nein → nichts tun, Auswahl zurücksetzen
                 if (result == DialogResult.No)
                 {
-                    comboBox1.SelectedIndex = -1;
+                    tischauswahl.SelectedIndex = -1;
                     return;
                 }
 
-                // ✅ Ja → Tisch auf BESetzt setzen
-                string update = @"UPDATE tische
-                          SET lage = 'Besetzt'
-                          WHERE tisch_id = @tid";
-
-                using (var cmd = new MySqlCommand(update, Database.GetConnection()))
+                using (var conn = Database.GetConnection())
                 {
-                    cmd.Parameters.AddWithValue("@tid", tisch.TischId);
-                    cmd.ExecuteNonQuery();
+                    // 1️⃣ Tisch auf Besetzt setzen
+                    string updateTisch = @"UPDATE tische
+                               SET lage = 'Besetzt'
+                               WHERE tisch_id = @tid";
+
+                    using (var cmd = new MySqlCommand(updateTisch, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@tid", tisch.TischId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // 2️⃣ Reservierung auf AKTIV setzen
+                    string updateReservierung = @"
+            UPDATE reservierungen
+            SET zustand = 'aktiv'
+            WHERE tisch_id_fk = @tid
+            AND DATE(datum) = CURDATE()
+            AND zustand = 'offen'";
+
+                    using (var cmd2 = new MySqlCommand(updateReservierung, conn))
+                    {
+                        cmd2.Parameters.AddWithValue("@tid", tisch.TischId);
+                        cmd2.ExecuteNonQuery();
+                    }
                 }
 
-                // Status im Objekt auch ändern
                 tisch.Status = "Besetzt";
-
-                // Farben neu zeichnen
                 LadeTische();
 
-                MessageBox.Show("Tisch wurde geöffnet und ist jetzt besetzt.");
+                MessageBox.Show("Reservierung wurde aktiviert und Tisch ist jetzt besetzt.");
             }
 
-            // 🟢 Frei & 🔴 Besetzt → einfach erlauben
 
         }
     }

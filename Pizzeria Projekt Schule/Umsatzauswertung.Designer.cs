@@ -1,6 +1,6 @@
 ﻿namespace Pizzeria_Projekt_Schule
 {
-    partial class auswertung01
+    partial class Umsatzauswertung
     {
         /// <summary>
         /// Required designer variable.
@@ -164,6 +164,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(125, 20);
             this.textBox5.TabIndex = 11;
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // button1
             // 
@@ -257,6 +258,7 @@
             this.button7.TabIndex = 34;
             this.button7.Text = "Umsatz pro Gast";
             this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button5
             // 
@@ -270,6 +272,7 @@
             this.button5.TabIndex = 35;
             this.button5.Text = "Umsatz pro Mitarbeiter";
             this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button6
             // 
@@ -283,6 +286,7 @@
             this.button6.TabIndex = 36;
             this.button6.Text = "Umsatz pro Tisch";
             this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // textBox6
             // 
@@ -321,7 +325,7 @@
             this.label11.Size = new System.Drawing.Size(174, 16);
             this.label11.TabIndex = 41;
             this.label11.Text = "Datenstand: XXXX.XX.XX";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
+            this.label11.Click += new System.EventHandler(this.label1_Click);
             // 
             // dataGridView2
             // 
@@ -333,8 +337,9 @@
             this.dataGridView2.ReadOnly = true;
             this.dataGridView2.Size = new System.Drawing.Size(254, 150);
             this.dataGridView2.TabIndex = 42;
+            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
-            // auswertung01
+            // Umsatzauswertung
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -366,7 +371,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
-            this.Name = "auswertung01";
+            this.Name = "Umsatzauswertung";
             this.Text = "Auswertung";
             this.Load += new System.EventHandler(this.auswertung01_Load);
             this.panel1.ResumeLayout(false);

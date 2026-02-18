@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace Pizzeria_Projekt_Schule
 {
-    public partial class rechnungsubersicht : Form
+    public partial class Rechnungsuebersicht : Form
     {
-        public rechnungsubersicht()
+        public Rechnungsuebersicht()
         {
             InitializeComponent();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

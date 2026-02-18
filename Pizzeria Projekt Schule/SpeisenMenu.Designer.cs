@@ -1,6 +1,6 @@
 ﻿namespace Pizzeria_Projekt_Schule
 {
-    partial class Speissen
+    partial class SpeisenMenu
     {
         /// <summary>
         /// Required designer variable.

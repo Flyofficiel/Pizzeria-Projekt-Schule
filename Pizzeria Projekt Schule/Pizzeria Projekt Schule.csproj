@@ -81,36 +81,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="auswertung01.cs">
+    <Compile Include="Umsatzauswertung.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="auswertung01.Designer.cs">
-      <DependentUpon>auswertung01.cs</DependentUpon>
+    <Compile Include="Umsatzauswertung.Designer.cs">
+      <DependentUpon>Umsatzauswertung.cs</DependentUpon>
     </Compile>
-    <Compile Include="Bestellungspagerichtig.cs">
+    <Compile Include="Bestellungsseite.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Bestellungspagerichtig.Designer.cs">
-      <DependentUpon>Bestellungspagerichtig.cs</DependentUpon>
+    <Compile Include="Bestellungsseite.Designer.cs">
+      <DependentUpon>Bestellungsseite.cs</DependentUpon>
     </Compile>
     <Compile Include="Databseconnection.cs" />
-    <Compile Include="rechnungsubersicht.cs">
+    <Compile Include="Rechnungsuebersicht.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="rechnungsubersicht.Designer.cs">
-      <DependentUpon>rechnungsubersicht.cs</DependentUpon>
+    <Compile Include="Rechnungsuebersicht.Designer.cs">
+      <DependentUpon>Rechnungsuebersicht.cs</DependentUpon>
     </Compile>
-    <Compile Include="speisenhin.cs">
+    <Compile Include="Speisehinzufügen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="speisenhin.Designer.cs">
-      <DependentUpon>speisenhin.cs</DependentUpon>
+    <Compile Include="Speisehinzufügen.Designer.cs">
+      <DependentUpon>Speisehinzufügen.cs</DependentUpon>
     </Compile>
-    <Compile Include="mitarbeiterverwaltungrichtig.cs">
+    <Compile Include="mitarbeiterverwaltung0.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="mitarbeiterverwaltungrichtig.Designer.cs">
-      <DependentUpon>mitarbeiterverwaltungrichtig.cs</DependentUpon>
+    <Compile Include="mitarbeiterverwaltung0.Designer.cs">
+      <DependentUpon>mitarbeiterverwaltung0.cs</DependentUpon>
     </Compile>
     <Compile Include="tischauswahl.cs">
       <SubType>Form</SubType>
@@ -118,24 +118,24 @@
     <Compile Include="tischauswahl.Designer.cs">
       <DependentUpon>tischauswahl.cs</DependentUpon>
     </Compile>
-    <Compile Include="reservierung.cs">
+    <Compile Include="Reservierungsseite.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="reservierung.Designer.cs">
-      <DependentUpon>reservierung.cs</DependentUpon>
+    <Compile Include="Reservierungsseite.Designer.cs">
+      <DependentUpon>Reservierungsseite.cs</DependentUpon>
     </Compile>
     <Compile Include="tischitem.cs" />
-    <Compile Include="Zahlung.cs">
+    <Compile Include="Zahlungsseite.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Zahlung.Designer.cs">
-      <DependentUpon>Zahlung.cs</DependentUpon>
+    <Compile Include="Zahlungsseite.Designer.cs">
+      <DependentUpon>Zahlungsseite.cs</DependentUpon>
     </Compile>
-    <Compile Include="Speissen.cs">
+    <Compile Include="SpeisenMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Speissen.Designer.cs">
-      <DependentUpon>Speissen.cs</DependentUpon>
+    <Compile Include="SpeisenMenu.Designer.cs">
+      <DependentUpon>SpeisenMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="Hauptmenu.cs">
       <SubType>Form</SubType>
@@ -143,43 +143,43 @@
     <Compile Include="Hauptmenu.Designer.cs">
       <DependentUpon>Hauptmenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Loginform.cs">
+    <Compile Include="Loginpizzeriavesus.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Loginform.Designer.cs">
-      <DependentUpon>Loginform.cs</DependentUpon>
+    <Compile Include="Loginpizzeriavesus.Designer.cs">
+      <DependentUpon>Loginpizzeriavesus.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="auswertung01.resx">
-      <DependentUpon>auswertung01.cs</DependentUpon>
+    <EmbeddedResource Include="Umsatzauswertung.resx">
+      <DependentUpon>Umsatzauswertung.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Bestellungspagerichtig.resx">
-      <DependentUpon>Bestellungspagerichtig.cs</DependentUpon>
+    <EmbeddedResource Include="Bestellungsseite.resx">
+      <DependentUpon>Bestellungsseite.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="rechnungsubersicht.resx">
-      <DependentUpon>rechnungsubersicht.cs</DependentUpon>
+    <EmbeddedResource Include="Rechnungsuebersicht.resx">
+      <DependentUpon>Rechnungsuebersicht.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="speisenhin.resx">
-      <DependentUpon>speisenhin.cs</DependentUpon>
+    <EmbeddedResource Include="Speisehinzufügen.resx">
+      <DependentUpon>Speisehinzufügen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="mitarbeiterverwaltungrichtig.resx">
-      <DependentUpon>mitarbeiterverwaltungrichtig.cs</DependentUpon>
+    <EmbeddedResource Include="mitarbeiterverwaltung0.resx">
+      <DependentUpon>mitarbeiterverwaltung0.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="tischauswahl.resx">
       <DependentUpon>tischauswahl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="reservierung.resx">
-      <DependentUpon>reservierung.cs</DependentUpon>
+    <EmbeddedResource Include="Reservierungsseite.resx">
+      <DependentUpon>Reservierungsseite.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Zahlung.resx">
-      <DependentUpon>Zahlung.cs</DependentUpon>
+    <EmbeddedResource Include="Zahlungsseite.resx">
+      <DependentUpon>Zahlungsseite.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Hauptmenu.resx">
       <DependentUpon>Hauptmenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Loginform.resx">
-      <DependentUpon>Loginform.cs</DependentUpon>
+    <EmbeddedResource Include="Loginpizzeriavesus.resx">
+      <DependentUpon>Loginpizzeriavesus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -190,8 +190,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Speissen.resx">
-      <DependentUpon>Speissen.cs</DependentUpon>
+    <EmbeddedResource Include="SpeisenMenu.resx">
+      <DependentUpon>SpeisenMenu.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

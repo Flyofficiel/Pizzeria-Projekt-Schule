@@ -12,17 +12,14 @@ using System.Windows.Forms;
 
 namespace Pizzeria_Projekt_Schule
 {
-    public partial class reservierung : Form
+    public partial class Reservierungsseite : Form
     {
-        public reservierung()
+        public Reservierungsseite()
         {
             InitializeComponent();
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -32,40 +29,44 @@ namespace Pizzeria_Projekt_Schule
         }
         void LadeTische(int personen)
         {
-            string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
-            string sql = @"
-        SELECT tisch_id, max_personen
-        FROM tische
-        WHERE aktiv = true
-        AND max_personen >= @personen
-        ORDER BY max_personen ASC";
+            if (comboBox1.SelectedItem == null)
+                return;
 
-            using (var con = new MySqlConnection(connString))
-            using (var cmd = new MySqlCommand(sql, con))
+            int slot = HoleSlot();
+            if (slot == 0)
+                return;
+
+            string sql = @"
+    SELECT t.tisch_id, t.max_personen
+    FROM tische t
+    WHERE t.aktiv = true
+    AND t.max_personen >= @personen
+    AND t.tisch_id NOT IN
+    (
+        SELECT r.tisch_id_fk
+        FROM reservierungen r
+        WHERE DATE(r.datum) = @datum
+        AND r.slot = @slot
+        AND r.zustand = 'offen'
+    )
+    ORDER BY t.max_personen ASC";
+
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(sql, conn))
             {
                 cmd.Parameters.AddWithValue("@personen", personen);
+                cmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
+                cmd.Parameters.AddWithValue("@slot", slot);
 
-                using (var da = new MySqlDataAdapter(cmd))
-                {
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
+                DataTable dt = new DataTable();
+                new MySqlDataAdapter(cmd).Fill(dt);
 
-                    comboBox2.DataSource = dt;
-                    comboBox2.DisplayMember = "tisch_id";
-                    comboBox2.ValueMember = "tisch_id";
-                    dt.Columns.Add("anzeige", typeof(string));
-
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        row["anzeige"] = $"Tisch {row["tisch_id"]} ({row["max_personen"]} Personen)";
-                    }
-
-                    comboBox2.DisplayMember = "anzeige";
-                    comboBox2.ValueMember = "tisch_id";
-
-                }
+                comboBox2.DisplayMember = "tisch_id";
+                comboBox2.ValueMember = "tisch_id";
+                comboBox2.DataSource = dt;
             }
         }
+
 
 
 
@@ -73,28 +74,41 @@ namespace Pizzeria_Projekt_Schule
         {
             try
             {
-                // 🔥 Pflichtfeld-Prüfung
+                // 🔥 Verbesserte Eingabeprüfung
+                string name = textBox1.Text.Trim();
+                string telefon = textBox2.Text.Trim();
+
                 if (dateTimePicker1.Value.Date < DateTime.Today)
                 {
                     MessageBox.Show("Reservierung in der Vergangenheit nicht möglich!");
                     return;
                 }
-                if (string.IsNullOrWhiteSpace(textBox1.Text) ||   // Nachname
-                    string.IsNullOrWhiteSpace(textBox2.Text) ||   // Telefon
-                    numericUpDown1.Value == 0 ||                  // Personen
-                    comboBox1.SelectedItem == null ||             // Slot
-                    comboBox2.SelectedItem == null)               // Tisch
+
+                if (string.IsNullOrWhiteSpace(name) ||
+                    string.IsNullOrWhiteSpace(telefon) ||
+                    numericUpDown1.Value == 0 ||
+                    comboBox1.SelectedItem == null ||
+                    comboBox2.SelectedItem == null)
                 {
                     MessageBox.Show("Bitte alle Pflichtfelder ausfüllen!");
                     return;
                 }
+
+                // Telefonnummer Länge prüfen
+                if (telefon.Length < 8 || telefon.Length > 15)
+                {
+                    MessageBox.Show("Telefonnummer ungültig!");
+                    return;
+                }
+
+
 
                 string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
 
                 const string guestadd = "INSERT INTO gast (gastvorname, gastnachname, telephonenr) VALUES (@vorname, @nachname, @telefon);";
                 const string reservierungsinsert = "insert into reservierungen(datum,telephonenr) values (@datum,@telephonenr)";
 
-             
+
 
                 using (var conn = new MySqlConnection(connString))
                 {
@@ -123,9 +137,15 @@ namespace Pizzeria_Projekt_Schule
 
                             using (var gastCmd = new MySqlCommand(gastSql, conn))
                             {
-                                gastCmd.Parameters.AddWithValue("@vorname", textBox1.Text);
-                                gastCmd.Parameters.AddWithValue("@nachname", "");
-                                gastCmd.Parameters.AddWithValue("@telefon", textBox2.Text);
+                                string[] teile = name.Split(' ');
+
+                                string vorname = teile[0];
+                                string nachname = teile.Length > 1 ? teile[1] : "";
+
+                                gastCmd.Parameters.AddWithValue("@vorname", vorname);
+                                gastCmd.Parameters.AddWithValue("@nachname", nachname);
+                                gastCmd.Parameters.AddWithValue("@telefon", telefon);
+
 
                                 gastId = Convert.ToInt32(gastCmd.ExecuteScalar());
                             }
@@ -169,15 +189,9 @@ namespace Pizzeria_Projekt_Schule
 
 
                     }
-                    string qury = "UPDATE tische SET lage = 'reserviert' WHERE tisch_id = @tisch;";
-                    using (var tCmd = new MySqlCommand(qury, conn))
-                    {
-                        tCmd.Parameters.AddWithValue("@tisch", Convert.ToInt32(comboBox2.SelectedValue));
-                        tCmd.ExecuteNonQuery();
-                    }
-                    ;
-                    
-                    
+
+
+
                 }
 
                 MessageBox.Show("Reservierung gespeichert ✅");
@@ -203,20 +217,73 @@ namespace Pizzeria_Projekt_Schule
 
         }
 
-        
+
 
         private void reservierung_Load(object sender, EventArgs e)
         {
-            
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            int personen = (int)numericUpDown1.Value;
-
-            if (personen > 0)
-                LadeTische(personen);
+            if (numericUpDown1.Value > 0)
+                LadeTische((int)numericUpDown1.Value);
         }
 
+        private int HoleSlot()
+        {
+            switch (comboBox1.SelectedItem?.ToString())
+            {
+                case "12-15": return 1;
+                case "15-18": return 2;
+                case "18-21": return 3;
+                case "21-24": return 4;
+                default: return 0;
+            }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            if (numericUpDown1.Value > 0)
+                LadeTische((int)numericUpDown1.Value);
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (numericUpDown1.Value > 0)
+                LadeTische((int)numericUpDown1.Value);
+        }
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Nur Zahlen und Backspace
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox2_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+
+        }
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !char.IsLetter(e.KeyChar) &&
+                e.KeyChar != ' ')
+            {
+                e.Handled = true;
+                System.Media.SystemSounds.Beep.Play();
+            }
+        }
+
+        
+
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }

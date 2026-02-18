@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace Pizzeria_Projekt_Schule
 {
-    public partial class speisenhin : Form
+    public partial class Speisehinzufügen : Form
     {
-        public speisenhin()
+        public Speisehinzufügen()
         {
             InitializeComponent();
         }
@@ -32,24 +32,14 @@ namespace Pizzeria_Projekt_Schule
         {
             using (MySqlConnection conn = Database.GetConnection())
             {
-                // 1️⃣ Speise-ID
-                
-
-                // Existenz prüfen
-                string checkQuery = "SELECT COUNT(*) FROM speisen WHERE speise_id = @id";
-                using (var checkCmd = new MySqlCommand(checkQuery, conn))
-                {
-                    
-                }
-
-                // 2️⃣ Name
+                // 1️⃣ Name prüfen
                 if (string.IsNullOrWhiteSpace(textBox2.Text))
                 {
                     MessageBox.Show("Speisename fehlt!");
                     return;
                 }
 
-                // 3️⃣ Preis
+                // 2️⃣ Preis prüfen
                 if (!double.TryParse(textBox3.Text.Replace(",", "."),
                     System.Globalization.NumberStyles.Any,
                     System.Globalization.CultureInfo.InvariantCulture,
@@ -59,33 +49,36 @@ namespace Pizzeria_Projekt_Schule
                     return;
                 }
 
-                // 4️⃣ INSERT
-                string query = @"INSERT INTO speisen 
-            (speise_id, speisename, speisentyp, preis, zutaten)
-            VALUES (@id, @name, @typ, @preis, @zutaten)";
-
+                // 3️⃣ Typ prüfen
                 if (comboBox1.SelectedItem == null)
                 {
                     MessageBox.Show("Bitte Speisentyp auswählen!");
                     return;
                 }
-                if(comboBox1.SelectedItem.ToString() != "🥤 GETRÄNKE" && textBox4 != null)
-                {
-                    MessageBox.Show("Bitte fügen Sie die Zutaten hinzu");
-                    return;
-                }
+
+                string zutaten = textBox4.Text;
+
+                // 4️⃣ INSERT (OHNE speise_id !!!)
+                string query = @"INSERT INTO speisen 
+                        (speisename, speisentyp, preis, zutaten, aktiv)
+                        VALUES (@name, @typ, @preis, @zutaten, true)";
+
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@name", textBox2.Text);
-                    cmd.Parameters.AddWithValue("@typ", comboBox1.SelectedItem);
+                    cmd.Parameters.AddWithValue("@typ", comboBox1.SelectedItem.ToString());
                     cmd.Parameters.AddWithValue("@preis", preis);
-                    cmd.Parameters.AddWithValue("@zutaten", textBox4.Text);
+                    cmd.Parameters.AddWithValue("@zutaten", zutaten);
 
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show("Speise hinzugefügt ✔");
                 }
+
+                MessageBox.Show("Speise hinzugefügt ✔");
+
+                this.Close();
             }
         }
+
 
         private void speisenhin_Load(object sender, EventArgs e)
         {

@@ -54,6 +54,10 @@ MODIFY bereich ENUM(
 'EDV',
 'Management'
 );
+ALTER TABLE mitarbeiter 
+MODIFY personalnr INT AUTO_INCREMENT;
+
+
 
 
 
@@ -147,6 +151,11 @@ trinkgeld DECIMAL(10,2),
 );
 INSERT INTO tische (tisch_id, max_personen, aktiv, bereich, lage) VALUES
 
+
+
+
+
+
 -- 🔹 2er Tische (Innen vorne)
 (1,2,true,'Innen vorne','Frei'),
 (2,2,true,'Innen vorne','Frei'),
@@ -237,21 +246,22 @@ INSERT INTO speisen (speisename,speisentyp, preis, zutaten,aktiv) VALUES
 
 -- Mitarbeiter inserts
 
-INSERT INTO mitarbeiter (personalnr, vorname,nachname, bereich, passwort,rolle, aktiv) VALUES
-(0, 'Luigi',' Rossi', 'Management','fdgfgdjsdhf','management',true),
+INSERT INTO mitarbeiter (vorname,nachname, bereich, passwort,rolle, aktiv) VALUES
+( 'Luigi',' Rossi', 'Management','fdgfgdjsdhf','management',true),
 
-(1, 'Marco',' Habibi', 'Innen vorne','jsdhf','service',true),
-(3, 'Luca',' Romano', 'Innen hinten','ösldkfsk','service',true),
-(6, 'Elena',' Ferrari', 'Terrasse','poigvjk','service',true),
+( 'Marco',' Habibi', 'Innen vorne','jsdhf','service',true),
+( 'Luca',' Romano', 'Innen hinten','ösldkfsk','service',true),
+( 'Elena',' Ferrari', 'Terrasse','poigvjk','service',true),
 
-(2, 'Giulia',' Bianchi', 'Küche','kjdfsnklsf','koch',true),
-(5, 'Antonio',' Greco', 'Küche','pdfglokjdsp','koch',true),
+( 'Giulia',' Bianchi', 'Küche','kjdfsnklsf','koch',true),
+( 'Antonio',' Greco', 'Küche','pdfglokjdsp','koch',true),
 
-(4, 'Sara',' Conti', 'Kasse','lödgkdlöfgv','kasse',true),
+( 'Sara',' Conti', 'Kasse','lödgkdlöfgv','kasse',true),
 
-(7,'Lucas',' Huber','EDV','admin1','admin',true),
-(8,'diaa','','EDV','admin2','admin',true),
-(9,'Julian','','EDV','admin3','admin',true);
+('Lucas',' Huber','EDV','admin1','admin',true),
+('diaa','','EDV','admin2','admin',true),
+('Julian','','EDV','admin3','admin',true);
+
 
 
 
