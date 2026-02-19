@@ -81,6 +81,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="speiupd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="speiupd.Designer.cs">
+      <DependentUpon>speiupd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Umsatzauswertung.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +157,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="speiupd.resx">
+      <DependentUpon>speiupd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Umsatzauswertung.resx">
       <DependentUpon>Umsatzauswertung.cs</DependentUpon>
     </EmbeddedResource>

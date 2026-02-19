@@ -52,8 +52,6 @@ G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Nume
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Threading.Tasks.Extensions.xml
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.AssemblyReference.cache
-G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginform.resources
-G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.mainpage.resources
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Properties.Resources.resources
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.GenerateResource.cache
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.CoreCompileInputs.cache
@@ -153,3 +151,14 @@ D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeri
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Zahlungsseite.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginpizzeriavesus.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.SpeisenMenu.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.speiupd.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Umsatzauswertung.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Bestellungsseite.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Rechnungsuebersicht.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Speisehinzufügen.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.mitarbeiterverwaltung0.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.tischauswahl.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Reservierungsseite.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Zahlungsseite.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginpizzeriavesus.resources
+G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.SpeisenMenu.resources
