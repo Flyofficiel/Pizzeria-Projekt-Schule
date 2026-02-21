@@ -204,3 +204,4 @@ C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Pro
 C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria.18FF98C5.Up2Date
 C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.exe
 C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.pdb
+D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.speiupd.resources

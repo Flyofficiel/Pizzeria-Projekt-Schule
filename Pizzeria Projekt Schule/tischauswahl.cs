@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySqlConnector;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +20,7 @@ namespace Pizzeria_Projekt_Schule
 
         private void Form3_Load(object sender, EventArgs e)
         {
-
+            LadeTische();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -32,6 +33,26 @@ namespace Pizzeria_Projekt_Schule
             Hauptmenu mainmenupage = new Hauptmenu();
             mainmenupage.Show();
             this.Close();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private void LadeTische()
+        {
+
+            MySqlConnection conn = Database.GetConnection();
+
+            {
+                string query = "SELECT tisch_id, max_personen ,bereich,lage  FROM tische";
+
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                dataGridView1.DataSource = dt;
+            }
         }
     }
 }
