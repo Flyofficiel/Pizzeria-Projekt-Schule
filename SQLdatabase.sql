@@ -91,7 +91,9 @@ CREATE TABLE bestellungen (
     foreign key(personalnr_fk) references mitarbeiter (personalnr),
     foreign key(tisch_id_fk) references tische(tisch_id),
     foreign key(gast_id_fk) references gast(gastid)
+    
 );
+ALTER table bestellungen ADD slot int;
 ALTER TABLE bestellungen
 MODIFY datum DATETIME DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE bestellungen 
