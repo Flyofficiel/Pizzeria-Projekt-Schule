@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Pizzeria_Projekt_Schule
 {
@@ -56,17 +57,17 @@ namespace Pizzeria_Projekt_Schule
 
         private void label1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         // Zurück-Button zum Hauptmenü
@@ -119,7 +120,7 @@ namespace Pizzeria_Projekt_Schule
         private void SpeisenLaden()
         {
             // Es werden nur Speisen geladen, die aktiv = 1 sind
-            string query = "SELECT speise_id, speisename, speisentyp, preis, zutaten, aktiv FROM speisen WHERE aktiv = 1";
+            string query = "SELECT speise_id, speisename, speisentyp, preis, zutaten, aktiv FROM speisen";
 
             MySqlConnection conn = Database.GetConnection();
 
@@ -142,7 +143,7 @@ namespace Pizzeria_Projekt_Schule
             dataGridView1.Columns["speisentyp"].HeaderText = "Typ";
             dataGridView1.Columns["preis"].HeaderText = "Preis";
             dataGridView1.Columns["zutaten"].HeaderText = "Zutaten";
-            dataGridView1.Columns["aktiv"].Visible = false; // Spalte "aktiv" ausblenden
+            dataGridView1.Columns["aktiv"].HeaderText = "Aktiv"; // Spalte "aktiv" ausblenden
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -151,7 +152,7 @@ namespace Pizzeria_Projekt_Schule
             {
 
                 // Es werden nur Speisen geladen, die aktiv = 1 sind
-                string query = "SELECT speise_id, speisename, speisentyp, preis, zutaten, aktiv FROM speisen WHERE aktiv = 1";
+                string query = "SELECT speise_id, speisename, speisentyp, preis ,zutaten FROM speisen WHERE aktiv = 1";
 
                 MySqlConnection conn = Database.GetConnection();
 
@@ -174,7 +175,6 @@ namespace Pizzeria_Projekt_Schule
                 dataGridView1.Columns["speisentyp"].HeaderText = "Typ";
                 dataGridView1.Columns["preis"].HeaderText = "Preis";
                 dataGridView1.Columns["zutaten"].HeaderText = "Zutaten";
-                dataGridView1.Columns["aktiv"].Visible = true; // Spalte "aktiv" ausblenden
             }
             else
             {
@@ -184,30 +184,26 @@ namespace Pizzeria_Projekt_Schule
 
         private void button5_Click(object sender, EventArgs e)
         {
+            // 🔥 Nach dem Schließen automatisch neu laden
+            SpeisenLaden(); ;
+        }
 
-
-
-
-
-
-
-            if (dataGridView1.CurrentRow == null)
-            {
-                MessageBox.Show("Bitte zuerst eine Speise auswählen.");
-                return;
-            }
+        private void button1_Click(object sender, EventArgs e)
+        {
 
             int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["speise_id"].Value);
             string name = dataGridView1.CurrentRow.Cells["speisename"].Value.ToString();
             string typ = dataGridView1.CurrentRow.Cells["speisentyp"].Value.ToString();
             decimal preis = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["preis"].Value);
             string zutaten = dataGridView1.CurrentRow.Cells["zutaten"].Value.ToString();
-
             speiupd updateForm = new speiupd(id, name, typ, preis, zutaten);
             updateForm.ShowDialog();
 
-            // 🔥 Nach dem Schließen automatisch neu laden
-            SpeisenLaden(); ;
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Bitte zuerst eine Speise auswählen.");
+                return;
+            }
         }
     }
 }
