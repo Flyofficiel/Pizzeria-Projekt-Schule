@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Pizzeria_Projekt_Schule.Bestellungsseite;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Pizzeria_Projekt_Schule
 {
@@ -20,21 +21,27 @@ namespace Pizzeria_Projekt_Schule
             InitializeComponent();
 
             //button1.Click += Button1_Click; // +
-           // button2.Click += Button2_Click; // -
+            // button2.Click += Button2_Click; // -
         }
 
 
         private void Bestellungspagerichtig_Load(object sender, EventArgs e)
         {
+            comboBox1.Items.Clear();
+            comboBox1.Items.Add("12-15");
+            comboBox1.Items.Add("15-18");
+            comboBox1.Items.Add("18-21");
+            comboBox1.Items.Add("21-24");
+            comboBox1.SelectedIndex = 0;
             tischauswahl.DrawMode = DrawMode.OwnerDrawFixed;
             tischauswahl.DropDownStyle = ComboBoxStyle.DropDownList;
             tischauswahl.DrawItem += comboBox1_DrawItem;
-
+            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
 
             LadeTische();
 
 
-            
+
             string query = "SELECT speise_id, speisename, preis FROM speisen WHERE aktiv = 1";
 
             MySqlConnection conn = Database.GetConnection();
@@ -97,7 +104,7 @@ namespace Pizzeria_Projekt_Schule
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            
+
 
             WarenkorbAdd(dataGridView1.CurrentCell.RowIndex);
             WarenkorbAktualisieren();
@@ -139,19 +146,21 @@ namespace Pizzeria_Projekt_Schule
         private int BestellungAnlegen()
         {
             TischItem tisch = (TischItem)tischauswahl.SelectedItem;
-
+            DateTime ausgewaehltesDatum = dateTimePicker1.Value.Date;
             string query = @"
-    INSERT INTO bestellungen (datum, tisch_id_fk, personalnr_fk, status)
-    VALUES (NOW(), @tisch, @mitarbeiter, 'offen');
+INSERT INTO bestellungen (datum, tisch_id_fk, personalnr_fk, status, slot)
+VALUES (@datum, @tisch, @mitarbeiter, 'offen', @slot);
 
-    SELECT LAST_INSERT_ID();
-    ";
+SELECT LAST_INSERT_ID();
+";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
             {
+                cmd.Parameters.AddWithValue("@datum", ausgewaehltesDatum);
                 cmd.Parameters.AddWithValue("@tisch", tisch.TischId);
                 cmd.Parameters.AddWithValue("@mitarbeiter", comboBox2.SelectedValue);
+                cmd.Parameters.AddWithValue("@slot", HoleSlot());
 
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
@@ -245,7 +254,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         private void WarenkorbAdd(int quelle)
-           
+
         {
             if (quelle < 0) return;
             DataGridViewRow row = dataGridView1.Rows[quelle];
@@ -268,30 +277,9 @@ namespace Pizzeria_Projekt_Schule
         }
 
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void combobox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox2.SelectedValue == null)
-                return;
-
-            int personalNr = Convert.ToInt32(comboBox2.SelectedValue);
-
-            string query = "SELECT bereich FROM mitarbeiter WHERE personalnr = @pnr";
-
-            using (var conn = Database.GetConnection())
-            using (var cmd = new MySqlCommand(query, conn))
-            {
-                cmd.Parameters.AddWithValue("@pnr", personalNr);
-
-                object result = cmd.ExecuteScalar();
-
-                if (result != null)
-                {
-                    string bereich = result.ToString();
-
-                    // 🔥 Nur Tische dieses Bereichs laden
-                    LadeTische(bereich);
-                }
-            }
+            AktualisiereTische();
         }
 
 
@@ -321,9 +309,10 @@ namespace Pizzeria_Projekt_Schule
             //   System.Globalization.CultureInfo.GetCultureInfo("de-DE"); 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        
+      private void combobox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            AktualisiereTische();
         }
         private void LadeTische()
         {
@@ -346,20 +335,47 @@ namespace Pizzeria_Projekt_Schule
                 }
             }
         }
+
         private void LadeTische(string bereich)
         {
             tischauswahl.Items.Clear();
 
+            DateTime datum = dateTimePicker1.Value.Date;
+
             string query = @"
-        SELECT tisch_id, lage, bereich
-        FROM tische
-        WHERE aktiv = true
-        AND bereich = @bereich";
+SELECT t.tisch_id,
+       t.bereich,
+
+CASE
+    WHEN EXISTS (
+        SELECT 1 FROM bestellungen b
+        WHERE b.tisch_id_fk = t.tisch_id
+        AND DATE(b.datum) = @datum
+        AND b.status = 'offen'
+        AND b.slot = @slot
+    ) THEN 'Besetzt'
+
+    WHEN EXISTS (
+        SELECT 1 FROM reservierungen r
+        WHERE r.tisch_id_fk = t.tisch_id
+        AND DATE(r.datum) = @datum
+        AND r.slot = @slot
+        AND r.zustand = 'offen'
+    ) THEN 'Reserviert'
+
+    ELSE 'Frei'
+END AS status
+
+FROM tische t
+WHERE t.aktiv = true
+AND t.bereich = @bereich";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@bereich", bereich);
+                cmd.Parameters.AddWithValue("@datum", datum);
+                cmd.Parameters.AddWithValue("@slot", HoleSlot());
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -368,13 +384,66 @@ namespace Pizzeria_Projekt_Schule
                         tischauswahl.Items.Add(new TischItem
                         {
                             TischId = reader.GetInt32("tisch_id"),
-                            Status = reader.GetString("lage"),
+                            Status = reader.GetString("status"),
                             Bereich = reader.GetString("bereich")
                         });
                     }
                 }
             }
         }
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            AktualisiereTische();
+        }
+        private int HoleSlot()
+        {
+            switch (comboBox1.SelectedItem?.ToString())
+            {
+                case "12-15": return 1;
+                case "15-18": return 2;
+                case "18-21": return 3;
+                case "21-24": return 4;
+                default: return 0;
+            }
+
+
+
+        }
+        private void AktualisiereTische()
+        {
+            if (comboBox2.SelectedValue == null)
+            {
+                tischauswahl.Items.Clear();
+                return;
+            }
+
+            if (HoleSlot() == 0)
+            {
+                tischauswahl.Items.Clear();
+                return;
+            }
+
+            int personalNr = Convert.ToInt32(comboBox2.SelectedValue);
+
+            string query = "SELECT bereich FROM mitarbeiter WHERE personalnr = @pnr";
+
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@pnr", personalNr);
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
+                {
+                    string bereich = result.ToString();
+                    LadeTische(bereich);
+                }
+            }
+        }
+
+
+
+
 
 
 
@@ -451,27 +520,57 @@ namespace Pizzeria_Projekt_Schule
 
                     // 2️⃣ Reservierung auf AKTIV setzen
                     string updateReservierung = @"
-            UPDATE reservierungen
-            SET zustand = 'aktiv'
-            WHERE tisch_id_fk = @tid
-            AND DATE(datum) = CURDATE()
-            AND zustand = 'offen'";
+UPDATE reservierungen
+SET zustand = 'aktiv'
+WHERE tisch_id_fk = @tid
+AND DATE(datum) = @datum
+AND slot = @slot
+AND zustand = 'offen'";
 
                     using (var cmd2 = new MySqlCommand(updateReservierung, conn))
                     {
                         cmd2.Parameters.AddWithValue("@tid", tisch.TischId);
-                        cmd2.ExecuteNonQuery();
+                        cmd2.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
+                        cmd2.Parameters.AddWithValue("@slot", HoleSlot());
+
+
                     }
                 }
-
-                tisch.Status = "Besetzt";
-                LadeTische();
-
-                MessageBox.Show("Reservierung wurde aktiviert und Tisch ist jetzt besetzt.");
             }
+        }
 
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
+
+        private void combobox1SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox2.SelectedValue == null)
+                return;
+
+            if (HoleSlot() == 0)
+                return;
+
+            int personalNr = Convert.ToInt32(comboBox2.SelectedValue);
+
+            string query = "SELECT bereich FROM mitarbeiter WHERE personalnr = @pnr";
+
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@pnr", personalNr);
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
+                {
+                    string bereich = result.ToString();
+                    LadeTische(bereich);
+                }
+            }
+        }
+
+        
     }
 }
 

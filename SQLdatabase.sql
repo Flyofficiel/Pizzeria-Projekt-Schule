@@ -96,6 +96,7 @@ ALTER TABLE bestellungen
 MODIFY datum DATETIME DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE bestellungen 
 MODIFY status ENUM('offen','bezahlt','storniert') DEFAULT 'offen';
+ALTER TABLE bestellungen ADD slot INT;
 
 
 
@@ -134,8 +135,11 @@ create table reservierungen(
     
     unique(tisch_id_fk,datum,slot)
 );
+
+
 ALTER TABLE reservierungen
 MODIFY zustand ENUM('offen','abgeschlossen','storniert');
+
 
 
 CREATE TABLE rechnungen(
@@ -269,6 +273,7 @@ insert into bestellungen(datum, tisch_id_fk, personalnr_fk, status) values
 
 
 
+
 -- berechnungen
 
 -- Umsatz berechnen
@@ -372,3 +377,6 @@ SELECT * FROM bestellungen;
 SELECT bestellnr, status FROM bestellungen;
 
 SELECT bestellnr, datum FROM bestellungen;
+INSERT INTO bestellungen (datum, tisch_id_fk, personalnr_fk, status, slot)
+VALUES (@datum, @tisch, @mitarbeiter, 'offen', @slot);
+DESCRIBE reservierungen;

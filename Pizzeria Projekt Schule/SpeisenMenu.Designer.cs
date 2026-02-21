@@ -106,9 +106,9 @@
             this.label3.ForeColor = System.Drawing.SystemColors.Control;
             this.label3.Location = new System.Drawing.Point(143, 13);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 24);
+            this.label3.Size = new System.Drawing.Size(84, 24);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Speiße";
+            this.label3.Text = "Speisse";
             // 
             // label2
             // 
@@ -200,6 +200,7 @@
             this.checkBox1.TabIndex = 10;
             this.checkBox1.Text = "Nur aktive Speissen ";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // SpeisenMenu
             // 

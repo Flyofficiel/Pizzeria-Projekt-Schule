@@ -162,3 +162,45 @@ G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Pr
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Zahlungsseite.resources
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginpizzeriavesus.resources
 G:\Gitfork\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.SpeisenMenu.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.exe.config
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.exe
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Pizzeria Projekt Schule.pdb
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\MySqlConnector.dll
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Buffers.dll
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Memory.dll
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\MySqlConnector.xml
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Buffers.xml
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Memory.xml
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.AssemblyReference.cache
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.speiupd.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Umsatzauswertung.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Bestellungsseite.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Rechnungsuebersicht.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Speisehinzufügen.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.mitarbeiterverwaltung0.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.tischauswahl.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Reservierungsseite.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Zahlungsseite.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Hauptmenu.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Loginpizzeriavesus.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Properties.Resources.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.SpeisenMenu.resources
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.GenerateResource.cache
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.csproj.CoreCompileInputs.cache
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria.18FF98C5.Up2Date
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.exe
+C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria Projekt Schule.pdb

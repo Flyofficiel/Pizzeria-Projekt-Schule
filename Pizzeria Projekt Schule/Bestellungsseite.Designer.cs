@@ -45,6 +45,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -74,7 +76,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(100, 149);
+            this.label1.Location = new System.Drawing.Point(10, 151);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(45, 15);
             this.label1.TabIndex = 1;
@@ -84,7 +86,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(390, 149);
+            this.label2.Location = new System.Drawing.Point(405, 149);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 15);
             this.label2.TabIndex = 2;
@@ -96,32 +98,32 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 3;
+            
             // 
             // tischauswahl
             // 
             this.tischauswahl.FormattingEnabled = true;
-            this.tischauswahl.Location = new System.Drawing.Point(181, 146);
+            this.tischauswahl.Location = new System.Drawing.Point(61, 151);
             this.tischauswahl.Name = "tischauswahl";
-            this.tischauswahl.Size = new System.Drawing.Size(121, 21);
+            this.tischauswahl.Size = new System.Drawing.Size(172, 21);
             this.tischauswahl.TabIndex = 4;
             this.tischauswahl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBox1_DrawItem);
-            this.tischauswahl.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             this.tischauswahl.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
             // 
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(477, 146);
+            this.comboBox2.Location = new System.Drawing.Point(492, 148);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(181, 21);
+            this.comboBox2.Size = new System.Drawing.Size(140, 21);
             this.comboBox2.TabIndex = 5;
             this.comboBox2.DropDown += new System.EventHandler(this.comboBox2_DropDown);
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.combobox2_SelectedIndexChanged);
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(75, 217);
+            this.dataGridView1.Location = new System.Drawing.Point(26, 203);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(384, 441);
             this.dataGridView1.TabIndex = 6;
@@ -150,6 +152,7 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(336, 214);
             this.listBox1.TabIndex = 8;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // button5
             // 
@@ -228,17 +231,38 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(100, 198);
+            this.label5.Location = new System.Drawing.Point(36, 185);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(74, 15);
             this.label5.TabIndex = 8;
             this.label5.Text = "Artikelliste";
             // 
-            // Bestellungspagerichtig
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(278, 151);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(67, 21);
+            this.comboBox1.TabIndex = 9;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.combobox1SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(239, 154);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(33, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Slot:";
+            // 
+            // Bestellungsseite
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(985, 731);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView1);
@@ -250,7 +274,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
-            this.Name = "Bestellungspagerichtig";
+            this.Name = "Bestellungsseite";
             this.Text = "Bestellen";
             this.Load += new System.EventHandler(this.Bestellungspagerichtig_Load);
             this.panel1.ResumeLayout(false);
@@ -282,5 +306,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label6;
     }
 }

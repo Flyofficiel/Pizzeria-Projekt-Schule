@@ -64,28 +64,15 @@
                     freiCmd.ExecuteNonQuery();
                 }
 
-                // 🔥 4️⃣ Reservierung auf ERLEDIGT setzen (NEU!)
-                string updateReservierung = @"
-        UPDATE reservierungen
-        SET zustand = 'erledigt'
-        WHERE tisch_id_fk = (
-            SELECT tisch_id_fk FROM bestellungen WHERE bestellnr = @bnr
-        )
-        AND DATE(datum) = CURDATE()
-        AND zustand = 'aktiv'";
+               
 
-                using (var resCmd = new MySqlCommand(updateReservierung, conn))
-                {
-                    resCmd.Parameters.AddWithValue("@bnr", bestellNr);
-                    resCmd.ExecuteNonQuery();
-                }
+
+                MessageBox.Show("Bezahlung abgeschlossen ✅");
+
+                Hauptmenu mainmenupage = new Hauptmenu();
+                mainmenupage.Show();
+                this.Close();
             }
-
-            MessageBox.Show("Bezahlung abgeschlossen ✅");
-
-            Hauptmenu mainmenupage = new Hauptmenu();
-            mainmenupage.Show();
-            this.Close();
         }
 
         private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)        {        }        private void Zahlung_Load(object sender, EventArgs e)        {
@@ -177,7 +164,7 @@
             textBox2.Text = summe.ToString("0.00");
             textBox3.Text = summe.ToString("0.00");
         }
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)        {            BestellungenLaden();        }        private void DateTimePicker1_ValueChanged(object sender, EventArgs e)        {            BestellungenLaden();        }        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)        {            BestellungenLaden();        }        private void button2_Click(object sender, EventArgs e)        {            Hauptmenu mainmenupage = new Hauptmenu();            mainmenupage.Show();            this.Close();        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)        {            BestellungenLaden();        }        private void DateTimePicker1_ValueChanged(object sender, EventArgs e)        {            BestellungenLaden();        }        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)        {            BestellungenLaden();        }        private void button2_Click(object sender, EventArgs e)        {            Hauptmenu mainmenupage = new Hauptmenu();            mainmenupage.Show();            this.Close();        }
 
         private void TextBox1_TextChanged(object sender, EventArgs e)
         {
@@ -210,6 +197,10 @@
             }
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

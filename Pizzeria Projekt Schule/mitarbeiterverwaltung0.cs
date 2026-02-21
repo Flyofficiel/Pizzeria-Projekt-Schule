@@ -40,26 +40,19 @@ namespace Pizzeria_Projekt_Schule
 
 
 
-        private void dataGridView1_SelectionChanged_1(object sender, EventArgs e)
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
-            // Prüfen, ob überhaupt eine Zeile ausgewählt ist
             if (dataGridView1.CurrentRow == null)
                 return;
 
-            DataGridViewRow row = dataGridView1.CurrentRow;
+            var row = dataGridView1.CurrentRow;
 
-            textBox2.Text = row.Cells["vorname"].Value + " " + row.Cells["nachname"].Value;
+            textBox2.Text = row.Cells["vorname"].Value?.ToString();
+            textBox4.Text = row.Cells["nachname"].Value?.ToString();
+            comboBox2.Text = row.Cells["rolle"].Value?.ToString();
             comboBox1.Text = row.Cells["bereich"].Value?.ToString();
-            if (dataGridView1.Columns.Contains("passwort"))
-            {
-                textBox3.Text = row.Cells["passwort"].Value?.ToString();
-            }
-            else
-            {
-                textBox3.Text = "";
-            }
-
         }
+
 
         private void MitarbeiterLoeschen()
         {
@@ -117,14 +110,12 @@ namespace Pizzeria_Projekt_Schule
 
             string query = @"
     UPDATE mitarbeiter
-    SET 
-        vorname = @vorname,
+    SET vorname = @vorname,
         nachname = @nachname,
         bereich = @bereich,
         passwort = @passwort,
         rolle = @rolle
-    WHERE personalnr = @personalnr
-    ";
+    WHERE personalnr = @personalnr";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
@@ -134,30 +125,49 @@ namespace Pizzeria_Projekt_Schule
                 cmd.Parameters.AddWithValue("@bereich", comboBox1.Text);
                 cmd.Parameters.AddWithValue("@passwort", textBox3.Text);
                 cmd.Parameters.AddWithValue("@rolle", comboBox2.Text);
-
                 cmd.Parameters.AddWithValue("@personalnr",
                     dataGridView1.CurrentRow.Cells["personalnr"].Value);
 
                 cmd.ExecuteNonQuery();
             }
 
-            MessageBox.Show("Mitarbeiter gespeichert ✔");
+            MessageBox.Show("Mitarbeiter aktualisiert ✔");
             MitarbeiterLaden();
         }
 
+
         private void MitarbeiterLaden()
         {
-           
-            string query = "SELECT personalnr, vorname, nachname, bereich, passwort FROM mitarbeiter WHERE aktiv = 1";
+            string query = @"
+    SELECT 
+        m.personalnr,
+        m.vorname,
+        m.nachname,
+        m.rolle,
+        m.bereich,
+        COUNT(DISTINCT b.tisch_id_fk) AS Aktive_Tische,
+        COUNT(b.bestellnr) AS Offene_Bestellungen
+    FROM mitarbeiter m
+    LEFT JOIN bestellungen b 
+        ON m.personalnr = b.personalnr_fk
+        AND b.status = 'offen'
+    WHERE m.aktiv = 1
+    GROUP BY m.personalnr";
 
-            MySqlConnection conn = Database.GetConnection();
+            using (var conn = Database.GetConnection())
+            using (var da = new MySqlDataAdapter(query, conn))
             {
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                 DataTable table = new DataTable();
-                adapter.Fill(table);
+                da.Fill(table);
                 dataGridView1.DataSource = table;
+
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView1.ReadOnly = true;
             }
         }
+
+
+
         private void FelderLeeren()
         {
             textBox2.Clear();
@@ -169,9 +179,10 @@ namespace Pizzeria_Projekt_Schule
 
         private void MitarbeiterHinzufuegen()
         {
-            if (comboBox1.SelectedItem == null || comboBox2.SelectedItem == null)
+            if (string.IsNullOrWhiteSpace(textBox2.Text) ||
+                string.IsNullOrWhiteSpace(textBox4.Text))
             {
-                MessageBox.Show("Bitte Bereich und Rolle auswählen!");
+                MessageBox.Show("Name darf nicht leer sein!");
                 return;
             }
 
@@ -179,8 +190,7 @@ namespace Pizzeria_Projekt_Schule
     INSERT INTO mitarbeiter
     (vorname, nachname, bereich, passwort, rolle, aktiv)
     VALUES
-    (@vorname, @nachname, @bereich, @passwort, @rolle, 1)
-    ";
+    (@vorname, @nachname, @bereich, @passwort, @rolle, 1)";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
@@ -195,10 +205,10 @@ namespace Pizzeria_Projekt_Schule
             }
 
             MessageBox.Show("Mitarbeiter hinzugefügt ✔");
-
             MitarbeiterLaden();
-            FelderLeeren();
         }
+        
+
 
 
 
@@ -225,22 +235,25 @@ namespace Pizzeria_Projekt_Schule
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox2.SelectedItem == "service")
+            string rolle = comboBox2.SelectedItem?.ToString();
+
+            comboBox1.Items.Clear();
+
+            if (rolle == "service")
             {
-                comboBox1.Items.Clear();
                 comboBox1.Items.Add("Innen hinten");
                 comboBox1.Items.Add("Terrasse");
                 comboBox1.Items.Add("Terrasse groß");
                 comboBox1.Items.Add("VIP / Gruppen");
             }
-            else
+            else if (rolle != null)
             {
-                comboBox1.Items.Clear();
                 comboBox1.Items.Add("Küche");
                 comboBox1.Items.Add("Kasse");
                 comboBox1.Items.Add("EDV");
                 comboBox1.Items.Add("Management");
             }
+
 
 
         }

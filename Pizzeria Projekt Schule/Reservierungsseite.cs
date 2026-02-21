@@ -37,7 +37,9 @@ namespace Pizzeria_Projekt_Schule
                 return;
 
             string sql = @"
-    SELECT t.tisch_id, t.max_personen
+    SELECT t.tisch_id,
+           t.bereich,
+           t.max_personen
     FROM tische t
     WHERE t.aktiv = true
     AND t.max_personen >= @personen
@@ -61,9 +63,32 @@ namespace Pizzeria_Projekt_Schule
                 DataTable dt = new DataTable();
                 new MySqlDataAdapter(cmd).Fill(dt);
 
-                comboBox2.DisplayMember = "tisch_id";
-                comboBox2.ValueMember = "tisch_id";
-                comboBox2.DataSource = dt;
+                comboBox2.DataSource = null;
+
+                if (dt.Rows.Count > 0)
+                {
+                    comboBox2.DisplayMember = "Anzeige";
+                    comboBox2.ValueMember = "tisch_id";
+
+                    // 🔥 Anzeige schöner formatieren
+                    dt.Columns.Add("Anzeige", typeof(string));
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        row["Anzeige"] =
+                            "Tisch " + row["tisch_id"] +
+                            " - " + row["bereich"] +
+                            " (" + row["max_personen"] + " Pers.)";
+                    }
+
+                    comboBox2.DataSource = dt;
+                    comboBox2.SelectedIndex = 0; // automatisch erster Tisch
+                }
+                else
+                {
+                    comboBox2.Items.Clear();
+                    MessageBox.Show("Kein passender Tisch verfügbar ❌");
+                }
             }
         }
 
@@ -261,10 +286,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void textBox2_KeyPress_1(object sender, KeyPressEventArgs e)
-        {
-
-        }
+        
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&

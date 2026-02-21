@@ -14,7 +14,7 @@ namespace Pizzeria_Projekt_Schule
 
         public override string ToString()
         {
-            return $"Tisch {TischId} ({Status})";
+            return $"Tisch {TischId} - {Bereich} ({Status})";
         }
     }
 }
