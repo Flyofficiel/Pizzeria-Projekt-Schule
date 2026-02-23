@@ -107,9 +107,9 @@
             this.tischauswahl.Name = "tischauswahl";
             this.tischauswahl.Size = new System.Drawing.Size(172, 21);
             this.tischauswahl.TabIndex = 4;
-            this.tischauswahl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBox1_DrawItem);
-            this.tischauswahl.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
-            // 
+           
+            this.tischauswahl.SelectedIndexChanged += new System.EventHandler(this.tischauswahl_SelectedIndexChanged);
+            
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
@@ -117,7 +117,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(140, 21);
             this.comboBox2.TabIndex = 5;
-            this.comboBox2.DropDown += new System.EventHandler(this.comboBox2_DropDown);
+           
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.combobox2_SelectedIndexChanged);
             // 
             // dataGridView1
@@ -244,7 +244,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(67, 21);
             this.comboBox1.TabIndex = 9;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.combobox1SelectedIndexChanged);
+           
             // 
             // label6
             // 

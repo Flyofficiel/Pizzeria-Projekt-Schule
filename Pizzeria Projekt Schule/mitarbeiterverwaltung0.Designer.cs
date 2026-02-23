@@ -1,6 +1,6 @@
 ﻿namespace Pizzeria_Projekt_Schule
 {
-    partial class mitarbeiterverwaltung0
+    partial class Mitarbeiterverwaltung0
     {
         /// <summary>
         /// Required designer variable.
