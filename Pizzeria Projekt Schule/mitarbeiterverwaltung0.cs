@@ -12,9 +12,9 @@ using System.Xml.Linq;
 
 namespace Pizzeria_Projekt_Schule
 {
-    public partial class mitarbeiterverwaltung0 : Form
+    public partial class Mitarbeiterverwaltung0 : Form
     {
-        public mitarbeiterverwaltung0()
+        public Mitarbeiterverwaltung0()
         {
             InitializeComponent();
         }

@@ -1,4 +1,10 @@
-﻿using MySqlConnector;using System;using System.Collections.Generic;using System.ComponentModel;using System.Data;using System.Drawing;using System.Linq;using System.Text;using System.Threading.Tasks;using System.Windows.Forms;namespace Pizzeria_Projekt_Schule{    public partial class Zahlungsseite : Form    {        int bestellNr;        public Zahlungsseite(int bestellnummer)        {            InitializeComponent();            bestellNr = bestellnummer;        }        double LadeSumme()        {            string sql = @"        SELECT SUM(menge * preis_beim_kauf)        FROM bestellposition        WHERE bestellnr_fk = @bnr";            using (var conn = Database.GetConnection())            using (var cmd = new MySqlCommand(sql, conn))            {                cmd.Parameters.AddWithValue("@bnr", bestellNr);                object result = cmd.ExecuteScalar();                return result == DBNull.Value ? 0 : Convert.ToDouble(result);            }        }
+﻿using MySqlConnector;using System;using System.Collections.Generic;using System.ComponentModel;using System.Data;using System.Drawing;using System.Linq;using System.Text;using System.Threading.Tasks;using System.Windows.Forms;namespace Pizzeria_Projekt_Schule{    public partial class Zahlungsseite : Form    {        int bestellNr;
+       
+
+        public Zahlungsseite()
+        {
+            InitializeComponent();
+        }        double LadeSumme()        {            string sql = @"        SELECT SUM(menge * preis_beim_kauf)        FROM bestellposition        WHERE bestellnr_fk = @bnr";            using (var conn = Database.GetConnection())            using (var cmd = new MySqlCommand(sql, conn))            {                cmd.Parameters.AddWithValue("@bnr", bestellNr);                object result = cmd.ExecuteScalar();                return result == DBNull.Value ? 0 : Convert.ToDouble(result);            }        }
         private void Button1_Click(object sender, EventArgs e)
         {
             if (!radioButton1.Checked && !radioButton2.Checked)
@@ -80,7 +86,10 @@
             TischeLaden();            BestellungenLaden();            double summe = LadeSumme();            textBox2.Text = summe.ToString("0.00");            textBox3.Text = summe.ToString("0.00");        }
         private void TischeLaden()
         {
-            string query = "SELECT tisch_id FROM tische WHERE lage = 'Besetzt'";
+            string query = @"
+    SELECT DISTINCT tisch_id_fk AS tisch_id
+    FROM bestellungen
+    WHERE status = 'offen'";
 
             using (var conn = Database.GetConnection())
             using (var da = new MySqlDataAdapter(query, conn))
@@ -127,7 +136,6 @@
 
             int tischId = Convert.ToInt32(comboBox1.SelectedValue);
 
-            // 🔥 Hier holen wir die offene Bestellung
             bestellNr = HoleOffeneBestellung(tischId);
 
             if (bestellNr == 0)
@@ -135,18 +143,19 @@
                 dataGridView1.DataSource = null;
                 textBox2.Text = "0.00";
                 textBox3.Text = "0.00";
+                MessageBox.Show("Für diesen Tisch existiert keine offene Bestellung.");
                 return;
             }
 
             string query = @"
-        SELECT 
-            s.speisename,
-            bp.menge,
-            bp.preis_beim_kauf,
-            (bp.menge * bp.preis_beim_kauf) AS gesamtpreis
-        FROM bestellposition bp
-        JOIN speisen s ON bp.speise_id_fk = s.speise_id
-        WHERE bp.bestellnr_fk = @bnr;";
+    SELECT 
+        s.speisename AS Speise,
+        bp.menge AS Menge,
+        bp.preis_beim_kauf AS Einzelpreis,
+        (bp.menge * bp.preis_beim_kauf) AS Gesamt
+    FROM bestellposition bp
+    JOIN speisen s ON bp.speise_id_fk = s.speise_id
+    WHERE bp.bestellnr_fk = @bnr;";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
@@ -158,6 +167,10 @@
                 adapter.Fill(table);
 
                 dataGridView1.DataSource = table;
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView1.Columns["Einzelpreis"].DefaultCellStyle.Format = "C2";
+                dataGridView1.Columns["Gesamt"].DefaultCellStyle.Format = "C2";
+
             }
 
             double summe = LadeSumme();

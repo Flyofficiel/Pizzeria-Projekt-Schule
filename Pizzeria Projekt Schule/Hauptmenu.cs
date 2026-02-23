@@ -50,6 +50,7 @@ namespace Pizzeria_Projekt_Schule
         // Öffnet die Reservierungsseite
         private void button3_Click(object sender, EventArgs e)
         {
+            
             Reservierungsseite reservierungpage = new Reservierungsseite();
             reservierungpage.Show();
             this.Close();
@@ -67,7 +68,7 @@ namespace Pizzeria_Projekt_Schule
         private void button5_Click(object sender, EventArgs e)
         {
             int bestellnr = 0; // wird später mit echter Bestellnummer gefüllt
-            Zahlungsseite zahlungsartpage = new Zahlungsseite(bestellnr);
+            Zahlungsseite zahlungsartpage = new Zahlungsseite();
             zahlungsartpage.Show();
             this.Close();
         }
@@ -91,7 +92,7 @@ namespace Pizzeria_Projekt_Schule
         // Öffnet die Mitarbeiterverwaltung
         private void button6_Click(object sender, EventArgs e)
         {
-            mitarbeiterverwaltung0 mitarbeiterverwaltungrichtigpage = new mitarbeiterverwaltung0();
+            Mitarbeiterverwaltung0 mitarbeiterverwaltungrichtigpage = new Mitarbeiterverwaltung0();
             mitarbeiterverwaltungrichtigpage.Show();
             this.Hide();
         }
@@ -102,27 +103,35 @@ namespace Pizzeria_Projekt_Schule
         // und zeigt sie im DataGridView an.
         private void LadeReservierungen()
         {
-            string query = @"
-    SELECT 
-        r.reservierungs_id,
-        r.tisch_id_fk AS Tisch,
-        DATE(r.datum) AS Datum,
-        r.slot AS Slot,
-        r.personenanzahl AS Personen,
-        CONCAT(g.gastvorname,' ',g.gastnachname) AS Gast,
-        g.telephonenr AS Telefon
-    FROM reservierungen r
-    JOIN gast g ON r.gastid_fk = g.gastid
-    WHERE r.zustand = 'offen'
-    AND DATE(r.datum) = CURDATE()
-    AND NOT EXISTS (
-        SELECT 1
-        FROM bestellungen b
-        WHERE b.tisch_id_fk = r.tisch_id_fk
-        AND DATE(b.datum) = DATE(r.datum)
-        AND b.status = 'bezahlt'
-    )
-    ORDER BY r.slot ASC";
+           string query = @"
+SELECT 
+    r.reservierungs_id,
+    r.tisch_id_fk AS Tisch,
+    DATE(r.datum) AS Datum,
+
+    CASE r.slot
+        WHEN 1 THEN '12:00 - 15:00'
+        WHEN 2 THEN '15:00 - 18:00'
+        WHEN 3 THEN '18:00 - 21:00'
+        WHEN 4 THEN '21:00 - 24:00'
+    END AS Slot,
+
+    r.personenanzahl AS Personen,
+    CONCAT(g.gastvorname,' ',g.gastnachname) AS Gast,
+    g.telephonenr AS Telefon
+
+FROM reservierungen r
+JOIN gast g ON r.gastid_fk = g.gastid
+WHERE r.zustand = 'offen'
+AND DATE(r.datum) = CURDATE()
+AND NOT EXISTS (
+    SELECT 1
+    FROM bestellungen b
+    WHERE b.tisch_id_fk = r.tisch_id_fk
+    AND DATE(b.datum) = DATE(r.datum)
+    AND b.status = 'bezahlt'
+)
+ORDER BY r.slot ASC";
 
             // Verbindung zur Datenbank herstellen
             using (var conn = Database.GetConnection())
