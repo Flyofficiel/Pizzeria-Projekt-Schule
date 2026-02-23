@@ -21,6 +21,8 @@ telephonenr varchar(20),
 aktiv boolean default true
 
 );
+INSERT INTO gast (gastvorname, gastnachname, telephonenr, aktiv)
+VALUES ('Laufkunde', 'Ohne Registrierung', NULL, true);
 
 create table mitarbeiter(
 personalnr int not null primary key,
@@ -56,6 +58,17 @@ MODIFY bereich ENUM(
 );
 ALTER TABLE mitarbeiter 
 MODIFY personalnr INT AUTO_INCREMENT;
+ALTER TABLE mitarbeiter 
+MODIFY bereich ENUM(
+'Tische 1-10',
+'Tische 11-20',
+'Tische 21-30',
+'Tische 31-40',
+'Küche',
+'Kasse',
+'Management',
+'EDV'
+);
 
 
 
@@ -66,14 +79,15 @@ CREATE TABLE tische (
     max_personen INT,
     aktiv BOOLEAN DEFAULT true,
     bereich ENUM(
-        'Innen vorne',
-        'Innen hinten',
-        'Terrasse',
-        'Terrasse groß',
-        'VIP / Gruppen'
+        'Tische 1-10',
+        'Tische 11-20',
+        'Tische 21-30',
+        'Tische 31-40'
     ),
     lage VARCHAR(50) DEFAULT 'Frei'
 );
+
+
 
 
 
@@ -91,17 +105,15 @@ CREATE TABLE bestellungen (
     foreign key(personalnr_fk) references mitarbeiter (personalnr),
     foreign key(tisch_id_fk) references tische(tisch_id),
     foreign key(gast_id_fk) references gast(gastid)
-    
 );
-ALTER table bestellungen ADD slot int;
+ALTER TABLE bestellungen
+MODIFY gast_id_fk INT NOT NULL;
 ALTER TABLE bestellungen
 MODIFY datum DATETIME DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE bestellungen 
 MODIFY status ENUM('offen','bezahlt','storniert') DEFAULT 'offen';
-ALTER TABLE bestellungen ADD slot INT;
 
-
-
+ALTER table bestellungen ADD slot int;
 
 CREATE TABLE bestellposition (
     positionid INT AUTO_INCREMENT PRIMARY KEY,
@@ -137,11 +149,8 @@ create table reservierungen(
     
     unique(tisch_id_fk,datum,slot)
 );
-
-
-ALTER TABLE reservierungen
-MODIFY zustand ENUM('offen','abgeschlossen','storniert');
-
+ALTER TABLE reservierungen 
+MODIFY zustand ENUM('offen','abgeschlossen','storniert','aktiv');
 
 
 CREATE TABLE rechnungen(
@@ -157,60 +166,53 @@ trinkgeld DECIMAL(10,2),
 );
 INSERT INTO tische (tisch_id, max_personen, aktiv, bereich, lage) VALUES
 
+-- 1-10
+(1,2,true,'Tische 1-10','Frei'),
+(2,2,true,'Tische 1-10','Frei'),
+(3,2,true,'Tische 1-10','Frei'),
+(4,2,true,'Tische 1-10','Frei'),
+(5,2,true,'Tische 1-10','Frei'),
+(6,2,true,'Tische 1-10','Frei'),
+(7,2,true,'Tische 1-10','Frei'),
+(8,2,true,'Tische 1-10','Frei'),
+(9,2,true,'Tische 1-10','Frei'),
+(10,2,true,'Tische 1-10','Frei'),
 
+-- 11-20
+(11,4,true,'Tische 11-20','Frei'),
+(12,4,true,'Tische 11-20','Frei'),
+(13,4,true,'Tische 11-20','Frei'),
+(14,4,true,'Tische 11-20','Frei'),
+(15,4,true,'Tische 11-20','Frei'),
+(16,4,true,'Tische 11-20','Frei'),
+(17,4,true,'Tische 11-20','Frei'),
+(18,4,true,'Tische 11-20','Frei'),
+(19,4,true,'Tische 11-20','Frei'),
+(20,4,true,'Tische 11-20','Frei'),
 
+-- 21-30
+(21,6,true,'Tische 21-30','Frei'),
+(22,6,true,'Tische 21-30','Frei'),
+(23,6,true,'Tische 21-30','Frei'),
+(24,6,true,'Tische 21-30','Frei'),
+(25,6,true,'Tische 21-30','Frei'),
+(26,6,true,'Tische 21-30','Frei'),
+(27,6,true,'Tische 21-30','Frei'),
+(28,6,true,'Tische 21-30','Frei'),
+(29,6,true,'Tische 21-30','Frei'),
+(30,6,true,'Tische 21-30','Frei'),
 
-
-
--- 🔹 2er Tische (Innen vorne)
-(1,2,true,'Innen vorne','Frei'),
-(2,2,true,'Innen vorne','Frei'),
-(3,2,true,'Innen vorne','Frei'),
-(4,2,true,'Innen vorne','Frei'),
-(5,2,true,'Innen vorne','Frei'),
-(6,2,true,'Innen vorne','Frei'),
-(7,2,true,'Innen vorne','Frei'),
-(8,2,true,'Innen vorne','Frei'),
-(9,2,true,'Innen vorne','Frei'),
-(10,2,true,'Innen vorne','Frei'),
-
--- 🔹 4er Tische (Innen hinten)
-(11,4,true,'Innen hinten','Frei'),
-(12,4,true,'Innen hinten','Frei'),
-(13,4,true,'Innen hinten','Frei'),
-(14,4,true,'Innen hinten','Frei'),
-(15,4,true,'Innen hinten','Frei'),
-(16,4,true,'Innen hinten','Frei'),
-(17,4,true,'Innen hinten','Frei'),
-(18,4,true,'Innen hinten','Frei'),
-(19,4,true,'Innen hinten','Frei'),
-(20,4,true,'Innen hinten','Frei'),
-
--- 🔹 6er Tische (Terrasse)
-(21,6,true,'Terrasse','Frei'),
-(22,6,true,'Terrasse','Frei'),
-(23,6,true,'Terrasse','Frei'),
-(24,6,true,'Terrasse','Frei'),
-(25,6,true,'Terrasse','Frei'),
-(26,6,true,'Terrasse','Frei'),
-(27,6,true,'Terrasse','Frei'),
-(28,6,true,'Terrasse','Frei'),
-(29,6,true,'Terrasse','Frei'),
-(30,6,true,'Terrasse','Frei'),
-
--- 🔹 8er Tische (Terrasse groß)
-(31,8,true,'Terrasse groß','Frei'),
-(32,8,true,'Terrasse groß','Frei'),
-(33,8,true,'Terrasse groß','Frei'),
-(34,8,true,'Terrasse groß','Frei'),
-(35,8,true,'Terrasse groß','Frei'),
-
--- 🔹 10er Tische (VIP / Gruppen)
-(36,10,true,'VIP / Gruppen','Frei'),
-(37,10,true,'VIP / Gruppen','Frei'),
-(38,10,true,'VIP / Gruppen','Frei'),
-(39,10,true,'VIP / Gruppen','Frei'),
-(40,10,true,'VIP / Gruppen','Frei');
+-- 31-40
+(31,8,true,'Tische 31-40','Frei'),
+(32,8,true,'Tische 31-40','Frei'),
+(33,8,true,'Tische 31-40','Frei'),
+(34,8,true,'Tische 31-40','Frei'),
+(35,8,true,'Tische 31-40','Frei'),
+(36,10,true,'Tische 31-40','Frei'),
+(37,10,true,'Tische 31-40','Frei'),
+(38,10,true,'Tische 31-40','Frei'),
+(39,10,true,'Tische 31-40','Frei'),
+(40,10,true,'Tische 31-40','Frei');
 
 
 
@@ -253,23 +255,22 @@ INSERT INTO speisen (speisename,speisentyp, preis, zutaten,aktiv) VALUES
 -- Mitarbeiter inserts
 
 INSERT INTO mitarbeiter (vorname,nachname, bereich, passwort,rolle, aktiv) VALUES
-( 'Luigi',' Rossi', 'Management','fdgfgdjsdhf','management',true),
 
-( 'Marco',' Habibi', 'Innen vorne','jsdhf','service',true),
-( 'Luca',' Romano', 'Innen hinten','ösldkfsk','service',true),
-( 'Elena',' Ferrari', 'Terrasse','poigvjk','service',true),
+('Luigi','Rossi','Management','fdgfgdjsdhf','management',true),
 
-( 'Giulia',' Bianchi', 'Küche','kjdfsnklsf','koch',true),
-( 'Antonio',' Greco', 'Küche','pdfglokjdsp','koch',true),
+('Marco','Habibi','Tische 1-10','jsdhf','service',true),
+('Luca','Romano','Tische 11-20','ösldkfsk','service',true),
+('Elena','Ferrari','Tische 21-30','poigvjk','service',true),
+('Mario','Test','Tische 31-40','test123','service',true),
 
-( 'Sara',' Conti', 'Kasse','lödgkdlöfgv','kasse',true),
+('Giulia','Bianchi','Küche','kjdfsnklsf','koch',true),
+('Antonio','Greco','Küche','pdfglokjdsp','koch',true),
 
-('Lucas',' Huber','EDV','admin1','admin',true),
-('diaa','','EDV','admin2','admin',true),
+('Sara','Conti','Kasse','lödgkdlöfgv','kasse',true),
+
+('Lucas','Huber','EDV','admin1','admin',true),
+('Diaa','','EDV','admin2','admin',true),
 ('Julian','','EDV','admin3','admin',true);
-
-insert into bestellungen(datum, tisch_id_fk, personalnr_fk, status) values
-(now(),11,8,'offen');
 
 
 
@@ -344,23 +345,23 @@ GROUP BY
     
 -- pro gast
 
+
+
 DROP VIEW IF EXISTS UmsatzProGast;
 
 CREATE VIEW UmsatzProGast AS
 SELECT 
     g.gastid,
-    g.gastvorname,
-    g.gastnachname,
+    CONCAT(g.gastvorname, ' ', g.gastnachname) AS gastname,
     SUM(p.menge * p.preis_beim_kauf) AS umsatz
 FROM gast g
 JOIN bestellungen b 
-    ON g.gastid = b.gast_id_fk -- Hier war der Fehler: gast_id_fk statt gastid_fk
+    ON g.gastid = b.gast_id_fk
 JOIN bestellposition p 
     ON b.bestellnr = p.bestellnr_fk
 GROUP BY 
-    g.gastid, 
-    g.gastvorname, 
-    g.gastnachname;
+    g.gastid, gastname
+ORDER BY umsatz DESC;
 
 -- Mysql Workbench ausgabe
 
@@ -378,7 +379,22 @@ SELECT * FROM rechnungen;
 SELECT * FROM bestellungen;
 SELECT bestellnr, status FROM bestellungen;
 
-SELECT bestellnr, datum FROM bestellungen;
-INSERT INTO bestellungen (datum, tisch_id_fk, personalnr_fk, status, slot)
-VALUES (@datum, @tisch, @mitarbeiter, 'offen', @slot);
-DESCRIBE reservierungen;
+UPDATE bestellungen
+SET status = 'bezahlt'
+WHERE bestellnr = @bnr;
+
+
+SELECT * FROM tische WHERE lage = 'Besetzt';
+SELECT personalnr, bereich FROM mitarbeiter WHERE rolle = 'service';
+SELECT DISTINCT bereich FROM tische;
+DESCRIBE tische;
+SELECT personalnr, bereich 
+FROM mitarbeiter 
+WHERE personalnr = 2;
+SELECT tisch_id, bereich
+FROM tische
+WHERE bereich = 'Tische 1-10';
+SELECT * FROM gast;
+SELECT bestellnr, tisch_id_fk, datum, slot, status
+FROM bestellungen
+ORDER BY bestellnr DESC;

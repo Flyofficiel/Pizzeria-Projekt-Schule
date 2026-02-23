@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySqlConnector;
 using Pizzeria_Projekt_Schule;
 
 namespace Pizzeria_Projekt_Schule
@@ -147,5 +148,34 @@ ORDER BY r.slot ASC";
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            int reservierungs_id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["reservierungs_id"].Value);
+            int Tisch = Convert.ToInt32(dataGridView1.CurrentRow.Cells["tisch"].Value);
+            DateTime datum = Convert.ToDateTime(dataGridView1.CurrentRow.Cells["Datum"].Value);
+            string slot = dataGridView1.CurrentRow.Cells["Slot"].Value.ToString();
+            int personen = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Personen"].Value);
+            string gast = dataGridView1.CurrentRow.Cells["Gast"].Value.ToString(); 
+            long telephonenr = Convert.ToInt64(dataGridView1.CurrentRow.Cells["Telefon"].Value);
+            string query = @"
+UPDATE reservierungen
+SET zustand = 'storniert'
+WHERE reservierungs_id = @id
+";
+
+            MySqlConnection conn = Database.GetConnection();
+
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", reservierungs_id);
+                cmd.ExecuteNonQuery();
+            }
+
+            MessageBox.Show("Reservierung wurde storniert ✔");
+            LadeReservierungen(); // deine Reload Methode
+        }
+        
+
     }
 }

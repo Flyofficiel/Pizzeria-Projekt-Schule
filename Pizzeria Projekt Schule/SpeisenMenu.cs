@@ -188,9 +188,10 @@ namespace Pizzeria_Projekt_Schule
             SpeisenLaden(); ;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
+       
 
+        private void button1_Click_1(object sender, EventArgs e)
+        {
             int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["speise_id"].Value);
             string name = dataGridView1.CurrentRow.Cells["speisename"].Value.ToString();
             string typ = dataGridView1.CurrentRow.Cells["speisentyp"].Value.ToString();
