@@ -104,7 +104,7 @@ namespace Pizzeria_Projekt_Schule
         // und zeigt sie im DataGridView an.
         private void LadeReservierungen()
         {
-           string query = @"
+            string query = @"
 SELECT 
     r.reservierungs_id,
     r.tisch_id_fk AS Tisch,
@@ -124,27 +124,18 @@ SELECT
 FROM reservierungen r
 JOIN gast g ON r.gastid_fk = g.gastid
 WHERE r.zustand = 'offen'
-AND DATE(r.datum) = CURDATE()
-AND NOT EXISTS (
-    SELECT 1
-    FROM bestellungen b
-    WHERE b.tisch_id_fk = r.tisch_id_fk
-    AND DATE(b.datum) = DATE(r.datum)
-    AND b.status = 'bezahlt'
-)
+AND DATE(r.datum) = @datum
 ORDER BY r.slot ASC";
 
-            // Verbindung zur Datenbank herstellen
             using (var conn = Database.GetConnection())
-            using (var da = new MySqlConnector.MySqlDataAdapter(query, conn))
+            using (var cmd = new MySqlCommand(query, conn))
             {
+                cmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
+
                 DataTable dt = new DataTable();
-                da.Fill(dt);
+                new MySqlDataAdapter(cmd).Fill(dt);
 
-                // Daten im Grid anzeigen
                 dataGridView1.DataSource = dt;
-
-                // Spaltenbreite automatisch anpassen
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
@@ -175,7 +166,15 @@ WHERE reservierungs_id = @id
             MessageBox.Show("Reservierung wurde storniert ✔");
             LadeReservierungen(); // deine Reload Methode
         }
-        
 
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            LadeReservierungen();
+        }
     }
 }

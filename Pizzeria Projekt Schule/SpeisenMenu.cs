@@ -26,32 +26,23 @@ namespace Pizzeria_Projekt_Schule
         // sondern setzt sie auf inaktiv (Soft Delete)
         private void SpeiseLoeschen()
         {
-            // SQL-Befehl: Speise auf inaktiv setzen
             string query = @"
         UPDATE speisen
         SET aktiv = 0
-        WHERE speise_id = @speise_id
-    ";
+        WHERE speise_id = @speise_id";
 
-            // Verbindung zur Datenbank holen
-            MySqlConnection conn = Database.GetConnection();
-
+            using (MySqlConnection conn = Database.GetConnection())
             using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
-                // Die ID der aktuell ausgewählten Speise wird übergeben
                 cmd.Parameters.AddWithValue(
                     "@speise_id",
                     dataGridView1.CurrentRow.Cells["speise_id"].Value
                 );
 
-                // SQL-Befehl ausführen
                 cmd.ExecuteNonQuery();
             }
 
-            // Bestätigung für den Benutzer
             MessageBox.Show("Speise gelöscht ✔");
-
-            // DataGridView neu laden damit Änderung sichtbar wird
             SpeisenLaden();
         }
 
@@ -95,7 +86,8 @@ namespace Pizzeria_Projekt_Schule
         private void button3_Click(object sender, EventArgs e)
         {
             // Prüfen ob überhaupt eine Zeile ausgewählt ist
-            if (dataGridView1.CurrentRow == null)
+            if (dataGridView1.CurrentRow == null ||
+                dataGridView1.CurrentRow.Cells["speise_id"].Value == null)
             {
                 MessageBox.Show("Bitte zuerst eine Speise auswählen.");
                 return;
@@ -119,67 +111,67 @@ namespace Pizzeria_Projekt_Schule
         // Diese Methode lädt alle aktiven Speisen aus der Datenbank
         private void SpeisenLaden()
         {
-            // Es werden nur Speisen geladen, die aktiv = 1 sind
-            string query = "SELECT speise_id, speisename, speisentyp, preis, zutaten, aktiv FROM speisen";
+            try
+            {
+                // Wir nutzen COALESCE, um sicherzustellen, dass niemals ein 'NULL' (leer)
+                // bei den Zahlenfeldern ankommt, sondern im Notfall eine 0.
+                string query = @"
+            SELECT speise_id, speisename, speisentyp, 
+            COALESCE(preis, 0.00) as preis, zutaten 
+            FROM speisen
+            WHERE aktiv = 1";
 
-            MySqlConnection conn = Database.GetConnection();
+                using (MySqlConnection conn = Database.GetConnection())
+                using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn))
+                {
+                    DataTable table = new DataTable();
+                    adapter.Fill(table);
+                    dataGridView1.DataSource = table;
+                }
 
-            // Datenadapter holt die Daten aus der Datenbank
-            MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
-            DataTable table = new DataTable();
-            adapter.Fill(table);
-
-            // Daten im DataGridView anzeigen
-            dataGridView1.DataSource = table;
-
-            // Preis als Euro formatieren (deutsches Format)
-            dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2";
-            dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
-                System.Globalization.CultureInfo.GetCultureInfo("de-DE");
-
-            // Spaltenüberschriften benutzerfreundlicher machen
-            dataGridView1.Columns["speise_id"].HeaderText = "ID";
-            dataGridView1.Columns["speisename"].HeaderText = "Name";
-            dataGridView1.Columns["speisentyp"].HeaderText = "Typ";
-            dataGridView1.Columns["preis"].HeaderText = "Preis";
-            dataGridView1.Columns["zutaten"].HeaderText = "Zutaten";
-            dataGridView1.Columns["aktiv"].HeaderText = "Aktiv"; // Spalte "aktiv" ausblenden
+                // Diese Zeilen sind gut, aber sie setzen voraus, dass 'preis' eine Zahl ist.
+                if (dataGridView1.Columns.Contains("preis"))
+                {
+                    dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2";
+                    dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
+                        System.Globalization.CultureInfo.GetCultureInfo("de-DE");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler: " + ex.Message);
+            }
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
+            string query;
+
             if (checkBox1.Checked)
             {
-
-                // Es werden nur Speisen geladen, die aktiv = 1 sind
-                string query = "SELECT speise_id, speisename, speisentyp, preis ,zutaten FROM speisen WHERE aktiv = 1";
-
-                MySqlConnection conn = Database.GetConnection();
-
-                // Datenadapter holt die Daten aus der Datenbank
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
-                DataTable table = new DataTable();
-                adapter.Fill(table);
-
-                // Daten im DataGridView anzeigen
-                dataGridView1.DataSource = table;
-
-                // Preis als Euro formatieren (deutsches Format)
-                dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2";
-                dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
-                    System.Globalization.CultureInfo.GetCultureInfo("de-DE");
-
-                // Spaltenüberschriften benutzerfreundlicher machen
-                dataGridView1.Columns["speise_id"].HeaderText = "ID";
-                dataGridView1.Columns["speisename"].HeaderText = "Name";
-                dataGridView1.Columns["speisentyp"].HeaderText = "Typ";
-                dataGridView1.Columns["preis"].HeaderText = "Preis";
-                dataGridView1.Columns["zutaten"].HeaderText = "Zutaten";
+                // Nur aktive Speisen anzeigen
+                query = @"SELECT speise_id, speisename, speisentyp, preis, zutaten 
+                  FROM speisen 
+                  WHERE aktiv = 1";
             }
             else
             {
-                SpeisenLaden();
+                // Alle Speisen anzeigen
+                query = @"SELECT speise_id, speisename, speisentyp, preis, zutaten 
+                  FROM speisen";
             }
+
+            using (MySqlConnection conn = Database.GetConnection())
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn))
+            {
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+                dataGridView1.DataSource = table;
+            }
+
+            dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2";
+            dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
+                System.Globalization.CultureInfo.GetCultureInfo("de-DE");
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -188,23 +180,36 @@ namespace Pizzeria_Projekt_Schule
             SpeisenLaden(); ;
         }
 
-       
+
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["speise_id"].Value);
-            string name = dataGridView1.CurrentRow.Cells["speisename"].Value.ToString();
-            string typ = dataGridView1.CurrentRow.Cells["speisentyp"].Value.ToString();
-            decimal preis = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["preis"].Value);
-            string zutaten = dataGridView1.CurrentRow.Cells["zutaten"].Value.ToString();
-            speiupd updateForm = new speiupd(id, name, typ, preis, zutaten);
-            updateForm.ShowDialog();
-
             if (dataGridView1.CurrentRow == null)
             {
                 MessageBox.Show("Bitte zuerst eine Speise auswählen.");
                 return;
             }
+
+            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["speise_id"].Value);
+            string name = dataGridView1.CurrentRow.Cells["speisename"].Value.ToString();
+            string typ = dataGridView1.CurrentRow.Cells["speisentyp"].Value.ToString();
+            // Statt: decimal preis = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["preis"].Value);
+
+            // Sicherer so:
+            decimal preis = 0;
+            if (dataGridView1.CurrentRow.Cells["preis"].Value != null)
+            {
+                decimal.TryParse(dataGridView1.CurrentRow.Cells["preis"].Value.ToString(),
+                    System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.GetCultureInfo("de-DE"), out preis);
+            }
+            string zutaten = dataGridView1.CurrentRow.Cells["zutaten"].Value.ToString();
+
+            speiupd updateForm = new speiupd(id, name, typ, preis, zutaten);
+            updateForm.ShowDialog();
+
+            SpeisenLaden(); // Nach Update neu laden
         }
     }
-}
+    }
+

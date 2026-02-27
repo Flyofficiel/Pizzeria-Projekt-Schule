@@ -28,12 +28,11 @@ namespace Pizzeria_Projekt_Schule
             LadeBeliebtesteSpeise();
             LadeBeliebtesteUhrzeit();
             LadeUmsatzProMitarbeiter();
-            LadeGesamtUmsatzMitarbeiter();
+
 
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView2.ReadOnly = true;
             dataGridView2.AllowUserToAddRows = false;
-            label11.Text = DateTime.Now.ToString("dd.MM.yyyy");
 
         }
 
@@ -51,7 +50,7 @@ namespace Pizzeria_Projekt_Schule
             LadeBeliebtesteSpeise();
             LadeBeliebtesteUhrzeit();
             LadeUmsatzProMitarbeiter();
-            LadeGesamtUmsatzMitarbeiter();
+
         }
 
 
@@ -79,15 +78,15 @@ namespace Pizzeria_Projekt_Schule
             string filter = GetZeitraumFilter();
 
             string query = $@"
-        SELECT s.speisename, SUM(p.menge) AS verkauft
-        FROM speisen s
-        JOIN bestellposition p ON s.speise_id = p.speise_id_fk
-        JOIN bestellungen b ON b.bestellnr = p.bestellnr_fk
-        WHERE {filter}
-        AND b.status = 'bezahlt'
-        GROUP BY s.speisename
-        ORDER BY verkauft DESC
-        LIMIT 1";
+SELECT s.speisename, SUM(p.menge) AS verkauft
+FROM speisen s
+JOIN bestellposition p ON s.speise_id = p.speise_id_fk
+JOIN bestellungen b ON b.bestellnr = p.bestellnr_fk
+WHERE b.status = 'bezahlt'
+AND {filter}
+GROUP BY s.speisename
+ORDER BY verkauft DESC
+LIMIT 1";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
@@ -97,7 +96,6 @@ namespace Pizzeria_Projekt_Schule
                 {
                     string name = reader.GetString("speisename");
                     int menge = reader.GetInt32("verkauft");
-
                     textBox2.Text = name + " (" + menge + "x)";
                 }
                 else
@@ -111,13 +109,13 @@ namespace Pizzeria_Projekt_Schule
             string filter = GetZeitraumFilter();
 
             string query = $@"
-    SELECT HOUR(b.datum) AS Stunde, COUNT(*) AS Anzahl
-    FROM bestellungen b
-    WHERE {filter}
-    AND b.status = 'bezahlt'
-    GROUP BY Stunde
-    ORDER BY Anzahl DESC
-    LIMIT 1";
+SELECT HOUR(b.datum) AS Stunde, COUNT(*) AS Anzahl
+FROM bestellungen b
+WHERE b.status = 'bezahlt'
+AND {filter}
+GROUP BY Stunde
+ORDER BY Anzahl DESC
+LIMIT 1";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
@@ -126,11 +124,11 @@ namespace Pizzeria_Projekt_Schule
                 if (reader.Read())
                 {
                     int stunde = reader.GetInt32("Stunde");
-                    label11.Text = stunde + ":00 Uhr";
+                    labeluhrzeit.Text = "Beliebteste Uhrzeit: " + stunde + ":00 Uhr";
                 }
                 else
                 {
-                    textBox3.Text = "Keine Daten";
+                    labeluhrzeit.Text = "Beliebteste Uhrzeit: Keine Daten";
                 }
             }
         }
@@ -142,15 +140,17 @@ namespace Pizzeria_Projekt_Schule
             string filter = GetZeitraumFilter();
 
             string query = $@"
-        SELECT CONCAT(m.vorname,' ',m.nachname) AS Mitarbeiter,
-               IFNULL(SUM(p.menge * p.preis_beim_kauf),0) AS Umsatz
-        FROM mitarbeiter m
-        LEFT JOIN bestellungen b ON m.personalnr = b.personalnr_fk
-        LEFT JOIN bestellposition p ON b.bestellnr = p.bestellnr_fk
-        WHERE {filter}
-        AND b.status = 'bezahlt'
-        GROUP BY Mitarbeiter
-        ORDER BY Umsatz DESC";
+SELECT CONCAT(m.vorname,' ',m.nachname) AS Mitarbeiter,
+       IFNULL(SUM(p.menge * p.preis_beim_kauf),0) AS Umsatz
+FROM mitarbeiter m
+LEFT JOIN bestellungen b 
+    ON m.personalnr = b.personalnr_fk
+LEFT JOIN bestellposition p 
+    ON b.bestellnr = p.bestellnr_fk
+WHERE b.status = 'bezahlt'
+AND {filter}
+GROUP BY Mitarbeiter
+ORDER BY Umsatz DESC";
 
             using (var conn = Database.GetConnection())
             using (var da = new MySqlDataAdapter(query, conn))
@@ -165,14 +165,14 @@ namespace Pizzeria_Projekt_Schule
             string filter = GetZeitraumFilter();
 
             string query = $@"
-    SELECT b.tisch_id_fk AS Tisch,
-           IFNULL(SUM(p.menge * p.preis_beim_kauf),0) AS Umsatz
-    FROM bestellungen b
-    JOIN bestellposition p ON b.bestellnr = p.bestellnr_fk
-    WHERE {filter}
-    AND b.status = 'bezahlt'
-    GROUP BY Tisch
-    ORDER BY Umsatz DESC";
+SELECT b.tisch_id_fk AS Tisch,
+       IFNULL(SUM(p.menge * p.preis_beim_kauf),0) AS Umsatz
+FROM bestellungen b
+JOIN bestellposition p ON b.bestellnr = p.bestellnr_fk
+WHERE b.status = 'bezahlt'
+AND {filter}
+GROUP BY Tisch
+ORDER BY Umsatz DESC";
 
             using (var conn = Database.GetConnection())
             using (var da = new MySqlDataAdapter(query, conn))
@@ -186,18 +186,22 @@ namespace Pizzeria_Projekt_Schule
         {
             string filter = GetZeitraumFilter();
 
+            // Wir starten bei 'bestellungen', um JEDE bezahlte Bestellung zu finden, 
+            // egal ob eine Reservierung vorlag oder nicht.
             string query = $@"
-    SELECT CONCAT(g.gastvorname,' ',g.gastnachname) AS Gast,
-           IFNULL(SUM(p.menge * p.preis_beim_kauf),0) AS Umsatz
-    FROM gast g
-    JOIN reservierungen r ON g.gastid = r.gastid_fk
-    JOIN bestellungen b ON r.tisch_id_fk = b.tisch_id_fk
-    JOIN bestellposition p ON b.bestellnr = p.bestellnr_fk
-    WHERE {filter}
-    AND b.status = 'bezahlt'
-    AND DATE(r.datum) = DATE(b.datum)
-    GROUP BY Gast
-    ORDER BY Umsatz DESC";
+SELECT 
+    CASE 
+        WHEN g.laufgast = 1 THEN 'Laufkunde (unregistriert)'
+        ELSE CONCAT(g.gastvorname, ' ', g.gastnachname) 
+    END AS Gast,
+    IFNULL(SUM(p.menge * p.preis_beim_kauf), 0) AS Umsatz
+FROM bestellungen b
+JOIN bestellposition p ON b.bestellnr = p.bestellnr_fk
+JOIN gast g ON b.gast_id_fk = g.gastid
+WHERE b.status = 'bezahlt'
+AND {filter}
+GROUP BY g.gastid, Gast
+ORDER BY Umsatz DESC";
 
             using (var conn = Database.GetConnection())
             using (var da = new MySqlDataAdapter(query, conn))
@@ -214,34 +218,35 @@ namespace Pizzeria_Projekt_Schule
 
         private string GetZeitraumFilter()
         {
+
             if (comboBox1.SelectedItem == null)
                 return "1=1";
 
-            string zeitraum = comboBox1.SelectedItem.ToString();
+            string z = comboBox1.SelectedItem.ToString();
 
-            if (zeitraum == "Heute")
+            if (z == "Heute")
                 return "DATE(b.datum) = CURDATE()";
 
-            if (zeitraum == "Diese Woche")
+            if (z == "Diese Woche")
                 return "YEARWEEK(b.datum, 1) = YEARWEEK(CURDATE(), 1)";
 
-            if (zeitraum == "Dieser Monat")
+            if (z == "Dieser Monat")
                 return "MONTH(b.datum) = MONTH(CURDATE()) AND YEAR(b.datum) = YEAR(CURDATE())";
 
             return "1=1";
+
         }
 
         private void LadeUmsatzNachZeitraum()
         {
-
             string filter = GetZeitraumFilter();
 
             string query = $@"
-        SELECT IFNULL(SUM(p.menge * p.preis_beim_kauf),0)
-        FROM bestellungen b
-        JOIN bestellposition p ON b.bestellnr = p.bestellnr_fk
-        WHERE {filter}
-        AND b.status = 'bezahlt'";
+SELECT IFNULL(SUM(p.menge * p.preis_beim_kauf),0)
+FROM bestellungen b
+JOIN bestellposition p ON b.bestellnr = p.bestellnr_fk
+WHERE b.status = 'bezahlt'
+AND {filter}";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
@@ -271,27 +276,7 @@ namespace Pizzeria_Projekt_Schule
 
 
 
-        private void LadeGesamtUmsatzMitarbeiter()
-        {
-            string filter = GetZeitraumFilter();
 
-            string query = $@"
-    SELECT IFNULL(SUM(p.menge * p.preis_beim_kauf),0)
-    FROM mitarbeiter m
-    JOIN bestellungen b ON m.personalnr = b.personalnr_fk
-    JOIN bestellposition p ON b.bestellnr = p.bestellnr_fk
-    WHERE {filter}
-    AND b.status = 'bezahlt'";
-
-            using (var conn = Database.GetConnection())
-            using (var cmd = new MySqlCommand(query, conn))
-            {
-                object result = cmd.ExecuteScalar();
-                decimal umsatz = result != DBNull.Value ? Convert.ToDecimal(result) : 0;
-
-                textBox1.Text = umsatz.ToString("0.00 €");
-            }
-        }
 
         private void button5_Click(object sender, EventArgs e)
         {
@@ -319,5 +304,5 @@ namespace Pizzeria_Projekt_Schule
 
     }
 }
-    
+
 

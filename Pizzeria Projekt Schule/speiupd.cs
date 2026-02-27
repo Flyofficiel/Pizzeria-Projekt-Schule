@@ -23,10 +23,24 @@ namespace Pizzeria_Projekt_Schule
             comboBox1.Text = typ;
             textBox3.Text = preis.ToString();
             textBox4.Text = zutaten;
+
         }
         private int speiseId;
         private void button1_Click(object sender, EventArgs e)
         {
+            // Name darf nicht leer sein
+            if (string.IsNullOrWhiteSpace(textBox2.Text))
+            {
+                MessageBox.Show("Speisename darf nicht leer sein!");
+                return;
+            }
+
+            // Name darf nicht nur aus Zahlen bestehen
+            if (textBox2.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("Speisename darf nicht nur Zahlen enthalten!");
+                return;
+            }
 
 
             string query = @"
@@ -44,7 +58,17 @@ namespace Pizzeria_Projekt_Schule
             {
                 cmd.Parameters.AddWithValue("@name", textBox2.Text);
                 cmd.Parameters.AddWithValue("@typ", comboBox1.Text);
-                cmd.Parameters.AddWithValue("@preis", Convert.ToDecimal(textBox3.Text));
+                if (!decimal.TryParse(
+     textBox3.Text.Replace(",", "."),
+     System.Globalization.NumberStyles.Any,
+     System.Globalization.CultureInfo.InvariantCulture,
+     out decimal preis))
+                {
+                    MessageBox.Show("Ungültiger Preis!");
+                    return;
+                }
+
+                cmd.Parameters.AddWithValue("@preis", preis);
                 cmd.Parameters.AddWithValue("@zutaten", textBox4.Text);
                 cmd.Parameters.AddWithValue("@id", speiseId);
 
@@ -52,13 +76,50 @@ namespace Pizzeria_Projekt_Schule
             }
 
             MessageBox.Show("Speise erfolgreich aktualisiert ✔");
-            this.Close(); // 🔥 Wichtig!
+            this.Close(); } //  Wichtig!
+            private void button2_Click(object sender, EventArgs e)
+        {
+            // Schließt einfach das aktuelle Fenster ohne zu speichern
+            this.Close();
+        }
 
 
 
+
+
+        
+        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !char.IsDigit(e.KeyChar) &&
+                e.KeyChar != ',' &&
+                e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // Punkt automatisch zu Komma machen (optional)
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ',';
+            }
+        }
+
+        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                    !char.IsLetter(e.KeyChar) &&
+                    e.KeyChar != ' ' &&
+                    e.KeyChar != ',')
+            {
+                e.Handled = true;
+            }
 
         }
 
-        
+        private void speiupd_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

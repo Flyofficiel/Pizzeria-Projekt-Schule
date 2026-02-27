@@ -43,6 +43,7 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -52,12 +53,14 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.panel1.Controls.Add(this.dateTimePicker1);
             this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(308, 138);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(775, 377);
             this.panel1.TabIndex = 0;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // dataGridView1
             // 
@@ -122,7 +125,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(210, 50);
             this.button1.TabIndex = 3;
-            this.button1.Text = "Speißen";
+            this.button1.Text = "Speisen";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -238,6 +241,14 @@
             this.button9.UseVisualStyleBackColor = false;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(543, 17);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 16;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
             // Hauptmenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -285,5 +296,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

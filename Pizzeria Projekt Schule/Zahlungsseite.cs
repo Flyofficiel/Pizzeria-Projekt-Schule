@@ -15,69 +15,72 @@
 
             string zahlungsart = radioButton1.Checked ? "Bar" : "Karte";
 
-            double.TryParse(textBox3.Text.Replace(",", "."),
-    System.Globalization.NumberStyles.Any,
-    System.Globalization.CultureInfo.InvariantCulture,
-    out double gesamt);
+            // Beträge sicher einlesen
+            double.TryParse(textBox3.Text.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double gesamt);
+            double.TryParse(textBox1.Text.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double trinkgeld);
 
-            double.TryParse(textBox1.Text.Replace(",", "."),
-                System.Globalization.NumberStyles.Any,
-                System.Globalization.CultureInfo.InvariantCulture,
-                out double trinkgeld);
-
+            if (bestellNr == 0)
+            {
+                MessageBox.Show("Keine gültige Bestellung ausgewählt!");
+                return;
+            }
 
             using (var conn = Database.GetConnection())
+            using (var trans = conn.BeginTransaction())
             {
-                // 1️⃣ Rechnung speichern
-                string sqlRechnung = @"
-        INSERT INTO rechnungen
-        (bestellnr_fk, gesamtpreis, datum, zahlungsart, trinkgeld)
-        VALUES
-        (@bestell, @gesamt, NOW(), @art, @tg)";
-
-                using (var cmd = new MySqlCommand(sqlRechnung, conn))
+                try
                 {
-                    cmd.Parameters.AddWithValue("@bestell", bestellNr);
-                    cmd.Parameters.AddWithValue("@gesamt", gesamt);
-                    cmd.Parameters.AddWithValue("@art", zahlungsart);
-                    cmd.Parameters.AddWithValue("@tg", trinkgeld);
-                    cmd.ExecuteNonQuery();
+                    // 1. Rechnung speichern
+                    string sqlRechnung = "INSERT INTO rechnungen (bestellnr_fk, gesamtpreis, datum, zahlungsart, trinkgeld) VALUES (@bestell, @gesamt, NOW(), @art, @tg)";
+                    using (var cmd = new MySqlCommand(sqlRechnung, conn, trans))
+                    {
+                        cmd.Parameters.AddWithValue("@bestell", bestellNr);
+                        cmd.Parameters.AddWithValue("@gesamt", gesamt);
+                        cmd.Parameters.AddWithValue("@art", zahlungsart);
+                        cmd.Parameters.AddWithValue("@tg", trinkgeld);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // 2. Bestellung abschließen (Statistik & Tisch-Logik)
+                    string updateStatus = "UPDATE bestellungen SET status = 'bezahlt' WHERE bestellnr = @bnr";
+                    using (var statusCmd = new MySqlCommand(updateStatus, conn, trans))
+                    {
+                        statusCmd.Parameters.AddWithValue("@bnr", bestellNr);
+                        statusCmd.ExecuteNonQuery();
+                    }
+
+                    // 3. Reservierung beenden
+                    // WICHTIG: Hier beenden wir die Reservierung, damit der Tisch im System wieder als "Frei" gilt
+                    string updateReservierung = @"UPDATE reservierungen SET zustand = 'beendet' 
+                                          WHERE tisch_id_fk = (SELECT tisch_id_fk FROM bestellungen WHERE bestellnr = @bnr)
+                                          AND (zustand = 'aktiv' OR zustand = 'offen')";
+                    using (var resCmd = new MySqlCommand(updateReservierung, conn, trans))
+                    {
+                        resCmd.Parameters.AddWithValue("@bnr", bestellNr);
+                        resCmd.ExecuteNonQuery();
+                    }
+
+                    // Hinweis: Den 'UPDATE tische SET aktiv = true' lassen wir weg, 
+                    // da 'aktiv' meistens für 'Tisch existiert noch' steht.
+
+                    trans.Commit(); // ✅ Datenbank-Änderungen speichern
+                    MessageBox.Show("Bezahlung abgeschlossen ✅. Der Tisch ist nun wieder frei.");
+
+                    // 1. Neues Hauptmenü erstellen und anzeigen
+                    Hauptmenu main = new Hauptmenu();
+                    main.Show();
+
+                    // 2. Dieses Fenster schließen
+                    this.Close();
                 }
-
-                // 2️⃣ Bestellung auf bezahlt setzen
-                string updateStatus = @"
-        UPDATE bestellungen
-        SET status = 'bezahlt'
-        WHERE bestellnr = @bnr";
-
-                using (var statusCmd = new MySqlCommand(updateStatus, conn))
+                catch (Exception ex)
                 {
-                    statusCmd.Parameters.AddWithValue("@bnr", bestellNr);
-                    statusCmd.ExecuteNonQuery();
+                    trans.Rollback();
+                    MessageBox.Show("Fehler beim Bezahlen: " + ex.Message);
+
+                    // WICHTIG: Wenn ein Fehler passiert, darf Close() NICHT gerufen werden,
+                    // damit der User den Fehler lesen kann und nicht ausgeloggt wird.
                 }
-
-                // 3️⃣ Tisch wieder frei machen
-                string frei = @"
-        UPDATE tische
-        SET lage = 'Frei'
-        WHERE tisch_id = (
-            SELECT tisch_id_fk FROM bestellungen WHERE bestellnr = @bnr
-        )";
-
-                using (var freiCmd = new MySqlCommand(frei, conn))
-                {
-                    freiCmd.Parameters.AddWithValue("@bnr", bestellNr);
-                    freiCmd.ExecuteNonQuery();
-                }
-
-               
-
-
-                MessageBox.Show("Bezahlung abgeschlossen ✅");
-
-                Hauptmenu mainmenupage = new Hauptmenu();
-                mainmenupage.Show();
-                this.Close();
             }
         }
 
@@ -148,14 +151,15 @@
             }
 
             string query = @"
-    SELECT 
-        s.speisename AS Speise,
-        bp.menge AS Menge,
-        bp.preis_beim_kauf AS Einzelpreis,
-        (bp.menge * bp.preis_beim_kauf) AS Gesamt
-    FROM bestellposition bp
-    JOIN speisen s ON bp.speise_id_fk = s.speise_id
-    WHERE bp.bestellnr_fk = @bnr;";
+SELECT 
+    bp.positionid,
+    s.speisename AS Speise,
+    bp.menge AS Menge,
+    bp.preis_beim_kauf AS Einzelpreis,
+    (bp.menge * bp.preis_beim_kauf) AS Gesamt
+FROM bestellposition bp
+JOIN speisen s ON bp.speise_id_fk = s.speise_id
+WHERE bp.bestellnr_fk = @bnr;";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
@@ -165,6 +169,10 @@
                 MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                 DataTable table = new DataTable();
                 adapter.Fill(table);
+                if (dataGridView1.Columns.Contains("positionid"))
+                {
+                    dataGridView1.Columns["positionid"].Visible = false;
+                }
 
                 dataGridView1.DataSource = table;
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -210,9 +218,66 @@
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Stornierungbutton_rechnungseite(object sender, EventArgs e)
         {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Bitte Position auswählen!");
+                return;
+            }
 
+            int posId = Convert.ToInt32(
+    dataGridView1.CurrentRow.Cells["positionid"].Value
+);
+  
+
+            int menge = Convert.ToInt32(
+                dataGridView1.CurrentRow.Cells["Menge"].Value
+            );
+
+            DialogResult result = MessageBox.Show(
+                "Nur 1 Stück stornieren?",
+                "Storno",
+                MessageBoxButtons.YesNoCancel
+            );
+
+            if (result == DialogResult.Cancel)
+                return;
+
+            using (var conn = Database.GetConnection())
+            {
+                if (result == DialogResult.Yes && menge > 1)
+                {
+                    // 🔹 Nur 1 Stück abziehen
+                    string update = @"
+UPDATE bestellposition
+SET menge = menge - 1
+WHERE positionid = @id";
+
+                    using (var cmd = new MySqlCommand(update, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", posId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                else
+                {
+                    // 🔹 Ganze Position löschen
+                    string delete = @"
+DELETE FROM bestellposition
+WHERE positionid = @id";
+
+                    using (var cmd = new MySqlCommand(delete, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", posId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            MessageBox.Show("Position storniert ✔");
+
+            BestellungenLaden();   // Grid neu laden
         }
     }
 }

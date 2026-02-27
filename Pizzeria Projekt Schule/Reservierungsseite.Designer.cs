@@ -91,6 +91,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(260, 318);
             this.panel2.TabIndex = 1;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // textBox2
             // 
@@ -262,7 +263,7 @@
             this.button1.TabIndex = 8;
             this.button1.Text = "Reservierung speichern";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Reservierungspeichern_Button);
             // 
             // button2
             // 

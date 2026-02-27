@@ -32,7 +32,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.tischauswahl = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -47,7 +46,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.button6 = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -93,13 +93,6 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Mitarbeiter:";
             // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(719, 146);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 3;
-            // 
             // tischauswahl
             // 
             this.tischauswahl.FormattingEnabled = true;
@@ -107,9 +100,8 @@
             this.tischauswahl.Name = "tischauswahl";
             this.tischauswahl.Size = new System.Drawing.Size(172, 21);
             this.tischauswahl.TabIndex = 4;
-           
             this.tischauswahl.SelectedIndexChanged += new System.EventHandler(this.tischauswahl_SelectedIndexChanged);
-            
+            // 
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
@@ -117,7 +109,6 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(140, 21);
             this.comboBox2.TabIndex = 5;
-           
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.combobox2_SelectedIndexChanged);
             // 
             // dataGridView1
@@ -244,7 +235,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(67, 21);
             this.comboBox1.TabIndex = 9;
-           
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
             // 
             // label6
             // 
@@ -256,25 +247,31 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Slot:";
             // 
-            // button6
+            // label7
             // 
-            this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.ForeColor = System.Drawing.SystemColors.Control;
-            this.button6.Location = new System.Drawing.Point(774, 664);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(123, 40);
-            this.button6.TabIndex = 12;
-            this.button6.Text = "Zurück";
-            this.button6.UseVisualStyleBackColor = false;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(777, 120);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(52, 13);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "Labeltime";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(729, 151);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 1;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged_2);
             // 
             // Bestellungsseite
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(985, 731);
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label5);
@@ -283,7 +280,6 @@
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.tischauswahl);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -306,7 +302,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.ComboBox tischauswahl;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.DataGridView dataGridView1;
@@ -322,6 +317,7 @@
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

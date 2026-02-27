@@ -136,6 +136,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(121, 20);
             this.textBox2.TabIndex = 9;
+            this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
             // 
             // textBox3
             // 
@@ -233,6 +234,8 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(121, 20);
             this.textBox4.TabIndex = 18;
+            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
+            this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
             // 
             // label8
             // 
@@ -254,7 +257,7 @@
             this.label9.TabIndex = 16;
             this.label9.Text = "Nachname";
             // 
-            // mitarbeiterverwaltung0
+            // Mitarbeiterverwaltung0
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -277,7 +280,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
-            this.Name = "mitarbeiterverwaltung0";
+            this.Name = "Mitarbeiterverwaltung0";
             this.Text = "Mitarbeiterverwaltung";
             this.Load += new System.EventHandler(this.mitarbeiterverwaltungrichtig_Load);
             this.panel1.ResumeLayout(false);

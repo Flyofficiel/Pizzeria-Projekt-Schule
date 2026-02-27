@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace Pizzeria_Projekt_Schule
 {
@@ -23,13 +24,13 @@ namespace Pizzeria_Projekt_Schule
         {
             MitarbeiterLaden();
 
-            // 🔥 BEREICH ENUM WERTE
+            //  BEREICH ENUM WERTE
             comboBox1.Items.Clear();
-            
-            
-            
 
-            // 🔥 ROLLE ENUM WERTE
+
+
+
+            //  ROLLE ENUM WERTE
             comboBox2.Items.Clear();
             comboBox2.Items.Add("service");
             comboBox2.Items.Add("koch");
@@ -56,7 +57,7 @@ namespace Pizzeria_Projekt_Schule
 
         private void MitarbeiterLoeschen()
         {
-            
+
 
             string query = @"
             UPDATE mitarbeiter
@@ -72,7 +73,7 @@ namespace Pizzeria_Projekt_Schule
                     dataGridView1.CurrentRow.Cells["personalnr"].Value
                 );
 
-                
+
                 cmd.ExecuteNonQuery();
             }
 
@@ -105,6 +106,12 @@ namespace Pizzeria_Projekt_Schule
         }
         private void MitarbeiterUpdate()
         {
+            if (string.IsNullOrWhiteSpace(textBox2.Text) ||
+                string.IsNullOrWhiteSpace(textBox4.Text))
+            {
+                MessageBox.Show("Name darf nicht leer sein!");
+                return;
+            }
             if (dataGridView1.CurrentRow == null)
                 return;
 
@@ -180,18 +187,44 @@ namespace Pizzeria_Projekt_Schule
         private void MitarbeiterHinzufuegen()
         {
             if (string.IsNullOrWhiteSpace(textBox2.Text) ||
-                string.IsNullOrWhiteSpace(textBox4.Text))
+    string.IsNullOrWhiteSpace(textBox4.Text) ||
+    string.IsNullOrWhiteSpace(textBox3.Text) ||
+    comboBox1.SelectedItem == null ||
+    comboBox2.SelectedItem == null)
             {
-                MessageBox.Show("Name darf nicht leer sein!");
+                MessageBox.Show("Bitte alle Felder ausfüllen!");
+                return;
+            }
+            if (textBox3.Text.Length < 4)
+            {
+                MessageBox.Show("Passwort muss mindestens 4 Zeichen haben!");
                 return;
             }
 
+
+            string check = "SELECT COUNT(*) FROM mitarbeiter WHERE vorname = @v AND nachname = @n";
+
+            using (var conn = Database.GetConnection())
+
+
+            using (var checkCmd = new MySqlCommand(check, conn))
+            {
+                checkCmd.Parameters.AddWithValue("@v", textBox2.Text);
+                checkCmd.Parameters.AddWithValue("@n", textBox4.Text);
+
+                int existiert = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                if (existiert > 0)
+                {
+                    MessageBox.Show("Mitarbeiter existiert bereits!");
+                    return;
+                }
+            }
             string query = @"
     INSERT INTO mitarbeiter
     (vorname, nachname, bereich, passwort, rolle, aktiv)
     VALUES
     (@vorname, @nachname, @bereich, @passwort, @rolle, 1)";
-
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
             {
@@ -207,21 +240,21 @@ namespace Pizzeria_Projekt_Schule
             MessageBox.Show("Mitarbeiter hinzugefügt ✔");
             MitarbeiterLaden();
         }
-        
+
 
 
 
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+
 
             MitarbeiterUpdate();
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            
+
 
             MitarbeiterHinzufuegen();
         }
@@ -238,24 +271,68 @@ namespace Pizzeria_Projekt_Schule
             string rolle = comboBox2.SelectedItem?.ToString();
 
             comboBox1.Items.Clear();
+            comboBox1.Enabled = true;   // erstmal aktivieren
 
             if (rolle == "service")
             {
-                comboBox1.Items.Add("Innen hinten");
-                comboBox1.Items.Add("Terrasse");
-                comboBox1.Items.Add("Terrasse groß");
-                comboBox1.Items.Add("VIP / Gruppen");
+                comboBox1.Items.Add("Innen vorne Tische 1-10");
+                comboBox1.Items.Add("Innen hinten Tische 11-20");
+                comboBox1.Items.Add("Terrasse Tische 21-30");
+                comboBox1.Items.Add("Terrasse groß Tische 31-35");
+                comboBox1.Items.Add("VIP / Gruppen Tische 36-40");
             }
-            else if (rolle != null)
+            else if (rolle == "kasse")
+            {
+                comboBox1.Items.Add("Kasse");
+                comboBox1.SelectedIndex = 0;
+                comboBox1.Enabled = false;
+            }
+            else if (rolle == "admin")
+            {
+                comboBox1.Items.Add("EDV");
+                comboBox1.SelectedIndex = 0;
+                comboBox1.Enabled = false;
+            }
+            else if (rolle == "management")
+            {
+                comboBox1.Items.Add("Management");
+                comboBox1.SelectedIndex = 0;
+                comboBox1.Enabled = false;
+            }
+            else if (rolle == "koch")
             {
                 comboBox1.Items.Add("Küche");
-                comboBox1.Items.Add("Kasse");
-                comboBox1.Items.Add("EDV");
-                comboBox1.Items.Add("Management");
+                comboBox1.SelectedIndex = 0;
+                comboBox1.Enabled = false;
             }
+        }
 
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            {
+                // Erlaubt: Buchstaben, Kontrolltasten (wie Backspace) und Leerzeichen
+                if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ')
+                {
+                    e.Handled = true; // Verwirft die Eingabe, wenn es eine Zahl oder Sonderzeichen ist
+                }
+            }
+        }
 
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
 
+        }
+
+        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            {
+                // Erlaubt: Buchstaben, Kontrolltasten (wie Backspace) und Leerzeichen
+                if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ')
+                {
+                    e.Handled = true; // Verwirft die Eingabe, wenn es eine Zahl oder Sonderzeichen ist
+                }
+            }
         }
     }
 }
+

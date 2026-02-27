@@ -32,20 +32,36 @@ namespace Pizzeria_Projekt_Schule
         {
             using (MySqlConnection conn = Database.GetConnection())
             {
+                string name = textBox2.Text.Trim();
+                string zutaten = textBox4.Text.Trim();
+
                 // 1️⃣ Name prüfen
-                if (string.IsNullOrWhiteSpace(textBox2.Text))
+                if (string.IsNullOrWhiteSpace(name))
                 {
                     MessageBox.Show("Speisename fehlt!");
                     return;
                 }
 
+                if (!name.Any(char.IsLetter))
+                {
+                    MessageBox.Show("Speisename muss mindestens einen Buchstaben enthalten!");
+                    return;
+                }
+
                 // 2️⃣ Preis prüfen
-                if (!double.TryParse(textBox3.Text.Replace(",", "."),
+                if (!decimal.TryParse(
+                    textBox3.Text.Replace(",", "."),
                     System.Globalization.NumberStyles.Any,
                     System.Globalization.CultureInfo.InvariantCulture,
-                    out double preis))
+                    out decimal preis))
                 {
                     MessageBox.Show("Ungültiger Preis!");
+                    return;
+                }
+
+                if (preis <= 0 || preis > 999.99m)
+                {
+                    MessageBox.Show("Preis muss zwischen 0,01 € und 999,99 € liegen!");
                     return;
                 }
 
@@ -56,16 +72,21 @@ namespace Pizzeria_Projekt_Schule
                     return;
                 }
 
-                string zutaten = textBox4.Text;
+                // 4️⃣ Zutaten prüfen
+                if (string.IsNullOrWhiteSpace(zutaten))
+                {
+                    MessageBox.Show("Bitte Zutaten eingeben!");
+                    return;
+                }
 
-                // 4️⃣ INSERT (OHNE speise_id !!!)
+                // 5️⃣ INSERT
                 string query = @"INSERT INTO speisen 
-                        (speisename, speisentyp, preis, zutaten, aktiv)
-                        VALUES (@name, @typ, @preis, @zutaten, true)";
+                (speisename, speisentyp, preis, zutaten, aktiv)
+                VALUES (@name, @typ, @preis, @zutaten, true)";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@name", textBox2.Text);
+                    cmd.Parameters.AddWithValue("@name", name);
                     cmd.Parameters.AddWithValue("@typ", comboBox1.SelectedItem.ToString());
                     cmd.Parameters.AddWithValue("@preis", preis);
                     cmd.Parameters.AddWithValue("@zutaten", zutaten);
@@ -74,7 +95,6 @@ namespace Pizzeria_Projekt_Schule
                 }
 
                 MessageBox.Show("Speise hinzugefügt ✔");
-
                 this.Close();
             }
         }
@@ -84,5 +104,30 @@ namespace Pizzeria_Projekt_Schule
         {
 
         }
+        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !char.IsDigit(e.KeyChar) &&
+                e.KeyChar != ',' &&
+                e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+        }
+        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !char.IsLetter(e.KeyChar) &&
+                e.KeyChar != ' ' &&
+                e.KeyChar != ',')
+            {
+                e.Handled = true;
+            }
+        }
+
+
+
+       
     }
 }

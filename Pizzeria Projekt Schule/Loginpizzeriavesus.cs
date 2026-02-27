@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySqlConnector;
+using System.Security.Cryptography;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Pizzeria_Projekt_Schule
 {
@@ -15,60 +17,86 @@ namespace Pizzeria_Projekt_Schule
     {
         public Loginpizzeriavesus()
         {
+           
+        {
             InitializeComponent();
+
+
+            }
+
         }
+        
 
         private void Form1_Load(object sender, EventArgs e)
         {
             
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void Einloggen_Button(object sender, EventArgs e)
         {
-           
-            string inputUsername = usernameinput.Text;
+            // Pflichtfelder prüfen
+            if (string.IsNullOrWhiteSpace(usernameinput.Text) ||
+                string.IsNullOrWhiteSpace(passwortinput.Text))
+            {
+                MessageBox.Show("Bitte alle Felder ausfüllen!");
+                return;
+            }
+
+            // Personalnummer muss Zahl sein
+            if (!int.TryParse(usernameinput.Text, out int personalNr))
+            {
+                MessageBox.Show("Personalnummer muss eine Zahl sein!");
+                return;
+            }
+
             string inputPassword = passwortinput.Text;
 
-            const string query = "SELECT personalnr, passwort FROM mitarbeiter WHERE personalnr = @username AND passwort = @passwort";
-            MySqlConnection conn = Database.GetConnection();
+            const string query = @"
+        SELECT personalnr, rolle, bereich 
+        FROM mitarbeiter 
+        WHERE personalnr = @username 
+        AND passwort = @passwort
+        AND aktiv = true";
 
-            using (var cmd = new MySqlCommand(query, conn))
+            using (MySqlConnection conn = Database.GetConnection())
             {
-                cmd.Parameters.AddWithValue("@username", inputUsername);
-                cmd.Parameters.AddWithValue("@passwort", inputPassword);
+               
 
-                try
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
-                    
+                    cmd.Parameters.AddWithValue("@username", personalNr);
+                    cmd.Parameters.AddWithValue("@passwort", inputPassword);
 
-                    using (var reader = cmd.ExecuteReader())
+                    try
                     {
-                        if (reader.Read())
+                        using (var reader = cmd.ExecuteReader())
                         {
+                            if (reader.Read())
+                            {
+                                MessageBox.Show("Login erfolgreich!");
 
-                            MessageBox.Show("Login Erfolgreich");
-                            conn.Close();
-                            // Show main page without terminating the application 
-                            Hauptmenu mainpage = new Hauptmenu();
-                            mainpage.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            // Login failed und macht dann eine MessageBox auf wo dann geht das der Login fehlgeschlagen ist weil das Passwort oder der username falsch ist
-                            MessageBox.Show("Username or password incorrect.", "Login failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                Hauptmenu mainpage = new Hauptmenu();
+                                mainpage.Show();
+                                this.Hide();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Personalnummer oder Passwort falsch!",
+                                    "Login fehlgeschlagen",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    // gibt den error an wenn es ein fehler gibt
-                    MessageBox.Show("Database error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Datenbankfehler: " + ex.Message);
+                    }
                 }
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Abbrechen_Button(object sender, EventArgs e)
         {
             Close();
         }
@@ -81,6 +109,19 @@ namespace Pizzeria_Projekt_Schule
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha = SHA256.Create())
+            {
+                byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder builder = new StringBuilder();
+
+                foreach (byte b in bytes)
+                    builder.Append(b.ToString("x2"));
+
+                return builder.ToString();
+            }
         }
     }
 }

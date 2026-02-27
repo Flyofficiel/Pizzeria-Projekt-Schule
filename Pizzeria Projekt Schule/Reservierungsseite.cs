@@ -37,20 +37,42 @@ namespace Pizzeria_Projekt_Schule
                 return;
 
             string sql = @"
-    SELECT t.tisch_id,
-           t.bereich,
-           t.max_personen
+    SELECT 
+        t.tisch_id,
+        t.bereich,
+        t.max_personen,
+
+        CASE
+            WHEN EXISTS (
+                SELECT 1 FROM bestellungen b
+                WHERE b.tisch_id_fk = t.tisch_id
+                AND b.slot = @slot
+                AND DATE(b.datum) = @datum
+                AND b.status = 'offen'
+            ) THEN 'Besetzt'
+
+         WHEN EXISTS (
+    SELECT 1 FROM reservierungen r
+    WHERE r.tisch_id_fk = t.tisch_id
+    AND r.slot = @slot
+    AND DATE(r.datum) = @datum
+    AND r.zustand = 'aktiv' 
+) THEN 'Aktiv'
+
+WHEN EXISTS (
+    SELECT 1 FROM reservierungen r
+    WHERE r.tisch_id_fk = t.tisch_id
+    AND r.slot = @slot
+    AND DATE(r.datum) = @datum
+    AND r.zustand = 'offen' -- NUR wenn sie noch nicht eingecheckt/beendet sind
+) THEN 'Reserviert'
+
+            ELSE 'Frei'
+        END AS status
+
     FROM tische t
     WHERE t.aktiv = true
     AND t.max_personen >= @personen
-    AND t.tisch_id NOT IN
-    (
-        SELECT r.tisch_id_fk
-        FROM reservierungen r
-        WHERE DATE(r.datum) = @datum
-        AND r.slot = @slot
-        AND r.zustand = 'offen'
-    )
     ORDER BY t.max_personen ASC";
 
             using (var conn = Database.GetConnection())
@@ -63,26 +85,26 @@ namespace Pizzeria_Projekt_Schule
                 DataTable dt = new DataTable();
                 new MySqlDataAdapter(cmd).Fill(dt);
 
+                if (!dt.Columns.Contains("Anzeige"))
+                    dt.Columns.Add("Anzeige", typeof(string));
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    row["Anzeige"] =
+                        "Tisch " + row["tisch_id"] +
+                        " - " + row["bereich"] +
+                        " (" + row["max_personen"] + " Pers.)" +
+                        " - " + row["status"];
+                }
+
                 comboBox2.DataSource = null;
 
                 if (dt.Rows.Count > 0)
                 {
                     comboBox2.DisplayMember = "Anzeige";
                     comboBox2.ValueMember = "tisch_id";
-
-                    // 🔥 Anzeige schöner formatieren
-                    dt.Columns.Add("Anzeige", typeof(string));
-
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        row["Anzeige"] =
-                            "Tisch " + row["tisch_id"] +
-                            " - " + row["bereich"] +
-                            " (" + row["max_personen"] + " Pers.)";
-                    }
-
                     comboBox2.DataSource = dt;
-                    comboBox2.SelectedIndex = 0; // automatisch erster Tisch
+                    comboBox2.SelectedIndex = 0;
                 }
                 else
                 {
@@ -91,11 +113,19 @@ namespace Pizzeria_Projekt_Schule
                 }
             }
         }
+        private void AktualisiereTischeAuto()
+        {
+            if (numericUpDown1.Value > 0 &&
+                comboBox1.SelectedItem != null)
+            {
+                LadeTische((int)numericUpDown1.Value);
+            }
+        }
 
 
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Reservierungspeichern_Button(object sender, EventArgs e)
         {
             try
             {
@@ -107,6 +137,34 @@ namespace Pizzeria_Projekt_Schule
                 {
                     MessageBox.Show("Reservierung in der Vergangenheit nicht möglich!");
                     return;
+                }
+                // 🔥 Wenn Reservierung für heute → Uhrzeit prüfen
+                if (dateTimePicker1.Value.Date == DateTime.Today)
+                {
+                    int gewaehlterSlot = HoleSlot();
+                    int aktuelleStunde = DateTime.Now.Hour;
+
+                    int aktuellerSlot = 0;
+
+                    if (aktuelleStunde < 12)
+                        aktuellerSlot = 1;
+                    else if (aktuelleStunde < 15)
+                        aktuellerSlot = 2;
+                    else if (aktuelleStunde < 18)
+                        aktuellerSlot = 3;
+                    else if (aktuelleStunde < 21)
+                        aktuellerSlot = 4;
+                    else
+                    {
+                        MessageBox.Show("Heute sind keine Reservierungen mehr möglich!");
+                        return;
+                    }
+
+                    if (gewaehlterSlot < aktuellerSlot)
+                    {
+                        MessageBox.Show("Reservierung für vergangene Uhrzeit nicht möglich!");
+                        return;
+                    }
                 }
 
                 if (string.IsNullOrWhiteSpace(name) ||
@@ -246,12 +304,29 @@ namespace Pizzeria_Projekt_Schule
 
         private void reservierung_Load(object sender, EventArgs e)
         {
-        }
+
+            {
+               // 🔥 SLOT ZEITEN LADEN
+    comboBox1.Items.Clear();
+    comboBox1.Items.Add("12-15");
+    comboBox1.Items.Add("15-18");
+    comboBox1.Items.Add("18-21");
+    comboBox1.Items.Add("21-24");
+    comboBox1.SelectedIndex = 0;
+
+    // 🔥 FARBEN AKTIVIEREN
+    comboBox2.DrawMode = DrawMode.OwnerDrawFixed;
+    comboBox2.DrawItem += comboBox2_DrawItem;
+}
+            }
+        
+
+       
+
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            if (numericUpDown1.Value > 0)
-                LadeTische((int)numericUpDown1.Value);
+            AktualisiereTischeAuto();
         }
 
         private int HoleSlot()
@@ -268,14 +343,13 @@ namespace Pizzeria_Projekt_Schule
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            if (numericUpDown1.Value > 0)
-                LadeTische((int)numericUpDown1.Value);
+            AktualisiereTischeAuto();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (numericUpDown1.Value > 0)
-                LadeTische((int)numericUpDown1.Value);
+
+            AktualisiereTischeAuto();
         }
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -305,7 +379,53 @@ namespace Pizzeria_Projekt_Schule
         {
 
         }
+        private void comboBox2_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0) return;
 
-        
+            e.DrawBackground();
+
+            DataRowView row = (DataRowView)comboBox2.Items[e.Index];
+            string status = row["status"].ToString().ToLower();
+
+            Color farbe = Color.Black;
+
+            switch (status)
+            {
+                case "frei":
+                    farbe = Color.Green;
+                    break;
+
+                case "reserviert":
+                    farbe = Color.Orange;
+                    break;
+
+                case "besetzt":
+                    farbe = Color.Red;
+                    break;
+
+                case "aktiv":
+                    farbe = Color.MediumPurple;
+                    break;
+            }
+
+            using (Brush brush = new SolidBrush(farbe))
+            {
+                e.Graphics.DrawString(
+                    row["Anzeige"].ToString(),
+                    e.Font,
+                    brush,
+                    e.Bounds.Left,
+                    e.Bounds.Top
+                );
+            }
+
+            e.DrawFocusRectangle();
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

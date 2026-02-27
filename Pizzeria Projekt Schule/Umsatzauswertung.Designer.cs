@@ -45,6 +45,7 @@
             this.button6 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.labeluhrzeit = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -231,11 +232,22 @@
             this.dataGridView2.TabIndex = 42;
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
+            // labeluhrzeit
+            // 
+            this.labeluhrzeit.AutoSize = true;
+            this.labeluhrzeit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labeluhrzeit.Location = new System.Drawing.Point(765, 147);
+            this.labeluhrzeit.Name = "labeluhrzeit";
+            this.labeluhrzeit.Size = new System.Drawing.Size(103, 16);
+            this.labeluhrzeit.TabIndex = 42;
+            this.labeluhrzeit.Text = "Uhrzeit: XX:XX";
+            // 
             // Umsatzauswertung
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1006, 612);
+            this.Controls.Add(this.labeluhrzeit);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.button6);
@@ -282,5 +294,6 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Label labeluhrzeit;
     }
 }

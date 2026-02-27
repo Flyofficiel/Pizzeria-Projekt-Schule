@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using static Pizzeria_Projekt_Schule.Bestellungsseite;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+
 namespace Pizzeria_Projekt_Schule
 {
     public partial class Bestellungsseite : Form
@@ -21,10 +22,13 @@ namespace Pizzeria_Projekt_Schule
         {
             InitializeComponent();
 
+
             button3.Click += Button3_Click_aa;
             tischauswahl.SelectionChangeCommitted += tischauswahl_SelectionChangeCommitted;
 
-          
+            
+           
+
         }
 
 
@@ -39,7 +43,7 @@ namespace Pizzeria_Projekt_Schule
             tischauswahl.DrawMode = DrawMode.OwnerDrawFixed;
             tischauswahl.DrawItem += tischauswahl_DrawItem;
             tischauswahl.DropDownStyle = ComboBoxStyle.DropDownList;
-           
+
             dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
 
 
@@ -51,7 +55,7 @@ namespace Pizzeria_Projekt_Schule
             }
 
             AktualisiereTische();
-
+           
 
 
             string query = "SELECT speise_id, speisename, preis FROM speisen WHERE aktiv = 1";
@@ -63,7 +67,7 @@ namespace Pizzeria_Projekt_Schule
                 adapter.Fill(table);
                 dataGridView1.DataSource = table;
 
-                
+
                 dataGridView1.ClearSelection();
                 dataGridView1.CurrentCell = null;
             }
@@ -110,10 +114,10 @@ namespace Pizzeria_Projekt_Schule
 
             textBox1.Text = summe.ToString("0.00 €");
 
-                       
+
         }
 
-    
+
 
 
         private void Button1_Click(object sender, EventArgs e)
@@ -195,7 +199,7 @@ namespace Pizzeria_Projekt_Schule
             }
 
 
-           
+
 
             using (var conn = Database.GetConnection())
             using (var transaction = conn.BeginTransaction())
@@ -209,14 +213,45 @@ INSERT INTO bestellungen
 VALUES 
 (@datum, @gast, @tisch, @mitarbeiter, 'offen', @slot);
 SELECT LAST_INSERT_ID();";
+                    // --- AB HIER EINFÜGEN ---
+                    int gastId;
+                    // Wir schauen nach, ob jemand für diesen Tisch 'aktiv' eingecheckt ist
+                    string reservierungsCheck = @"
+    SELECT gastid_fk 
+    FROM reservierungen 
+    WHERE tisch_id_fk = @tid 
+    AND DATE(datum) = @datum 
+    AND slot = @slot 
+    AND zustand = 'aktiv' 
+    LIMIT 1";
 
-                    int gastId = 1; // Laufkunde ID
-                    int bestellNr;   // WICHTIG → deklarieren!
+                    using (var checkCmd = new MySqlCommand(reservierungsCheck, conn, transaction))
+                    {
+                        checkCmd.Parameters.AddWithValue("@tid", tisch.TischId);
+                        checkCmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
+                        checkCmd.Parameters.AddWithValue("@slot", HoleSlot());
+
+                        object resGast = checkCmd.ExecuteScalar();
+
+                        if (resGast != null && resGast != DBNull.Value)
+                        {
+                            // Es wurde eine aktive Reservierung gefunden!
+                            gastId = Convert.ToInt32(resGast);
+                        }
+                        else
+                        {
+                            // Keine Reservierung aktiv -> Es muss ein Laufgast sein
+                            gastId = GetLaufgastId(conn, transaction);
+                        }
+                    }
+
+                    int bestellNr; // Die Variable deklarieren wir hier neu
+                                   // --- BIS HIERHIN ---
 
                     using (var cmd = new MySqlCommand(bestellQuery, conn, transaction))
                     {
                         cmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
-                        cmd.Parameters.AddWithValue("@gast", gastId); // 🔥 DAS HAT GEFEHLT
+                        cmd.Parameters.AddWithValue("@gast", gastId); //  DAS HAT GEFEHLT
                         cmd.Parameters.AddWithValue("@tisch", tisch.TischId);
                         cmd.Parameters.AddWithValue("@mitarbeiter", comboBox2.SelectedValue);
                         cmd.Parameters.AddWithValue("@slot", HoleSlot());
@@ -242,10 +277,10 @@ VALUES (@bnr, @sid, @menge, @preis)";
                         }
                     }
 
-                  
 
-                   
-                    
+
+
+
 
                     // 4️⃣ Alles speichern
                     transaction.Commit();
@@ -256,7 +291,7 @@ VALUES (@bnr, @sid, @menge, @preis)";
 
                     warenkorb.Clear();
                     WarenkorbAktualisieren();
-                   
+
                 }
                 catch (Exception ex)
                 {
@@ -304,10 +339,11 @@ VALUES (@bnr, @sid, @menge, @preis)";
         private void combobox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             AktualisiereTische();
+            AktualisiereTischeAuto();
         }
 
 
-       
+
 
         private void TextBox1_TextChanged(object sender, EventArgs e)
         {
@@ -315,8 +351,8 @@ VALUES (@bnr, @sid, @menge, @preis)";
             //   System.Globalization.CultureInfo.GetCultureInfo("de-DE"); 
         }
 
-        
-      private void combobox2_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void combobox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             AktualisiereTische();
         }
@@ -324,7 +360,7 @@ VALUES (@bnr, @sid, @menge, @preis)";
 
         private void LadeTische(string bereich)
         {
-            
+
             tischauswahl.Items.Clear();
 
             DateTime datum = dateTimePicker1.Value.Date;
@@ -332,40 +368,35 @@ VALUES (@bnr, @sid, @menge, @preis)";
 SELECT 
     t.tisch_id,
     t.bereich,
- CASE
-    -- 🔴 1. Hat offene Bestellung?
-    WHEN EXISTS (
-        SELECT 1
-        FROM bestellungen b
-        WHERE b.tisch_id_fk = t.tisch_id
-        AND b.slot = @slot
-        AND b.status = 'offen'
-    ) THEN 'Besetzt'
+    CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM bestellungen b
+            WHERE b.tisch_id_fk = t.tisch_id
+            AND b.slot = @slot
+            AND b.status = 'offen'
+        ) THEN 'Besetzt'
 
-    -- 🔴 2. Reservierung ist AKTIV (Gast sitzt)
-    WHEN EXISTS (
-        SELECT 1
-        FROM reservierungen r
-        WHERE r.tisch_id_fk = t.tisch_id
-        AND DATE(r.datum) = @datum
-        AND r.slot = @slot
-        AND r.zustand = 'aktiv'
-    ) THEN 'Besetzt'
+        WHEN EXISTS (
+            SELECT 1
+            FROM reservierungen r
+            WHERE r.tisch_id_fk = t.tisch_id
+            AND DATE(r.datum) = @datum
+            AND r.slot = @slot
+            AND r.zustand = 'aktiv'
+        ) THEN 'Besetzt'
 
-    -- 🟠 3. Reservierung nur offen (noch nicht da)
-    WHEN EXISTS (
-        SELECT 1
-        FROM reservierungen r
-        WHERE r.tisch_id_fk = t.tisch_id
-        AND DATE(r.datum) = @datum
-        AND r.slot = @slot
-        AND r.zustand = 'offen'
-    ) THEN 'Reserviert'
+        WHEN EXISTS (
+            SELECT 1
+            FROM reservierungen r
+            WHERE r.tisch_id_fk = t.tisch_id
+            AND DATE(r.datum) = @datum
+            AND r.slot = @slot
+            AND r.zustand = 'offen'
+        ) THEN 'Reserviert'
 
-    -- 🟢 4. Sonst frei
-    ELSE 'Frei'
-END AS status
-
+        ELSE 'Frei'
+    END AS status
 FROM tische t
 WHERE t.aktiv = true
 AND t.bereich = @bereich
@@ -386,13 +417,13 @@ ORDER BY t.tisch_id";
                         {
                             TischId = reader.GetInt32("tisch_id"),
                             Status = reader.GetString("status"),
-                            Bereich = reader.GetString("bereich")  
+                            Bereich = reader.GetString("bereich")
                         });
                     }
                 }
-                }
             }
-        
+        }
+
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             AktualisiereTische();
@@ -411,10 +442,14 @@ ORDER BY t.tisch_id";
                 default: return 0;
             }
         }
+        private void AktualisiereTischeAuto()
+        {
+
+        }
 
 
 
-        
+
         private void AktualisiereTische()
         {
             if (comboBox2.SelectedValue == null)
@@ -437,13 +472,33 @@ ORDER BY t.tisch_id";
             using (var cmd = new MySqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@pnr", personalNr);
+
                 object result = cmd.ExecuteScalar();
 
                 if (result != null)
                 {
                     string bereich = result.ToString();
+
                     LadeTische(bereich);
                 }
+                else
+                {
+                    MessageBox.Show("Kein Bereich gefunden!");
+                }
+            }
+        }
+        private int GetLaufgastId(MySqlConnection conn, MySqlTransaction transaction)
+        {
+            string query = "SELECT gastid FROM gast WHERE laufgast = true LIMIT 1";
+
+            using (var cmd = new MySqlCommand(query, conn, transaction))
+            {
+                object result = cmd.ExecuteScalar();
+
+                if (result == null)
+                    throw new Exception("Kein Laufgast in der Datenbank gefunden!");
+
+                return Convert.ToInt32(result);
             }
         }
 
@@ -504,7 +559,7 @@ ORDER BY t.tisch_id";
 
             TischItem tisch = (TischItem)tischauswahl.SelectedItem;
 
-           
+
 
             string status = tisch.Status.ToLower();
 
@@ -551,11 +606,37 @@ ORDER BY t.tisch_id";
 
         }
 
-       
+
 
         private void tischauswahl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            AktualisiereTischeAuto();
+        }
 
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            AktualisiereTische();
+        }
+
+        private void dateTimePicker1_ValueChanged_1(object sender, EventArgs e)
+        {
+            AktualisiereTischeAuto();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+
+            label7.Text = DateTime.Now.ToString("HH:mm:ss dddd, MM/dd/yyyy");
         }
     }
 }
