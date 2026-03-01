@@ -1,15 +1,23 @@
-﻿using System;
+﻿using MySqlConnector;
+using System;
 using System.Data;
+using System.Reflection.Emit;
 using System.Windows.Forms;
-using MySqlConnector;
 
 namespace Pizzeria_Projekt_Schule
 {
     public partial class Umsatzauswertung : Form
     {
+        private Timer timer1;
         public Umsatzauswertung()
         {
             InitializeComponent();
+            timer1 = new Timer();
+            timer1.Interval = 1000; // 1000 ms = 1 Sekunde
+            timer1.Tick += Timer1_Tick;
+            timer1.Start();
+
+            timenow(); // erste Anzeige sofort setzen
         }
 
         // 🔥 WICHTIG: exakt so schreiben!
@@ -20,7 +28,7 @@ namespace Pizzeria_Projekt_Schule
             comboBox1.Items.Add("Heute");
             comboBox1.Items.Add("Diese Woche");
             comboBox1.Items.Add("Dieser Monat");
-            comboBox1.Items.Add("Alle");
+            
 
             comboBox1.SelectedIndex = 0; // 🔥 WICHTIG
 
@@ -124,11 +132,11 @@ LIMIT 1";
                 if (reader.Read())
                 {
                     int stunde = reader.GetInt32("Stunde");
-                    labeluhrzeit.Text = "Beliebteste Uhrzeit: " + stunde + ":00 Uhr";
+                    textBox3.Text =  stunde + ":00 Uhr";
                 }
                 else
                 {
-                    labeluhrzeit.Text = "Beliebteste Uhrzeit: Keine Daten";
+                    textBox3.Text = " Keine Daten";
                 }
             }
         }
@@ -139,17 +147,19 @@ LIMIT 1";
         {
             string filter = GetZeitraumFilter();
 
+            // WICHTIG: Wir summieren basierend auf der Personalnummer aus der Bestellung
             string query = $@"
-SELECT CONCAT(m.vorname,' ',m.nachname) AS Mitarbeiter,
-       IFNULL(SUM(p.menge * p.preis_beim_kauf),0) AS Umsatz
-FROM mitarbeiter m
-LEFT JOIN bestellungen b 
-    ON m.personalnr = b.personalnr_fk
-LEFT JOIN bestellposition p 
-    ON b.bestellnr = p.bestellnr_fk
+SELECT 
+    CONCAT(IFNULL(m.vorname, 'Kein Mitarbeiter'), ' ', IFNULL(m.nachname, 'zugeordnet')) AS Mitarbeiter,
+    IFNULL(SUM(p.menge * p.preis_beim_kauf), 0) AS Umsatz
+FROM bestellungen b
+-- ZUERST Bestellungen mit Positionen verbinden
+JOIN bestellposition p ON b.bestellnr = p.bestellnr_fk
+-- DANN versuchen den Mitarbeiter zu finden, falls zugeordnet
+LEFT JOIN mitarbeiter m ON b.personalnr_fk = m.personalnr
 WHERE b.status = 'bezahlt'
 AND {filter}
-GROUP BY Mitarbeiter
+GROUP BY b.personalnr_fk, m.vorname, m.nachname
 ORDER BY Umsatz DESC";
 
             using (var conn = Database.GetConnection())
@@ -301,7 +311,20 @@ AND {filter}";
             button1.PerformClick();
         }
 
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
 
+        }
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            label11.Text = DateTime.Now.ToString("HH:mm:ss dddd, dd.MM.yyyy",
+            System.Globalization.CultureInfo.GetCultureInfo("de-DE"));
+        }
+        private void timenow()
+        {
+            label11.Text = DateTime.Now.ToString("HH:mm:ss dddd, MM/dd/yyyy");
+
+        }
     }
 }
 

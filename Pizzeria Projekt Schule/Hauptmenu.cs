@@ -142,29 +142,36 @@ ORDER BY r.slot ASC";
 
         private void button9_Click(object sender, EventArgs e)
         {
-            int reservierungs_id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["reservierungs_id"].Value);
-            int Tisch = Convert.ToInt32(dataGridView1.CurrentRow.Cells["tisch"].Value);
-            DateTime datum = Convert.ToDateTime(dataGridView1.CurrentRow.Cells["Datum"].Value);
-            string slot = dataGridView1.CurrentRow.Cells["Slot"].Value.ToString();
-            int personen = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Personen"].Value);
-            string gast = dataGridView1.CurrentRow.Cells["Gast"].Value.ToString(); 
-            long telephonenr = Convert.ToInt64(dataGridView1.CurrentRow.Cells["Telefon"].Value);
-            string query = @"
-UPDATE reservierungen
-SET zustand = 'storniert'
-WHERE reservierungs_id = @id
-";
-
-            MySqlConnection conn = Database.GetConnection();
-
-            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            // 1. Sicherheits-Check: Ist überhaupt eine Zeile ausgewählt?
+            if (dataGridView1.CurrentRow == null)
             {
-                cmd.Parameters.AddWithValue("@id", reservierungs_id);
-                cmd.ExecuteNonQuery();
+                MessageBox.Show("Bitte wählen Sie zuerst eine Reservierung aus der Liste aus!", "Keine Auswahl", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; // Methode hier abbrechen, damit kein Fehler passiert
             }
 
-            MessageBox.Show("Reservierung wurde storniert ✔");
-            LadeReservierungen(); // deine Reload Methode
+            try
+            {
+                // 2. Daten aus der ausgewählten Zeile holen
+                int reservierungs_id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["reservierungs_id"].Value);
+
+                // 3. Datenbank-Update
+                string query = "UPDATE reservierungen SET zustand = 'storniert' WHERE reservierungs_id = @id";
+
+                using (MySqlConnection conn = Database.GetConnection())
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", reservierungs_id);
+                    cmd.ExecuteNonQuery();
+                }
+
+                // 4. Abschluss
+                MessageBox.Show("Reservierung wurde storniert ✔", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LadeReservierungen(); // Liste neu laden
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Stornieren: " + ex.Message);
+            }
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)

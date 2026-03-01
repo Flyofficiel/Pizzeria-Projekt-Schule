@@ -17,19 +17,22 @@ namespace Pizzeria_Projekt_Schule
     {
         public Loginpizzeriavesus()
         {
-           
-        {
-            InitializeComponent();
+
+            {
+                InitializeComponent();
+                this.FormBorderStyle = FormBorderStyle.Sizable;
+                this.MaximizeBox = true;
+                this.WindowState = FormWindowState.Normal;
 
 
             }
 
         }
-        
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void Einloggen_Button(object sender, EventArgs e)
@@ -60,7 +63,7 @@ namespace Pizzeria_Projekt_Schule
 
             using (MySqlConnection conn = Database.GetConnection())
             {
-               
+
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -103,7 +106,7 @@ namespace Pizzeria_Projekt_Schule
 
         private void button3_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -123,6 +126,29 @@ namespace Pizzeria_Projekt_Schule
                 return builder.ToString();
             }
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void usernameinput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Passwordunhide_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Passwordunhide.Checked)
+            {
+                passwortinput.PasswordChar = '\0'; // Kein Maskierungszeichen, Passwort wird sichtbar
+            }
+            else
+            {
+                passwortinput.PasswordChar = '●';
+
+            }
+        }
     }
-}
+    }
 

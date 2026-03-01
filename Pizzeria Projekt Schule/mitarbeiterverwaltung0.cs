@@ -333,6 +333,18 @@ namespace Pizzeria_Projekt_Schule
                 }
             }
         }
+
+        private void showpassoword_CheckedChanged(object sender, EventArgs e)
+        {
+            if (showpassoword.Checked)
+            {
+                textBox3.PasswordChar = '\0'; // Kein Maskierungszeichen, Passwort wird sichtbar
+            }
+            else
+            {
+                textBox3.PasswordChar = '●';
+            }
+        }
     }
-}
+    }
 

@@ -63,7 +63,7 @@
             this.button41.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button41.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button41.ForeColor = System.Drawing.SystemColors.Control;
-            this.button41.Location = new System.Drawing.Point(774, 472);
+            this.button41.Location = new System.Drawing.Point(712, 473);
             this.button41.Name = "button41";
             this.button41.Size = new System.Drawing.Size(174, 42);
             this.button41.TabIndex = 12;
@@ -74,9 +74,9 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(74, 131);
+            this.dataGridView1.Location = new System.Drawing.Point(182, 125);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(903, 314);
+            this.dataGridView1.Size = new System.Drawing.Size(704, 314);
             this.dataGridView1.TabIndex = 13;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 

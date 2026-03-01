@@ -18,20 +18,30 @@ namespace Pizzeria_Projekt_Schule
 {
     public partial class Bestellungsseite : Form
     {
+        private Timer timer1;
         public Bestellungsseite()
         {
             InitializeComponent();
 
 
-            button3.Click += Button3_Click_aa;
-            tischauswahl.SelectionChangeCommitted += tischauswahl_SelectionChangeCommitted;
-
             
-           
+            tischauswahl.SelectionChangeCommitted += tischauswahl_SelectionChangeCommitted;
+            timer1 = new Timer();
+            timer1.Interval = 1000; // 1000 ms = 1 Sekunde
+            timer1.Tick += Timer1_Tick;
+            timer1.Start();
+
+            timenow(); // erste Anzeige sofort setzen
+
+
 
         }
 
+        private void timenow()
+        {
+                       label7.Text = DateTime.Now.ToString("HH:mm:ss dddd, MM/dd/yyyy");
 
+        }
         private void Bestellungspagerichtig_Load(object sender, EventArgs e)
         {
             comboBox1.Items.Clear();
@@ -186,11 +196,13 @@ namespace Pizzeria_Projekt_Schule
                 return;
             }
 
+            // --- ÄNDERUNG HIER: Erst prüfen, dann die ID in die Variable tisch schreiben ---
             if (!(tischauswahl.SelectedItem is TischItem tisch))
             {
                 MessageBox.Show("Bitte einen Tisch auswählen!");
                 return;
             }
+            // -----------------------------------------------------------------------------
 
             if (comboBox2.SelectedValue == null)
             {
@@ -198,75 +210,62 @@ namespace Pizzeria_Projekt_Schule
                 return;
             }
 
-
-
+            // 🔥 NEU: ID merken, um sie später wieder auszuwählen
+            int zuletztBestellterTischId = tisch.TischId;
 
             using (var conn = Database.GetConnection())
             using (var transaction = conn.BeginTransaction())
             {
                 try
                 {
+                    // ... (SQL Bestellungen & Positionen speichern - bleibt alles gleich) ...
                     // 1️⃣ Bestellung speichern
                     string bestellQuery = @"
-INSERT INTO bestellungen 
-(datum, gast_id_fk, tisch_id_fk, personalnr_fk, status, slot)
-VALUES 
-(@datum, @gast, @tisch, @mitarbeiter, 'offen', @slot);
-SELECT LAST_INSERT_ID();";
-                    // --- AB HIER EINFÜGEN ---
+                INSERT INTO bestellungen 
+                (datum, gast_id_fk, tisch_id_fk, personalnr_fk, status, slot)
+                VALUES 
+                (@datum, @gast, @tisch, @mitarbeiter, 'offen', @slot);
+                SELECT LAST_INSERT_ID();";
+
                     int gastId;
-                    // Wir schauen nach, ob jemand für diesen Tisch 'aktiv' eingecheckt ist
                     string reservierungsCheck = @"
-    SELECT gastid_fk 
-    FROM reservierungen 
-    WHERE tisch_id_fk = @tid 
-    AND DATE(datum) = @datum 
-    AND slot = @slot 
-    AND zustand = 'aktiv' 
-    LIMIT 1";
+                SELECT gastid_fk 
+                FROM reservierungen 
+                WHERE tisch_id_fk = @tid 
+                AND DATE(datum) = @datum 
+                AND slot = @slot 
+                AND zustand = 'aktiv' 
+                LIMIT 1";
 
                     using (var checkCmd = new MySqlCommand(reservierungsCheck, conn, transaction))
                     {
                         checkCmd.Parameters.AddWithValue("@tid", tisch.TischId);
                         checkCmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
                         checkCmd.Parameters.AddWithValue("@slot", HoleSlot());
-
                         object resGast = checkCmd.ExecuteScalar();
-
                         if (resGast != null && resGast != DBNull.Value)
-                        {
-                            // Es wurde eine aktive Reservierung gefunden!
                             gastId = Convert.ToInt32(resGast);
-                        }
                         else
-                        {
-                            // Keine Reservierung aktiv -> Es muss ein Laufgast sein
                             gastId = GetLaufgastId(conn, transaction);
-                        }
                     }
 
-                    int bestellNr; // Die Variable deklarieren wir hier neu
-                                   // --- BIS HIERHIN ---
-
+                    int bestellNr;
                     using (var cmd = new MySqlCommand(bestellQuery, conn, transaction))
                     {
                         cmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
-                        cmd.Parameters.AddWithValue("@gast", gastId); //  DAS HAT GEFEHLT
+                        cmd.Parameters.AddWithValue("@gast", gastId);
                         cmd.Parameters.AddWithValue("@tisch", tisch.TischId);
                         cmd.Parameters.AddWithValue("@mitarbeiter", comboBox2.SelectedValue);
                         cmd.Parameters.AddWithValue("@slot", HoleSlot());
-
                         bestellNr = Convert.ToInt32(cmd.ExecuteScalar());
                     }
 
-                    // 2️⃣ Positionen speichern
                     foreach (var item in warenkorb)
                     {
                         string posQuery = @"
-INSERT INTO bestellposition
-(bestellnr_fk, speise_id_fk, menge, preis_beim_kauf)
-VALUES (@bnr, @sid, @menge, @preis)";
-
+                    INSERT INTO bestellposition
+                    (bestellnr_fk, speise_id_fk, menge, preis_beim_kauf)
+                    VALUES (@bnr, @sid, @menge, @preis)";
                         using (var cmd = new MySqlCommand(posQuery, conn, transaction))
                         {
                             cmd.Parameters.AddWithValue("@bnr", bestellNr);
@@ -277,21 +276,25 @@ VALUES (@bnr, @sid, @menge, @preis)";
                         }
                     }
 
-
-
-
-
-
                     // 4️⃣ Alles speichern
                     transaction.Commit();
+
+                    // Tische neu laden, um Farben zu aktualisieren
                     AktualisiereTische();
-                    tischauswahl.Refresh();
 
                     MessageBox.Show("Bestellung gespeichert 🍕");
-
                     warenkorb.Clear();
                     WarenkorbAktualisieren();
 
+                    // 🔥 NEU: Den Tisch in der GUI wieder auswählen
+                    for (int i = 0; i < tischauswahl.Items.Count; i++)
+                    {
+                        if (tischauswahl.Items[i] is TischItem item && item.TischId == zuletztBestellterTischId)
+                        {
+                            tischauswahl.SelectedIndex = i;
+                            break;
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -635,8 +638,8 @@ ORDER BY t.tisch_id";
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-
-            label7.Text = DateTime.Now.ToString("HH:mm:ss dddd, MM/dd/yyyy");
+            label7.Text = DateTime.Now.ToString("HH:mm:ss dddd, dd.MM.yyyy",
+            System.Globalization.CultureInfo.GetCultureInfo("de-DE"));
         }
     }
 }

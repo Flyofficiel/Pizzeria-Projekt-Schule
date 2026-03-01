@@ -117,7 +117,7 @@ namespace Pizzeria_Projekt_Schule
                 // bei den Zahlenfeldern ankommt, sondern im Notfall eine 0.
                 string query = @"
             SELECT speise_id, speisename, speisentyp, 
-            COALESCE(preis, 0.00) as preis, zutaten 
+            COALESCE(preis, 0.00) as preis, zutaten ,aktiv
             FROM speisen
             WHERE aktiv = 1";
 
@@ -157,7 +157,7 @@ namespace Pizzeria_Projekt_Schule
             else
             {
                 // Alle Speisen anzeigen
-                query = @"SELECT speise_id, speisename, speisentyp, preis, zutaten 
+                query = @"SELECT speise_id, speisename, speisentyp, preis, zutaten ,aktiv
                   FROM speisen";
             }
 
@@ -209,6 +209,16 @@ namespace Pizzeria_Projekt_Schule
             updateForm.ShowDialog();
 
             SpeisenLaden(); // Nach Update neu laden
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
     }

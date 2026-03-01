@@ -45,7 +45,19 @@ namespace Pizzeria_Projekt_Schule
             MySqlConnection conn = Database.GetConnection();
 
             {
-                string query = "SELECT tisch_id, max_personen ,bereich,lage  FROM tische";
+                string query = @"
+        SELECT 
+    t.tisch_id,
+    t.max_personen,
+    t.bereich,
+    t.lage,
+    t.ort,
+    CONCAT(m.vorname, ' ', m.nachname) AS mitarbeiter
+FROM tische t
+LEFT JOIN mitarbeiter m 
+    ON t.bereich = m.bereich
+    AND m.rolle = 'service'
+ORDER BY t.tisch_id;";
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                 DataTable dt = new DataTable();

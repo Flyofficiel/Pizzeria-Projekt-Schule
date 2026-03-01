@@ -144,7 +144,6 @@ C:\Users\diaaa\OneDrive\Desktop\Pizzeria-Projekt-Schule 16.02\Pizzeria Projekt S
 C:\Users\diaaa\OneDrive\Desktop\Pizzeria-Projekt-Schule 16.02\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.SpeisenMenu.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Umsatzauswertung.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Bestellungsseite.resources
-D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Rechnungsuebersicht.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Speisehinzufügen.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.mitarbeiterverwaltung0.resources
 D:\C# projekte\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Reservierungsseite.resources
@@ -189,7 +188,6 @@ C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Pro
 C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.speiupd.resources
 C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Umsatzauswertung.resources
 C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Bestellungsseite.resources
-C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Rechnungsuebersicht.resources
 C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.Speisehinzufügen.resources
 C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.mitarbeiterverwaltung0.resources
 C:\Users\diaaa\OneDrive\Desktop\Projekt2026\Pizzeria-Projekt-Schule\Pizzeria Projekt Schule\obj\Debug\Pizzeria_Projekt_Schule.tischauswahl.resources

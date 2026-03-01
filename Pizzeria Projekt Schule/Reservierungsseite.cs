@@ -17,6 +17,7 @@ namespace Pizzeria_Projekt_Schule
         public Reservierungsseite()
         {
             InitializeComponent();
+            StammgastLaden();
         }
 
 
@@ -146,13 +147,13 @@ WHEN EXISTS (
 
                     int aktuellerSlot = 0;
 
-                    if (aktuelleStunde < 12)
+                    if (aktuelleStunde < 12|| aktuelleStunde > 14.5)
                         aktuellerSlot = 1;
-                    else if (aktuelleStunde < 15)
+                    else if (aktuelleStunde < 15|| aktuelleStunde > 17.5)
                         aktuellerSlot = 2;
-                    else if (aktuelleStunde < 18)
+                    else if (aktuelleStunde < 18 || aktuelleStunde > 20.5)
                         aktuellerSlot = 3;
-                    else if (aktuelleStunde < 21)
+                    else if (aktuelleStunde < 21 || aktuelleStunde > 21.5 )
                         aktuellerSlot = 4;
                     else
                     {
@@ -306,22 +307,22 @@ WHEN EXISTS (
         {
 
             {
-               // 🔥 SLOT ZEITEN LADEN
-    comboBox1.Items.Clear();
-    comboBox1.Items.Add("12-15");
-    comboBox1.Items.Add("15-18");
-    comboBox1.Items.Add("18-21");
-    comboBox1.Items.Add("21-24");
-    comboBox1.SelectedIndex = 0;
+                // 🔥 SLOT ZEITEN LADEN
+                comboBox1.Items.Clear();
+                comboBox1.Items.Add("12-15");
+                comboBox1.Items.Add("15-18");
+                comboBox1.Items.Add("18-21");
+                comboBox1.Items.Add("21-24");
+                comboBox1.SelectedIndex = 0;
 
-    // 🔥 FARBEN AKTIVIEREN
-    comboBox2.DrawMode = DrawMode.OwnerDrawFixed;
-    comboBox2.DrawItem += comboBox2_DrawItem;
-}
+                // 🔥 FARBEN AKTIVIEREN
+                comboBox2.DrawMode = DrawMode.OwnerDrawFixed;
+                comboBox2.DrawItem += comboBox2_DrawItem;
             }
-        
+        }
 
-       
+
+
 
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -360,7 +361,7 @@ WHEN EXISTS (
             }
         }
 
-        
+
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
@@ -372,7 +373,7 @@ WHEN EXISTS (
             }
         }
 
-        
+
 
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -426,6 +427,31 @@ WHEN EXISTS (
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+            
+        }
+        private void StammgastLaden()
+        {
+            MySqlConnection conn = Database.GetConnection();
+            {
+                string query = @"SELECT gastvorname,gastnachname,telephonenr FROM gast ";
+                using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn))
+                {
+                    DataTable table = new DataTable();
+                    adapter.Fill(table);
+                    dataGridView1.DataSource = table;
+                }
+            }
+        }
+
+        private void guestuebernehmen_Click(object sender, EventArgs e)
+        {
+            dataGridView1.CurrentRow.Selected = true;
+            textBox1.Text = dataGridView1.CurrentRow.Cells["gastvorname"].Value.ToString() + " " + dataGridView1.CurrentRow.Cells["gastnachname"].Value.ToString();
+            textBox2.Text = dataGridView1.CurrentRow.Cells["telephonenr"].Value.ToString();
         }
     }
 }

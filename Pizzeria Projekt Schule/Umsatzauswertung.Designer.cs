@@ -45,7 +45,7 @@
             this.button6 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.labeluhrzeit = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -152,16 +152,17 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(803, 206);
+            this.comboBox1.Location = new System.Drawing.Point(858, 219);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(124, 21);
             this.comboBox1.TabIndex = 20;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(806, 178);
+            this.label9.Location = new System.Drawing.Point(861, 191);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(121, 15);
             this.label9.TabIndex = 26;
@@ -187,7 +188,7 @@
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button5.ForeColor = System.Drawing.SystemColors.Control;
-            this.button5.Location = new System.Drawing.Point(57, 364);
+            this.button5.Location = new System.Drawing.Point(57, 365);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(174, 39);
             this.button5.TabIndex = 35;
@@ -201,7 +202,7 @@
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button6.ForeColor = System.Drawing.SystemColors.Control;
-            this.button6.Location = new System.Drawing.Point(473, 365);
+            this.button6.Location = new System.Drawing.Point(473, 364);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(174, 39);
             this.button6.TabIndex = 36;
@@ -215,9 +216,9 @@
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(765, 118);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(174, 16);
+            this.label11.Size = new System.Drawing.Size(91, 16);
             this.label11.TabIndex = 41;
-            this.label11.Text = "Datenstand: XXXX.XX.XX";
+            this.label11.Text = " XXXX.XX.XX";
             this.label11.Click += new System.EventHandler(this.label1_Click);
             // 
             // dataGridView2
@@ -232,22 +233,22 @@
             this.dataGridView2.TabIndex = 42;
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
-            // labeluhrzeit
+            // label5
             // 
-            this.labeluhrzeit.AutoSize = true;
-            this.labeluhrzeit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labeluhrzeit.Location = new System.Drawing.Point(765, 147);
-            this.labeluhrzeit.Name = "labeluhrzeit";
-            this.labeluhrzeit.Size = new System.Drawing.Size(103, 16);
-            this.labeluhrzeit.TabIndex = 42;
-            this.labeluhrzeit.Text = "Uhrzeit: XX:XX";
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(670, 118);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(90, 16);
+            this.label5.TabIndex = 43;
+            this.label5.Text = "Datenstand:";
             // 
             // Umsatzauswertung
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1006, 612);
-            this.Controls.Add(this.labeluhrzeit);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.button6);
@@ -294,6 +295,6 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.Label labeluhrzeit;
+        private System.Windows.Forms.Label label5;
     }
 }

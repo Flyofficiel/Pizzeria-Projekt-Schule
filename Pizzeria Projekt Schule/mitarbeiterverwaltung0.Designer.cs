@@ -47,6 +47,7 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.showpassoword = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -142,6 +143,7 @@
             // 
             this.textBox3.Location = new System.Drawing.Point(925, 392);
             this.textBox3.Name = "textBox3";
+            this.textBox3.PasswordChar = '●';
             this.textBox3.Size = new System.Drawing.Size(121, 20);
             this.textBox3.TabIndex = 10;
             // 
@@ -257,11 +259,23 @@
             this.label9.TabIndex = 16;
             this.label9.Text = "Nachname";
             // 
+            // showpassoword
+            // 
+            this.showpassoword.AutoSize = true;
+            this.showpassoword.Location = new System.Drawing.Point(925, 430);
+            this.showpassoword.Name = "showpassoword";
+            this.showpassoword.Size = new System.Drawing.Size(115, 17);
+            this.showpassoword.TabIndex = 20;
+            this.showpassoword.Text = "Passwort anzeigen";
+            this.showpassoword.UseVisualStyleBackColor = true;
+            this.showpassoword.CheckedChanged += new System.EventHandler(this.showpassoword_CheckedChanged);
+            // 
             // Mitarbeiterverwaltung0
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1133, 645);
+            this.Controls.Add(this.showpassoword);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label8);
@@ -312,5 +326,6 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox showpassoword;
     }
 }

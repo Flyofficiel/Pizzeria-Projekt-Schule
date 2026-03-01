@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -43,7 +44,6 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -61,6 +61,14 @@
             this.panel1.Size = new System.Drawing.Size(775, 377);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(543, 17);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 16;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // dataGridView1
             // 
@@ -95,9 +103,9 @@
             // pictureBox1
             // 
             this.pictureBox1.ImageLocation = "D:\\C# projekte\\Pizzeria-Projekt-Schule\\Pizzeria Projekt Schule\\pizzerialogo.ico";
-            this.pictureBox1.Location = new System.Drawing.Point(47, 13);
+            this.pictureBox1.Location = new System.Drawing.Point(33, 9);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(103, 68);
+            this.pictureBox1.Size = new System.Drawing.Size(120, 77);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -106,13 +114,13 @@
             // 
             this.label1.AutoSize = true;
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.Control;
-            this.label1.Location = new System.Drawing.Point(404, 27);
+            this.label1.Location = new System.Drawing.Point(335, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(248, 39);
+            this.label1.Size = new System.Drawing.Size(456, 73);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Pizzaria Vesuv";
+            this.label1.Text = "Pizzeria Vesuv";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // button1
@@ -181,7 +189,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(210, 44);
             this.button5.TabIndex = 7;
-            this.button5.Text = "Rechnung";
+            this.button5.Text = "Zahlen";
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -240,14 +248,6 @@
             this.button9.Text = "Reservierung Stornieren";
             this.button9.UseVisualStyleBackColor = false;
             this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(543, 17);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 16;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // Hauptmenu
             // 
