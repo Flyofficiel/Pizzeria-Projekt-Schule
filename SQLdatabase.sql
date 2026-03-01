@@ -9,65 +9,45 @@ speise_id INT AUTO_INCREMENT PRIMARY KEY,
 speisename varchar(100) unique,
 speisentyp varchar(100),
 preis DECIMAL(10,2),
-
 zutaten varchar(100),
 aktiv boolean default true
 );
 create table gast(
-gastid int auto_increment unique primary key,
+gastid int auto_increment primary key,
 gastvorname varchar(100),
 gastnachname varchar(100),
 telephonenr varchar(20),
-aktiv boolean default true
-
+aktiv boolean default true,
+laufgast boolean default false
 );
-INSERT INTO gast (gastvorname, gastnachname, telephonenr, aktiv)
-VALUES ('Laufkunde', 'Ohne Registrierung', NULL, true);
+
+
+INSERT INTO gast (gastvorname, gastnachname, telephonenr, aktiv, laufgast)
+VALUES ('Laufkunde', 'Ohne Registrierung', NULL, true, true);
 
 create table mitarbeiter(
-personalnr int not null primary key,
-vorname varchar(100),
-nachname varchar(100),
-bereich varchar(100),
-passwort varchar(100),
-rolle varchar(100) ,
-aktiv boolean default true
-
-
-
-);
-ALTER TABLE mitarbeiter 
-MODIFY rolle ENUM(
-'service',
-'koch',
-'kasse',
-'admin',
-'management'
-);
-ALTER TABLE mitarbeiter 
-MODIFY bereich ENUM(
-'Innen vorne',
-'Innen hinten',
-'Terrasse',
-'Terrasse groß',
-'VIP / Gruppen',
-'Küche',
-'Kasse',
-'EDV',
-'Management'
-);
-ALTER TABLE mitarbeiter 
-MODIFY personalnr INT AUTO_INCREMENT;
-ALTER TABLE mitarbeiter 
-MODIFY bereich ENUM(
-'Tische 1-10',
-'Tische 11-20',
-'Tische 21-30',
-'Tische 31-40',
-'Küche',
-'Kasse',
-'Management',
-'EDV'
+    personalnr int AUTO_INCREMENT PRIMARY KEY,
+    vorname varchar(100),
+    nachname varchar(100),
+    bereich ENUM(
+        'Tische 1-10',
+        'Tische 11-20',
+        'Tische 21-30',
+        'Tische 31-40',
+        'Küche',
+        'Kasse',
+        'EDV',
+        'Management'
+    ) NOT NULL,
+    passwort varchar(100),
+    rolle ENUM(
+        'service',
+        'koch',
+        'kasse',
+        'admin',
+        'management'
+    ),
+    aktiv boolean default true
 );
 
 
@@ -84,7 +64,8 @@ CREATE TABLE tische (
         'Tische 21-30',
         'Tische 31-40'
     ),
-    lage VARCHAR(50) DEFAULT 'Frei'
+    lage VARCHAR(50) DEFAULT 'Frei',
+    ort VARCHAR(15) DEFAULT 'Saal'
 );
 
 
@@ -151,6 +132,7 @@ create table reservierungen(
 );
 ALTER TABLE reservierungen 
 MODIFY zustand ENUM('offen','abgeschlossen','storniert','aktiv');
+ALTER TABLE reservierungen MODIFY COLUMN zustand VARCHAR(20);
 
 
 CREATE TABLE rechnungen(
@@ -256,21 +238,26 @@ INSERT INTO speisen (speisename,speisentyp, preis, zutaten,aktiv) VALUES
 
 INSERT INTO mitarbeiter (vorname,nachname, bereich, passwort,rolle, aktiv) VALUES
 
-('Luigi','Rossi','Management','fdgfgdjsdhf','management',true),
+-- 👔 Management
+('Luigi','Rossi','Management','manager1','management',true),
 
-('Marco','Habibi','Tische 1-10','jsdhf','service',true),
-('Luca','Romano','Tische 11-20','ösldkfsk','service',true),
-('Elena','Ferrari','Tische 21-30','poigvjk','service',true),
-('Mario','Test','Tische 31-40','test123','service',true),
+-- 🍽 Service (JE 10 TISCHE)
+('Marco','Habibi','Tische 1-10','service1','service',true),
+('Luca','Romano','Tische 11-20','service2','service',true),
+('Elena','Ferrari','Tische 21-30','service3','service',true),
+('Maximilian','Achmed','Tische 31-40','service4','service',true),
 
-('Giulia','Bianchi','Küche','kjdfsnklsf','koch',true),
-('Antonio','Greco','Küche','pdfglokjdsp','koch',true),
+-- 👨‍🍳 Küche
+('Mario','Test','Küche','koch1','koch',true),
+('Giulia','Bianchi','Küche','koch2','koch',true),
 
-('Sara','Conti','Kasse','lödgkdlöfgv','kasse',true),
+-- 💳 Kasse
+('Sara','Conti','Kasse','kasse1','kasse',true),
 
+-- 🖥 Admin
 ('Lucas','Huber','EDV','admin1','admin',true),
-('Diaa','','EDV','admin2','admin',true),
-('Julian','','EDV','admin3','admin',true);
+('Diaa','Admin','EDV','admin2','admin',true),
+('Julian','Ligenza','EDV','admin3','admin',true);
 
 
 
@@ -363,6 +350,24 @@ GROUP BY
     g.gastid, gastname
 ORDER BY umsatz DESC;
 
+-- Änderungen
+
+-- Tische 1-10: 2er Tische (Perfekt für Pärchen/Eingangsbereich)
+UPDATE tische SET ort = 'Eingang' WHERE tisch_id BETWEEN 1 AND 5;
+UPDATE tische SET ort = 'Fenster' WHERE tisch_id BETWEEN 6 AND 10;
+
+-- Tische 11-20: 4er Tische (Standard-Pizzeria-vorne)
+UPDATE tische SET ort = 'Vorne Links' WHERE tisch_id BETWEEN 11 AND 15;
+UPDATE tische SET ort = 'Vorne Rechts' WHERE tisch_id BETWEEN 16 AND 20;
+
+-- Tische 21-30: 6er Tische (In der Nähe des Pizza-Ofens - warm & gesellig)
+UPDATE tische SET ort = 'Neben WC' WHERE tisch_id BETWEEN 21 AND 25;
+UPDATE tische SET ort = 'Mitte' WHERE tisch_id BETWEEN 26 AND 30;
+
+-- Tische 31-40: Große Tische (Familien/Gruppen im ruhigen Bereich)
+UPDATE tische SET ort = 'Terrasse' WHERE tisch_id BETWEEN 31 AND 35;
+UPDATE tische SET ort = 'Hinten' WHERE tisch_id BETWEEN 36 AND 40;
+
 -- Mysql Workbench ausgabe
 
 select * from speisen;
@@ -395,6 +400,7 @@ SELECT tisch_id, bereich
 FROM tische
 WHERE bereich = 'Tische 1-10';
 SELECT * FROM gast;
-SELECT bestellnr, tisch_id_fk, datum, slot, status
-FROM bestellungen
-ORDER BY bestellnr DESC;
+SELECT tisch_id_fk, datum, slot, zustand;
+SELECT * FROM gast WHERE laufgast = true;
+SELECT * FROM bestellungen ORDER BY bestellnr DESC;
+select * FROM gast;
