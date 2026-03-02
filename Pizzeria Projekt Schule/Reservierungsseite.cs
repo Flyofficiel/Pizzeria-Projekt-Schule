@@ -305,20 +305,23 @@ WHEN EXISTS (
 
         private void reservierung_Load(object sender, EventArgs e)
         {
+            // 🔥 WICHTIG: Datum auf heute setzen
+            dateTimePicker1.Value = DateTime.Now;
 
-            {
-                // 🔥 SLOT ZEITEN LADEN
-                comboBox1.Items.Clear();
-                comboBox1.Items.Add("12-15");
-                comboBox1.Items.Add("15-18");
-                comboBox1.Items.Add("18-21");
-                comboBox1.Items.Add("21-24");
-                comboBox1.SelectedIndex = 0;
+            // 🔥 SLOT ZEITEN LADEN
+            comboBox1.Items.Clear();
+            comboBox1.Items.Add("12-15");
+            comboBox1.Items.Add("15-18");
+            comboBox1.Items.Add("18-21");
+            comboBox1.Items.Add("21-24");
+            comboBox1.SelectedIndex = 0;
 
-                // 🔥 FARBEN AKTIVIEREN
-                comboBox2.DrawMode = DrawMode.OwnerDrawFixed;
-                comboBox2.DrawItem += comboBox2_DrawItem;
-            }
+            // 🔥 FARBEN AKTIVIEREN
+            comboBox2.DrawMode = DrawMode.OwnerDrawFixed;
+            comboBox2.DrawItem += comboBox2_DrawItem;
+
+            // Optional: Tische sofort laden, basierend auf dem neuen Datum
+            AktualisiereTischeAuto();
         }
 
 
@@ -386,36 +389,38 @@ WHEN EXISTS (
 
             e.DrawBackground();
 
-            DataRowView row = (DataRowView)comboBox2.Items[e.Index];
-            string status = row["status"].ToString().ToLower();
-
-            Color farbe = Color.Black;
-
-            switch (status)
+            // 🔥 WICHTIG: Prüfen, ob das Element wirklich eine DataRowView ist (Daten aus DB)
+            if (comboBox2.Items[e.Index] is DataRowView row)
             {
-                case "frei":
-                    farbe = Color.Green;
-                    break;
+                string status = row["status"].ToString().ToLower();
+                Color farbe = Color.Black;
 
-                case "reserviert":
-                    farbe = Color.Orange;
-                    break;
+                switch (status)
+                {
+                    case "frei": farbe = Color.Green; break;
+                    case "reserviert": farbe = Color.Orange; break;
+                    case "besetzt": farbe = Color.Red; break;
+                    case "aktiv": farbe = Color.MediumPurple; break;
+                }
 
-                case "besetzt":
-                    farbe = Color.Red;
-                    break;
-
-                case "aktiv":
-                    farbe = Color.MediumPurple;
-                    break;
+                using (Brush brush = new SolidBrush(farbe))
+                {
+                    e.Graphics.DrawString(
+                        row["Anzeige"].ToString(),
+                        e.Font,
+                        brush,
+                        e.Bounds.Left,
+                        e.Bounds.Top
+                    );
+                }
             }
-
-            using (Brush brush = new SolidBrush(farbe))
+            else
             {
+                // 🔥 Fallback: Wenn es nur ein String ist (z.B. "Kein Tisch frei")
                 e.Graphics.DrawString(
-                    row["Anzeige"].ToString(),
+                    comboBox2.Items[e.Index].ToString(),
                     e.Font,
-                    brush,
+                    Brushes.Black, // Oder eine Farbe deiner Wahl
                     e.Bounds.Left,
                     e.Bounds.Top
                 );

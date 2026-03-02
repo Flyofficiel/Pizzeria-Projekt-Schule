@@ -39,8 +39,8 @@ namespace Pizzeria_Projekt_Schule
 
         private void timenow()
         {
-                       label7.Text = DateTime.Now.ToString("HH:mm:ss dddd, MM/dd/yyyy");
-
+            label7.Text = DateTime.Now.ToString("HH:mm:ss dddd, dd.MM.yyyy",
+            System.Globalization.CultureInfo.GetCultureInfo("de-DE"));
         }
         private void Bestellungspagerichtig_Load(object sender, EventArgs e)
         {
@@ -70,13 +70,12 @@ namespace Pizzeria_Projekt_Schule
 
             string query = "SELECT speise_id, speisename, preis FROM speisen WHERE aktiv = 1";
 
-            MySqlConnection conn = Database.GetConnection();
+            using (var conn = Database.GetConnection())
             {
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                 DataTable table = new DataTable();
                 adapter.Fill(table);
                 dataGridView1.DataSource = table;
-
 
                 dataGridView1.ClearSelection();
                 dataGridView1.CurrentCell = null;
@@ -101,7 +100,7 @@ namespace Pizzeria_Projekt_Schule
         {
             public int SpeiseId { get; set; }
             public string Name { get; set; }
-            public double Preis { get; set; }
+            public decimal Preis { get; set; }
             public int Menge { get; set; }
 
             public override string ToString()
@@ -114,7 +113,7 @@ namespace Pizzeria_Projekt_Schule
         {
             listBox1.Items.Clear();
 
-            double summe = 0;
+            decimal summe = 0;
 
             foreach (var item in warenkorb)
             {
@@ -122,7 +121,8 @@ namespace Pizzeria_Projekt_Schule
                 summe += item.Preis * item.Menge;
             }
 
-            textBox1.Text = summe.ToString("0.00 €");
+            textBox1.Text = summe.ToString("C2",
+     System.Globalization.CultureInfo.GetCultureInfo("de-DE"));
 
 
         }
@@ -322,7 +322,7 @@ namespace Pizzeria_Projekt_Schule
             DataGridViewRow row = dataGridView1.Rows[quelle];
             int speiseId = Convert.ToInt32(row.Cells["speise_id"].Value);
             string name = row.Cells["speisename"].Value.ToString();
-            double preis = Convert.ToDouble(row.Cells["preis"].Value);
+            decimal preis = Convert.ToDecimal(row.Cells["preis"].Value);
 
             var item = warenkorb.FirstOrDefault(x => x.SpeiseId == speiseId);
 
@@ -455,13 +455,13 @@ ORDER BY t.tisch_id";
 
         private void AktualisiereTische()
         {
-            if (comboBox2.SelectedValue == null)
-            {
-                tischauswahl.Items.Clear();
-                return;
-            }
+            // 🔥 Aktuell ausgewählten Tisch merken
+            int? aktuellGewaehlterTischId = null;
 
-            if (HoleSlot() == 0)
+            if (tischauswahl.SelectedItem is TischItem alterTisch)
+                aktuellGewaehlterTischId = alterTisch.TischId;
+
+            if (comboBox2.SelectedValue == null || HoleSlot() == 0)
             {
                 tischauswahl.Items.Clear();
                 return;
@@ -483,10 +483,20 @@ ORDER BY t.tisch_id";
                     string bereich = result.ToString();
 
                     LadeTische(bereich);
-                }
-                else
-                {
-                    MessageBox.Show("Kein Bereich gefunden!");
+
+                    // 🔥 Nach dem Neuladen wieder auswählen
+                    if (aktuellGewaehlterTischId.HasValue)
+                    {
+                        for (int i = 0; i < tischauswahl.Items.Count; i++)
+                        {
+                            if (tischauswahl.Items[i] is TischItem t &&
+                                t.TischId == aktuellGewaehlterTischId.Value)
+                            {
+                                tischauswahl.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -631,15 +641,11 @@ ORDER BY t.tisch_id";
 
         }
 
-        private void dateTimePicker1_ValueChanged_2(object sender, EventArgs e)
-        {
 
-        }
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            label7.Text = DateTime.Now.ToString("HH:mm:ss dddd, dd.MM.yyyy",
-            System.Globalization.CultureInfo.GetCultureInfo("de-DE"));
+            timenow();
         }
     }
 }

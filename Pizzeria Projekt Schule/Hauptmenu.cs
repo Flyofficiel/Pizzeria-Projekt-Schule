@@ -33,7 +33,7 @@ namespace Pizzeria_Projekt_Schule
         private void label1_Click(object sender, EventArgs e) { }
 
         // Öffnet das Speisen-Menü
-        private void button1_Click(object sender, EventArgs e)
+        private void Buttonspeisemenü_Haupt(object sender, EventArgs e)
         {
             SpeisenMenu speisenpage = new SpeisenMenu();
             speisenpage.Show();
@@ -41,7 +41,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Öffnet die Bestellungsseite
-        private void button2_Click(object sender, EventArgs e)
+        private void Button_Bestellungshaupt(object sender, EventArgs e)
         {
             Bestellungsseite bestellungspagerichtigpage = new Bestellungsseite();
             bestellungspagerichtigpage.Show();

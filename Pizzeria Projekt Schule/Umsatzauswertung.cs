@@ -116,12 +116,13 @@ LIMIT 1";
         {
             string filter = GetZeitraumFilter();
 
+            // WICHTIG: GROUP BY explizit nach HOUR(b.datum) gruppieren
             string query = $@"
 SELECT HOUR(b.datum) AS Stunde, COUNT(*) AS Anzahl
 FROM bestellungen b
 WHERE b.status = 'bezahlt'
-AND {filter}
-GROUP BY Stunde
+AND {filter}                
+GROUP BY HOUR(b.datum)                
 ORDER BY Anzahl DESC
 LIMIT 1";
 
@@ -132,11 +133,12 @@ LIMIT 1";
                 if (reader.Read())
                 {
                     int stunde = reader.GetInt32("Stunde");
-                    textBox3.Text =  stunde + ":00 Uhr";
+                    // Ausgabe formatieren auf z.B. 14:00 Uhr
+                    textBox3.Text = stunde.ToString("00") + ":00 Uhr";
                 }
                 else
                 {
-                    textBox3.Text = " Keine Daten";
+                    textBox3.Text = "Keine Daten";
                 }
             }
         }
@@ -229,7 +231,7 @@ ORDER BY Umsatz DESC";
         private string GetZeitraumFilter()
         {
 
-            if (comboBox1.SelectedItem == null)
+            if (comboBox1.SelectedItem == null || comboBox1.SelectedIndex == -1)
                 return "1=1";
 
             string z = comboBox1.SelectedItem.ToString();
@@ -308,22 +310,21 @@ AND {filter}";
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            button1.PerformClick();
+            LadeUmsatzNachZeitraum();
+            LadeBeliebtesteSpeise();
+            LadeBeliebtesteUhrzeit();
+            LadeUmsatzProMitarbeiter();
         }
 
-        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
 
-        }
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            label11.Text = DateTime.Now.ToString("HH:mm:ss dddd, dd.MM.yyyy",
-            System.Globalization.CultureInfo.GetCultureInfo("de-DE"));
+            timenow();
         }
         private void timenow()
         {
-            label11.Text = DateTime.Now.ToString("HH:mm:ss dddd, MM/dd/yyyy");
-
+            label11.Text = DateTime.Now.ToString("HH:mm:ss dddd, dd.MM.yyyy",
+            System.Globalization.CultureInfo.GetCultureInfo("de-DE"));
         }
     }
 }
