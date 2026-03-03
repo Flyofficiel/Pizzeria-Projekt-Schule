@@ -81,7 +81,7 @@
             this.label2.Size = new System.Drawing.Size(84, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "Positionen:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            
             // 
             // dataGridView1
             // 
@@ -91,7 +91,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(469, 171);
             this.dataGridView1.TabIndex = 2;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
+
             // 
             // label3
             // 
@@ -277,7 +277,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 16;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.DateTimePicker1_ValueChanged);
+           
             // 
             // button3
             // 

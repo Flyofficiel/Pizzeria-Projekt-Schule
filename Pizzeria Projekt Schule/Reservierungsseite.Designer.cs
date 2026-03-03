@@ -49,8 +49,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.guestuebernehmen = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -314,6 +314,7 @@
             this.tabPage1.Size = new System.Drawing.Size(557, 367);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Reservierung";
+            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // tabPage2
             // 
@@ -327,15 +328,6 @@
             this.tabPage2.Text = "Stammgäste";
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(25, 21);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(368, 218);
-            this.dataGridView1.TabIndex = 0;
-            // 
             // guestuebernehmen
             // 
             this.guestuebernehmen.Location = new System.Drawing.Point(425, 163);
@@ -345,6 +337,15 @@
             this.guestuebernehmen.Text = "Gast Übernehmen";
             this.guestuebernehmen.UseVisualStyleBackColor = true;
             this.guestuebernehmen.Click += new System.EventHandler(this.guestuebernehmen_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(25, 21);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(368, 218);
+            this.dataGridView1.TabIndex = 0;
             // 
             // Reservierungsseite
             // 

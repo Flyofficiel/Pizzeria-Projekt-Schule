@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySqlConnector;
-using Pizzeria_Projekt_Schule;
 
 namespace Pizzeria_Projekt_Schule
 {
-    // Das ist das Hauptmenü der Anwendung.
-    // Von hier aus kann man zu allen anderen Seiten navigieren.
+    // Das ist das Hauptmenü unserer Pizzeria-App.
+    // Von hier aus gelangt man per Klick auf alle anderen Funktionen.
     public partial class Hauptmenu : Form
     {
         public Hauptmenu()
@@ -21,26 +14,29 @@ namespace Pizzeria_Projekt_Schule
             InitializeComponent();
         }
 
-        // Beim Start des Formulars werden automatisch
-        // die heutigen offenen Reservierungen geladen.
+        // Sobald das Hauptmenü geladen wird, rufen wir eine Methode auf,
+        // die uns die aktuellen Reservierungen aus der Datenbank zeigt.
         private void Hauptmenu_Load(object sender, EventArgs e)
         {
             LadeReservierungen();
         }
 
+        // Platzhalter für Klicks auf Bilder oder Labels, falls man dort noch Logik braucht.
         private void pictureBox1_Click(object sender, EventArgs e) { }
         private void label2_Click(object sender, EventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
 
-        // Öffnet das Speisen-Menü
+        // --- NAVIGATION: Hier werden die anderen Fenster geöffnet ---
+
+        // Öffnet die Speisekarte (z.B. um Preise zu ändern)
         private void Buttonspeisemenü_Haupt(object sender, EventArgs e)
         {
             SpeisenMenu speisenpage = new SpeisenMenu();
-            speisenpage.Show();
-            this.Close();
+            speisenpage.Show(); // Neue Seite anzeigen
+            this.Close(); // Aktuelle Seite schließen
         }
 
-        // Öffnet die Bestellungsseite
+        // Öffnet die Seite, um neue Bestellungen aufzunehmen
         private void Button_Bestellungshaupt(object sender, EventArgs e)
         {
             Bestellungsseite bestellungspagerichtigpage = new Bestellungsseite();
@@ -48,16 +44,15 @@ namespace Pizzeria_Projekt_Schule
             this.Close();
         }
 
-        // Öffnet die Reservierungsseite
+        // Öffnet die Seite, um Tische zu reservieren
         private void button3_Click(object sender, EventArgs e)
         {
-            
             Reservierungsseite reservierungpage = new Reservierungsseite();
             reservierungpage.Show();
             this.Close();
         }
 
-        // Öffnet die Tischübersicht
+        // Zeigt an, welche Tische gerade im Restaurant belegt sind
         private void button4_Click(object sender, EventArgs e)
         {
             tischauswahl tischauswahlpage = new tischauswahl();
@@ -65,16 +60,16 @@ namespace Pizzeria_Projekt_Schule
             this.Close();
         }
 
-        // Öffnet die Zahlungsseite
+        // Öffnet das Kassen-System zum Bezahlen
         private void button5_Click(object sender, EventArgs e)
         {
-            int bestellnr = 0; // wird später mit echter Bestellnummer gefüllt
+            int bestellnr = 0; // Platzhalter für die Bestellung
             Zahlungsseite zahlungsartpage = new Zahlungsseite();
             zahlungsartpage.Show();
             this.Close();
         }
 
-        // Öffnet die Umsatzauswertung
+        // Zeigt die Statistik an, wie viel Geld wir verdient haben
         private void button7_Click(object sender, EventArgs e)
         {
             Umsatzauswertung auswertungpage = new Umsatzauswertung();
@@ -82,7 +77,7 @@ namespace Pizzeria_Projekt_Schule
             this.Close();
         }
 
-        // Öffnet das Login-Formular
+        // Loggt den aktuellen Mitarbeiter aus und geht zurück zum Login
         private void button8_Click(object sender, EventArgs e)
         {
             Loginpizzeriavesus loginform = new Loginpizzeriavesus();
@@ -90,20 +85,23 @@ namespace Pizzeria_Projekt_Schule
             this.Close();
         }
 
-        // Öffnet die Mitarbeiterverwaltung
+        // Öffnet die Verwaltung für das Personal
         private void button6_Click(object sender, EventArgs e)
         {
             Mitarbeiterverwaltung0 mitarbeiterverwaltungrichtigpage = new Mitarbeiterverwaltung0();
             mitarbeiterverwaltungrichtigpage.Show();
-            this.Hide();
+            this.Hide(); // Das Hauptmenü wird hier nur versteckt
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
-        // Diese Methode lädt alle offenen Reservierungen für heute
-        // und zeigt sie im DataGridView an.
+        // --- DATENBANK-LOGIK: Reservierungen anzeigen ---
+
+        // Diese Methode holt die Reservierungen aus der Datenbank
         private void LadeReservierungen()
         {
+            // SQL-Abfrage: Wir verbinden die Tabellen 'reservierungen' und 'gast',
+            // damit wir den Namen des Gastes statt nur seiner ID sehen (JOIN).
             string query = @"
 SELECT 
     r.reservierungs_id,
@@ -130,55 +128,57 @@ ORDER BY r.slot ASC";
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
             {
+                // Wir filtern nach dem Datum, das im Kalender (dateTimePicker) ausgewählt ist
                 cmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
 
                 DataTable dt = new DataTable();
                 new MySqlDataAdapter(cmd).Fill(dt);
 
+                // Die Tabelle im Fenster mit den Daten aus der Datenbank füllen
                 dataGridView1.DataSource = dt;
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
+        // --- BUTTON: STORNIEREN ---
         private void button9_Click(object sender, EventArgs e)
         {
-            // 1. Sicherheits-Check: Ist überhaupt eine Zeile ausgewählt?
+            // 1. Erstmal prüfen, ob der Benutzer überhaupt eine Zeile angeklickt hat
             if (dataGridView1.CurrentRow == null)
             {
                 MessageBox.Show("Bitte wählen Sie zuerst eine Reservierung aus der Liste aus!", "Keine Auswahl", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; // Methode hier abbrechen, damit kein Fehler passiert
+                return;
             }
 
             try
             {
-                // 2. Daten aus der ausgewählten Zeile holen
+                // 2. Wir holen uns die ID der Reservierung aus der markierten Zeile
                 int reservierungs_id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["reservierungs_id"].Value);
 
-                // 3. Datenbank-Update
+                // 3. Den Status in der Datenbank auf 'storniert' ändern
                 string query = "UPDATE reservierungen SET zustand = 'storniert' WHERE reservierungs_id = @id";
 
                 using (MySqlConnection conn = Database.GetConnection())
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@id", reservierungs_id);
-                    cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery(); // Befehl ausführen
                 }
 
-                // 4. Abschluss
+                // 4. Erfolg melden und die Liste aktualisieren
                 MessageBox.Show("Reservierung wurde storniert ✔", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LadeReservierungen(); // Liste neu laden
+                LadeReservierungen();
             }
             catch (Exception ex)
             {
+                // Fehlermeldung, falls beim SQL-Befehl etwas schiefgeht
                 MessageBox.Show("Fehler beim Stornieren: " + ex.Message);
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
 
-        }
-
+        // Wenn man im Kalender ein anderes Datum wählt, soll die Liste sofort neu laden
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             LadeReservierungen();

@@ -98,7 +98,6 @@
             this.label4.Size = new System.Drawing.Size(57, 24);
             this.label4.TabIndex = 6;
             this.label4.Text = "Preis";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label3
             // 
@@ -110,7 +109,6 @@
             this.label3.Size = new System.Drawing.Size(84, 24);
             this.label3.TabIndex = 5;
             this.label3.Text = "Speisse";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label2
             // 
