@@ -20,7 +20,7 @@ namespace Pizzeria_Projekt_Schule
             StammgastLaden(); // Lädt die Liste der bereits bekannten Gäste
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void abbrechen_button2_Click(object sender, EventArgs e)
         {
             Hauptmenu mainmenupage = new Hauptmenu();
             mainmenupage.Show();
@@ -31,7 +31,7 @@ namespace Pizzeria_Projekt_Schule
         // Lädt alle Tische, die für die Personenanzahl groß genug und im Slot frei sind
         void LadeTische(int personen)
         {
-            if (comboBox1.SelectedItem == null) return;
+            if (Uhrzeit_comboBox1.SelectedItem == null) return;
 
             int slot = HoleSlot();
             if (slot == 0) return;
@@ -81,18 +81,18 @@ namespace Pizzeria_Projekt_Schule
                     row["Anzeige"] = $"Tisch {row["tisch_id"]} - {row["bereich"]} ({row["max_personen"]} Pers.) - {row["status"]}";
                 }
 
-                comboBox2.DataSource = null;
+                Tischauswahl_comboBox2.DataSource = null;
 
                 if (dt.Rows.Count > 0)
                 {
-                    comboBox2.DisplayMember = "Anzeige";
-                    comboBox2.ValueMember = "tisch_id";
-                    comboBox2.DataSource = dt;
-                    comboBox2.SelectedIndex = 0;
+                    Tischauswahl_comboBox2.DisplayMember = "Anzeige";
+                    Tischauswahl_comboBox2.ValueMember = "tisch_id";
+                    Tischauswahl_comboBox2.DataSource = dt;
+                    Tischauswahl_comboBox2.SelectedIndex = 0;
                 }
                 else
                 {
-                    comboBox2.Items.Clear();
+                    Tischauswahl_comboBox2.Items.Clear();
                     MessageBox.Show("Kein passender Tisch verfügbar ❌");
                 }
             }
@@ -100,9 +100,9 @@ namespace Pizzeria_Projekt_Schule
 
         private void AktualisiereTischeAuto()
         {
-            if (numericUpDown1.Value > 0 && comboBox1.SelectedItem != null)
+            if (nureservierung_personenzahl_numericUpDown1.Value > 0 && Uhrzeit_comboBox1.SelectedItem != null)
             {
-                LadeTische((int)numericUpDown1.Value);
+                LadeTische((int)nureservierung_personenzahl_numericUpDown1.Value);
             }
         }
 
@@ -111,8 +111,8 @@ namespace Pizzeria_Projekt_Schule
         {
             try
             {
-                string name = textBox1.Text.Trim();
-                string telefon = textBox2.Text.Trim();
+                string name = Name_textBox1.Text.Trim();
+                string telefon = Telefon_textBox2.Text.Trim();
 
                 // Validierung: Datum
                 if (dateTimePicker1.Value.Date < DateTime.Today)
@@ -142,7 +142,7 @@ namespace Pizzeria_Projekt_Schule
                 }
 
                 // Pflichtfelder prüfen
-                if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(telefon) || comboBox2.SelectedItem == null)
+                if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(telefon) || Tischauswahl_comboBox2.SelectedItem == null)
                 {
                     MessageBox.Show("Bitte alle Pflichtfelder ausfüllen!");
                     return;
@@ -194,10 +194,10 @@ namespace Pizzeria_Projekt_Schule
 
                     using (var resCmd = new MySqlCommand(resSql, conn))
                     {
-                        resCmd.Parameters.AddWithValue("@tisch", comboBox2.SelectedValue);
+                        resCmd.Parameters.AddWithValue("@tisch", Tischauswahl_comboBox2.SelectedValue);
                         resCmd.Parameters.AddWithValue("@slot", HoleSlot());
                         resCmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
-                        resCmd.Parameters.AddWithValue("@personen", numericUpDown1.Value);
+                        resCmd.Parameters.AddWithValue("@personen", nureservierung_personenzahl_numericUpDown1.Value);
                         resCmd.Parameters.AddWithValue("@gastid", gastId);
 
                         resCmd.ExecuteNonQuery();
@@ -217,25 +217,25 @@ namespace Pizzeria_Projekt_Schule
         private void reservierung_Load(object sender, EventArgs e)
         {
             dateTimePicker1.Value = DateTime.Now;
-            comboBox1.Items.Clear();
-            comboBox1.Items.AddRange(new string[] { "12-15", "15-18", "18-21", "21-24" });
-            comboBox1.SelectedIndex = 0;
+            Uhrzeit_comboBox1.Items.Clear();
+            Uhrzeit_comboBox1.Items.AddRange(new string[] { "12-15", "15-18", "18-21", "21-24" });
+            Uhrzeit_comboBox1.SelectedIndex = 0;
 
-            comboBox2.DrawMode = DrawMode.OwnerDrawFixed;
-            comboBox2.DrawItem += comboBox2_DrawItem;
+            Tischauswahl_comboBox2.DrawMode = DrawMode.OwnerDrawFixed;
+            Tischauswahl_comboBox2.DrawItem += Tischauswahl_comboBox2_DrawItem;
             AktualisiereTischeAuto();
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
+        private void reservierung_personenzahl_numericUpDown1_ValueChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
 
         private int HoleSlot()
         {
-            if (comboBox1.SelectedItem == null) return 0;
-            return comboBox1.SelectedIndex + 1;
+            if (Uhrzeit_comboBox1.SelectedItem == null) return 0;
+            return Uhrzeit_comboBox1.SelectedIndex + 1;
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
+        private void reservierung_dateTimePicker1_ValueChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
+        private void Uhrzeit_comboBox1_SelectedIndexChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
 
         // --- VALIDIERUNG DER EINGABE ---
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
@@ -243,7 +243,7 @@ namespace Pizzeria_Projekt_Schule
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true;
         }
 
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        private void Name_textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
             {
@@ -253,12 +253,12 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // --- FARBIGE ANZEIGE DER TISCHE ---
-        private void comboBox2_DrawItem(object sender, DrawItemEventArgs e)
+        private void Tischauswahl_comboBox2_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0) return;
             e.DrawBackground();
 
-            if (comboBox2.Items[e.Index] is DataRowView row)
+            if (Tischauswahl_comboBox2.Items[e.Index] is DataRowView row)
             {
                 string status = row["status"].ToString().ToLower();
                 Color farbe = Color.Black;
@@ -288,23 +288,33 @@ namespace Pizzeria_Projekt_Schule
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                 DataTable table = new DataTable();
                 adapter.Fill(table);
-                dataGridView1.DataSource = table;
+                stammgaste_dataGridView1.DataSource = table;
             }
         }
 
         private void guestuebernehmen_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow != null)
+            if (stammgaste_dataGridView1.CurrentRow != null)
             {
-                var row = dataGridView1.CurrentRow;
-                textBox1.Text = $"{row.Cells["gastvorname"].Value} {row.Cells["gastnachname"].Value}";
-                textBox2.Text = row.Cells["telephonenr"].Value.ToString();
+                var row = stammgaste_dataGridView1.CurrentRow;
+                Name_textBox1.Text = $"{row.Cells["gastvorname"].Value} {row.Cells["gastnachname"].Value}";
+                Telefon_textBox2.Text = row.Cells["telephonenr"].Value.ToString();
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e) { }
+        private void Name_textBox1_TextChanged(object sender, EventArgs e) { }
         private void panel2_Paint(object sender, PaintEventArgs e) { }
         private void tabPage2_Click(object sender, EventArgs e) { }
         private void tabPage1_Click(object sender, EventArgs e) { }
+
+        private void Tischauswahl_comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Telefon_textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

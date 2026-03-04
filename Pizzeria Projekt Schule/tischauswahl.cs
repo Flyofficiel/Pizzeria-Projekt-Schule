@@ -25,7 +25,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // --- NAVIGATION ---
-        private void button41_Click(object sender, EventArgs e)
+        private void Zuruck_button41_Click(object sender, EventArgs e)
         {
             Hauptmenu mainmenupage = new Hauptmenu();
             mainmenupage.Show();
@@ -61,12 +61,12 @@ namespace Pizzeria_Projekt_Schule
                 adapter.Fill(dt);
 
                 // Das DataGridView wird automatisch mit den Spalten aus dem SQL-Query befüllt
-                dataGridView1.DataSource = dt;
+                Tischauswahl_dataGridView1.DataSource = dt;
 
                 // Optisches Tuning für das Grid
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridView1.AllowUserToAddRows = false; // Verhindert leere Zeile am Ende
-                dataGridView1.ReadOnly = true;            // Nur zum Anschauen gedacht
+                Tischauswahl_dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                Tischauswahl_dataGridView1.AllowUserToAddRows = false; // Verhindert leere Zeile am Ende
+                Tischauswahl_dataGridView1.ReadOnly = true;            // Nur zum Anschauen gedacht
             }
             catch (Exception ex)
             {
@@ -76,6 +76,6 @@ namespace Pizzeria_Projekt_Schule
 
         // Platzhalter für Event-Handler (können gelöscht werden, wenn nicht genutzt)
         private void label1_Click(object sender, EventArgs e) { }
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void Tischauswahl_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     }
 }

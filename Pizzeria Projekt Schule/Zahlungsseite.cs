@@ -40,17 +40,17 @@ namespace Pizzeria_Projekt_Schule
         private void Button1_Click(object sender, EventArgs e)
         {
             // Validierung: Zahlungsart gewählt?
-            if (!radioButton1.Checked && !radioButton2.Checked)
+            if (!Bargeld_zahlen_radioButton1.Checked && !Kartenzahlung_radioButton2.Checked)
             {
                 MessageBox.Show("Bitte Zahlungsart auswählen!");
                 return;
             }
 
-            string zahlungsart = radioButton1.Checked ? "Bar" : "Karte";
+            string zahlungsart = Bargeld_zahlen_radioButton1.Checked ? "Bar" : "Karte";
 
             // Beträge parsen (Kommata/Punkte Handling für Internationalisierung)
-            double.TryParse(textBox3.Text.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double gesamt);
-            double.TryParse(textBox1.Text.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double trinkgeld);
+            double.TryParse(gesamt_Zahlen_textBox3.Text.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double gesamt);
+            double.TryParse(Trinkgeld_Zahlen_TextBox1.Text.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double trinkgeld);
 
             if (bestellNr == 0)
             {
@@ -122,24 +122,24 @@ namespace Pizzeria_Projekt_Schule
             {
                 DataTable dt = new DataTable();
                 da.Fill(dt);
-                comboBox1.DisplayMember = "tisch_id";
-                comboBox1.ValueMember = "tisch_id";
-                comboBox1.DataSource = dt;
+                Tisch_zahlenseite_comboBox1.DisplayMember = "tisch_id";
+                Tisch_zahlenseite_comboBox1.ValueMember = "tisch_id";
+                Tisch_zahlenseite_comboBox1.DataSource = dt;
             }
         }
 
         private void BestellungenLaden()
         {
-            if (comboBox1.SelectedValue == null) return;
+            if (Tisch_zahlenseite_comboBox1.SelectedValue == null) return;
 
-            int tischId = Convert.ToInt32(comboBox1.SelectedValue);
+            int tischId = Convert.ToInt32(Tisch_zahlenseite_comboBox1.SelectedValue);
             bestellNr = HoleOffeneBestellung(tischId);
 
             if (bestellNr == 0)
             {
                 dataGridView1.DataSource = null;
-                textBox2.Text = "0.00";
-                textBox3.Text = "0.00";
+                Summe_zahlen_textBox2.Text = "0.00";
+                gesamt_Zahlen_textBox3.Text = "0.00";
                 return;
             }
 
@@ -164,8 +164,8 @@ namespace Pizzeria_Projekt_Schule
             }
 
             double summe = LadeSumme();
-            textBox2.Text = summe.ToString("N2");
-            textBox3.Text = summe.ToString("N2");
+            Summe_zahlen_textBox2.Text = summe.ToString("N2");
+            gesamt_Zahlen_textBox3.Text = summe.ToString("N2");
         }
 
         private int HoleOffeneBestellung(int tischId)
@@ -182,19 +182,19 @@ namespace Pizzeria_Projekt_Schule
 
         
         // Automatisches Berechnen des Gesamtbetrags bei Trinkgeld-Eingabe
-        private void TextBox1_TextChanged(object sender, EventArgs e)
+        private void Trinkgeld_Zahlen_TextBox1_TextChanged(object sender, EventArgs e)
         {
             // 1. Summe aus TextBox2 sicher einlesen (Inhalt von 'Summe:')
             // Wir nutzen 'CultureInfo.InvariantCulture', damit Punkte immer als Dezimaltrenner erkannt werden
             double.TryParse(
-                textBox2.Text.Replace(",", "."),
+                Summe_zahlen_textBox2.Text.Replace(",", "."),
                 System.Globalization.NumberStyles.Any,
                 System.Globalization.CultureInfo.InvariantCulture,
                 out double summe);
 
             // 2. Trinkgeld aus TextBox1 sicher einlesen (Inhalt von 'Trinkgeld:')
             double.TryParse(
-                textBox1.Text.Replace(",", "."),
+                Trinkgeld_Zahlen_TextBox1.Text.Replace(",", "."),
                 System.Globalization.NumberStyles.Any,
                 System.Globalization.CultureInfo.InvariantCulture,
                 out double tg);
@@ -204,7 +204,7 @@ namespace Pizzeria_Projekt_Schule
 
             // 4. Ergebnis in TextBox3 schreiben (Inhalt von 'Gesamt:')
             // "N2" formatiert die Zahl auf 2 Nachkommastellen (z.B. 54.00)
-            textBox3.Text = gesamt.ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
+            gesamt_Zahlen_textBox3.Text = gesamt.ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
         }
 
         // Stornierungs-Logik: Ermöglicht das Abziehen einzelner Posten vor der Zahlung
@@ -233,8 +233,33 @@ namespace Pizzeria_Projekt_Schule
             BestellungenLaden();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) { BestellungenLaden(); }
+        private void Tisch_zahlenseite_comboBox1_SelectedIndexChanged(object sender, EventArgs e) { BestellungenLaden(); }
         private void button2_Click(object sender, EventArgs e) { new Hauptmenu().Show(); this.Close(); }
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e) { if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',' && e.KeyChar != '.') e.Handled = true; }
+
+        private void Zahlenseite_dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Summe_zahlen_textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gesamt_Zahlen_textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Bargeld_zahlen_radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Kartenzahlung_radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

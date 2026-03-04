@@ -36,15 +36,15 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.Miarbeiterverwaltung_name_textBox2 = new System.Windows.Forms.TextBox();
+            this.Miarbeiterverwaltung_passwort_textBox3 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.Miarbeiterverwaltung_nachname_textBox4 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.showpassoword = new System.Windows.Forms.CheckBox();
@@ -99,6 +99,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(507, 342);
             this.dataGridView1.TabIndex = 3;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mitarbeiterverwaltung_dataGridView1_CellContentClick);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // label5
@@ -133,19 +134,20 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(925, 246);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(121, 20);
-            this.textBox2.TabIndex = 9;
-            
+            this.Miarbeiterverwaltung_name_textBox2.Location = new System.Drawing.Point(925, 246);
+            this.Miarbeiterverwaltung_name_textBox2.Name = "textBox2";
+            this.Miarbeiterverwaltung_name_textBox2.Size = new System.Drawing.Size(121, 20);
+            this.Miarbeiterverwaltung_name_textBox2.TabIndex = 9;
+            this.Miarbeiterverwaltung_name_textBox2.TextChanged += new System.EventHandler(this.Miarbeiterverwaltung_name_textBox2_TextChanged);
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(925, 392);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.PasswordChar = '●';
-            this.textBox3.Size = new System.Drawing.Size(121, 20);
-            this.textBox3.TabIndex = 10;
+            this.Miarbeiterverwaltung_passwort_textBox3.Location = new System.Drawing.Point(925, 392);
+            this.Miarbeiterverwaltung_passwort_textBox3.Name = "textBox3";
+            this.Miarbeiterverwaltung_passwort_textBox3.PasswordChar = '●';
+            this.Miarbeiterverwaltung_passwort_textBox3.Size = new System.Drawing.Size(121, 20);
+            this.Miarbeiterverwaltung_passwort_textBox3.TabIndex = 10;
+            this.Miarbeiterverwaltung_passwort_textBox3.TextChanged += new System.EventHandler(this.Miarbeiterverwaltung_passwort_textBox3_TextChanged);
             // 
             // comboBox1
             // 
@@ -174,7 +176,7 @@
             this.button1.TabIndex = 12;
             this.button1.Text = "Neu";
             this.button1.UseVisualStyleBackColor = false;
-            
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // button2
             // 
@@ -188,7 +190,7 @@
             this.button2.TabIndex = 13;
             this.button2.Text = "Speichern";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.Mitarbeiterverwaltung_speichern_button2_Click);
             // 
             // button3
             // 
@@ -202,7 +204,7 @@
             this.button3.TabIndex = 14;
             this.button3.Text = "Löschen";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.loschen_button3_Click);
             // 
             // button4
             // 
@@ -216,7 +218,7 @@
             this.button4.TabIndex = 15;
             this.button4.Text = "Abbrechen";
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.abbrechen_button4_Click);
             // 
             // comboBox2
             // 
@@ -232,11 +234,11 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(925, 286);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(121, 20);
-            this.textBox4.TabIndex = 18;
-           
+            this.Miarbeiterverwaltung_nachname_textBox4.Location = new System.Drawing.Point(925, 286);
+            this.Miarbeiterverwaltung_nachname_textBox4.Name = "textBox4";
+            this.Miarbeiterverwaltung_nachname_textBox4.Size = new System.Drawing.Size(121, 20);
+            this.Miarbeiterverwaltung_nachname_textBox4.TabIndex = 18;
+            this.Miarbeiterverwaltung_nachname_textBox4.TextChanged += new System.EventHandler(this.Miarbeiterverwaltung_nachname_textBox4_TextChanged);
             // 
             // label8
             // 
@@ -276,7 +278,7 @@
             this.ClientSize = new System.Drawing.Size(1133, 645);
             this.Controls.Add(this.showpassoword);
             this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.Miarbeiterverwaltung_nachname_textBox4);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.button4);
@@ -284,8 +286,8 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.Miarbeiterverwaltung_passwort_textBox3);
+            this.Controls.Add(this.Miarbeiterverwaltung_name_textBox2);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -314,15 +316,15 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox Miarbeiterverwaltung_name_textBox2;
+        private System.Windows.Forms.TextBox Miarbeiterverwaltung_passwort_textBox3;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox Miarbeiterverwaltung_nachname_textBox4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox showpassoword;

@@ -32,11 +32,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.mySqlCommand1 = new MySqlConnector.MySqlCommand();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Telefon_textBox2 = new System.Windows.Forms.TextBox();
+            this.Name_textBox1 = new System.Windows.Forms.TextBox();
+            this.Tischauswahl_comboBox2 = new System.Windows.Forms.ComboBox();
+            this.nureservierung_personenzahl_numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.Uhrzeit_comboBox1 = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -50,14 +50,14 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.guestuebernehmen = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.stammgaste_dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nureservierung_personenzahl_numericUpDown1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stammgaste_dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -90,11 +90,11 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
-            this.panel2.Controls.Add(this.textBox2);
-            this.panel2.Controls.Add(this.textBox1);
-            this.panel2.Controls.Add(this.comboBox2);
-            this.panel2.Controls.Add(this.numericUpDown1);
-            this.panel2.Controls.Add(this.comboBox1);
+            this.panel2.Controls.Add(this.Telefon_textBox2);
+            this.panel2.Controls.Add(this.Name_textBox1);
+            this.panel2.Controls.Add(this.Tischauswahl_comboBox2);
+            this.panel2.Controls.Add(this.nureservierung_personenzahl_numericUpDown1);
+            this.panel2.Controls.Add(this.Uhrzeit_comboBox1);
             this.panel2.Controls.Add(this.dateTimePicker1);
             this.panel2.Location = new System.Drawing.Point(119, 10);
             this.panel2.Name = "panel2";
@@ -104,25 +104,26 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(27, 270);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(200, 20);
-            this.textBox2.TabIndex = 5;
-            this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
+            this.Telefon_textBox2.Location = new System.Drawing.Point(27, 270);
+            this.Telefon_textBox2.Name = "textBox2";
+            this.Telefon_textBox2.Size = new System.Drawing.Size(200, 20);
+            this.Telefon_textBox2.TabIndex = 5;
+            this.Telefon_textBox2.TextChanged += new System.EventHandler(this.Telefon_textBox2_TextChanged);
+            this.Telefon_textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(27, 226);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(200, 20);
-            this.textBox1.TabIndex = 4;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            this.Name_textBox1.Location = new System.Drawing.Point(27, 226);
+            this.Name_textBox1.Name = "textBox1";
+            this.Name_textBox1.Size = new System.Drawing.Size(200, 20);
+            this.Name_textBox1.TabIndex = 4;
+            this.Name_textBox1.TextChanged += new System.EventHandler(this.Name_textBox1_TextChanged);
+            this.Name_textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Name_textBox1_KeyPress);
             // 
-            // comboBox2
+            // Tischauswahl_comboBox2
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.Tischauswahl_comboBox2.FormattingEnabled = true;
+            this.Tischauswahl_comboBox2.Items.AddRange(new object[] {
             "1",
             "2",
             "3",
@@ -163,32 +164,33 @@
             "38",
             "39",
             "40"});
-            this.comboBox2.Location = new System.Drawing.Point(27, 178);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(200, 21);
-            this.comboBox2.TabIndex = 3;
+            this.Tischauswahl_comboBox2.Location = new System.Drawing.Point(27, 178);
+            this.Tischauswahl_comboBox2.Name = "Tischauswahl_comboBox2";
+            this.Tischauswahl_comboBox2.Size = new System.Drawing.Size(200, 21);
+            this.Tischauswahl_comboBox2.TabIndex = 3;
+            this.Tischauswahl_comboBox2.SelectedIndexChanged += new System.EventHandler(this.Tischauswahl_comboBox2_SelectedIndexChanged);
             // 
-            // numericUpDown1
+            // nureservierung_personenzahl_numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(27, 127);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(200, 20);
-            this.numericUpDown1.TabIndex = 2;
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.nureservierung_personenzahl_numericUpDown1.Location = new System.Drawing.Point(27, 127);
+            this.nureservierung_personenzahl_numericUpDown1.Name = "nureservierung_personenzahl_numericUpDown1";
+            this.nureservierung_personenzahl_numericUpDown1.Size = new System.Drawing.Size(200, 20);
+            this.nureservierung_personenzahl_numericUpDown1.TabIndex = 2;
+            this.nureservierung_personenzahl_numericUpDown1.ValueChanged += new System.EventHandler(this.reservierung_personenzahl_numericUpDown1_ValueChanged);
             // 
-            // comboBox1
+            // Uhrzeit_comboBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.Uhrzeit_comboBox1.FormattingEnabled = true;
+            this.Uhrzeit_comboBox1.Items.AddRange(new object[] {
             "12-15",
             "15-18",
             "18-21",
             "21-24"});
-            this.comboBox1.Location = new System.Drawing.Point(27, 77);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(200, 21);
-            this.comboBox1.TabIndex = 1;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.Uhrzeit_comboBox1.Location = new System.Drawing.Point(27, 77);
+            this.Uhrzeit_comboBox1.Name = "Uhrzeit_comboBox1";
+            this.Uhrzeit_comboBox1.Size = new System.Drawing.Size(200, 21);
+            this.Uhrzeit_comboBox1.TabIndex = 1;
+            this.Uhrzeit_comboBox1.SelectedIndexChanged += new System.EventHandler(this.Uhrzeit_comboBox1_SelectedIndexChanged);
             // 
             // dateTimePicker1
             // 
@@ -198,7 +200,7 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 0;
             this.dateTimePicker1.Value = new System.DateTime(2026, 1, 28, 0, 0, 0, 0);
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.reservierung_dateTimePicker1_ValueChanged);
             // 
             // label2
             // 
@@ -266,7 +268,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.Control;
-            this.button1.Location = new System.Drawing.Point(584, 189);
+            this.button1.Location = new System.Drawing.Point(655, 187);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(206, 61);
             this.button1.TabIndex = 8;
@@ -280,13 +282,13 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.SystemColors.Control;
-            this.button2.Location = new System.Drawing.Point(584, 320);
+            this.button2.Location = new System.Drawing.Point(655, 358);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(206, 61);
             this.button2.TabIndex = 9;
             this.button2.Text = "Abbrechen";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.abbrechen_button2_Click);
             // 
             // tabControl1
             // 
@@ -319,7 +321,7 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.guestuebernehmen);
-            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Controls.Add(this.stammgaste_dataGridView1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -330,22 +332,26 @@
             // 
             // guestuebernehmen
             // 
-            this.guestuebernehmen.Location = new System.Drawing.Point(425, 163);
+            this.guestuebernehmen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.guestuebernehmen.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.guestuebernehmen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guestuebernehmen.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.guestuebernehmen.Location = new System.Drawing.Point(419, 139);
             this.guestuebernehmen.Name = "guestuebernehmen";
-            this.guestuebernehmen.Size = new System.Drawing.Size(114, 23);
+            this.guestuebernehmen.Size = new System.Drawing.Size(114, 48);
             this.guestuebernehmen.TabIndex = 1;
             this.guestuebernehmen.Text = "Gast Übernehmen";
-            this.guestuebernehmen.UseVisualStyleBackColor = true;
+            this.guestuebernehmen.UseVisualStyleBackColor = false;
             this.guestuebernehmen.Click += new System.EventHandler(this.guestuebernehmen_Click);
             // 
             // dataGridView1
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(25, 21);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(368, 218);
-            this.dataGridView1.TabIndex = 0;
+            this.stammgaste_dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.stammgaste_dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.stammgaste_dataGridView1.Location = new System.Drawing.Point(25, 21);
+            this.stammgaste_dataGridView1.Name = "dataGridView1";
+            this.stammgaste_dataGridView1.Size = new System.Drawing.Size(368, 328);
+            this.stammgaste_dataGridView1.TabIndex = 0;
             // 
             // Reservierungsseite
             // 
@@ -363,12 +369,12 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nureservierung_personenzahl_numericUpDown1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stammgaste_dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -379,11 +385,11 @@
         private System.Windows.Forms.Label label1;
         private MySqlConnector.MySqlCommand mySqlCommand1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox Telefon_textBox2;
+        private System.Windows.Forms.TextBox Name_textBox1;
+        private System.Windows.Forms.ComboBox Tischauswahl_comboBox2;
+        private System.Windows.Forms.NumericUpDown nureservierung_personenzahl_numericUpDown1;
+        private System.Windows.Forms.ComboBox Uhrzeit_comboBox1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -397,6 +403,6 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button guestuebernehmen;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView stammgaste_dataGridView1;
     }
 }

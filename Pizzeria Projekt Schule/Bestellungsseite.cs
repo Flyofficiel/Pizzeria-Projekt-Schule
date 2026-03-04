@@ -43,12 +43,12 @@ namespace Pizzeria_Projekt_Schule
         private void Bestellungspagerichtig_Load(object sender, EventArgs e)
         {
             // Zeitslots für die Pizzeria festlegen
-            comboBox1.Items.Clear();
-            comboBox1.Items.Add("12-15");
-            comboBox1.Items.Add("15-18");
-            comboBox1.Items.Add("18-21");
-            comboBox1.Items.Add("21-24");
-            comboBox1.SelectedIndex = 0;
+            slot_comboBox1_.Items.Clear();
+            slot_comboBox1_.Items.Add("12-15");
+            slot_comboBox1_.Items.Add("15-18");
+            slot_comboBox1_.Items.Add("18-21");
+            slot_comboBox1_.Items.Add("21-24");
+            slot_comboBox1_.SelectedIndex = 0;
 
             // Tischauswahl optisch anpassen (OwnerDraw damit wir Farben nutzen können)
             tischauswahl.DrawMode = DrawMode.OwnerDrawFixed;
@@ -59,9 +59,9 @@ namespace Pizzeria_Projekt_Schule
 
             mitarbeiterLaden(); // Lädt nur Service-Mitarbeiter in die ComboBox
 
-            if (comboBox2.Items.Count > 0)
+            if (tischauswahl_comboBox2.Items.Count > 0)
             {
-                comboBox2.SelectedIndex = 0;
+                tischauswahl_comboBox2.SelectedIndex = 0;
             }
 
             AktualisiereTische(); // Zeigt an, welche Tische frei/besetzt sind
@@ -90,7 +90,7 @@ namespace Pizzeria_Projekt_Schule
                 System.Globalization.CultureInfo.GetCultureInfo("de-DE");
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void abbrechen_button5_Click(object sender, EventArgs e)
         {
             // Zurück zum Hauptmenü
             Hauptmenu hauptmenu = new Hauptmenu();
@@ -118,21 +118,21 @@ namespace Pizzeria_Projekt_Schule
         // Aktualisiert die Anzeige der Liste und berechnet die Gesamtsumme
         private void WarenkorbAktualisieren()
         {
-            listBox1.Items.Clear();
+            Bestellkorb_listBox1.Items.Clear();
             decimal summe = 0;
 
             foreach (var item in warenkorb)
             {
-                listBox1.Items.Add(item);
+                Bestellkorb_listBox1.Items.Add(item);
                 summe += item.Preis * item.Menge;
             }
 
-            textBox1.Text = summe.ToString("C2",
+            summe_TextBox1.Text = summe.ToString("C2",
             System.Globalization.CultureInfo.GetCultureInfo("de-DE"));
         }
 
         // --- EVENT: SPEISE HINZUFÜGEN ---
-        private void Button1_Click(object sender, EventArgs e)
+        private void hinzufugen_Button1_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
@@ -161,16 +161,16 @@ namespace Pizzeria_Projekt_Schule
                 DataTable table = new DataTable();
                 adapter.Fill(table);
 
-                comboBox2.DisplayMember = "name";
-                comboBox2.ValueMember = "personalnr";
-                comboBox2.DataSource = table;
+                tischauswahl_comboBox2.DisplayMember = "name";
+                tischauswahl_comboBox2.ValueMember = "personalnr";
+                tischauswahl_comboBox2.DataSource = table;
             }
         }
 
         // --- EVENT: ARTIKEL AUS WARENKORB ENTFERNEN ---
-        private void Button2_Click(object sender, EventArgs e)
+        private void loschen_Button2_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem is WarenkorbItem item)
+            if (Bestellkorb_listBox1.SelectedItem is WarenkorbItem item)
             {
                 item.Menge--;
                 if (item.Menge <= 0)
@@ -185,7 +185,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // --- EVENT: BESTELLUNG ABSCHLIEẞEN (Wichtigster Teil!) ---
-        private void Button3_Click_aa(object sender, EventArgs e)
+        private void an_kuche_Button3_Click_aa(object sender, EventArgs e)
         {
             if (warenkorb.Count == 0)
             {
@@ -199,7 +199,7 @@ namespace Pizzeria_Projekt_Schule
                 return;
             }
 
-            if (comboBox2.SelectedValue == null)
+            if (tischauswahl_comboBox2.SelectedValue == null)
             {
                 MessageBox.Show("Bitte einen Mitarbeiter auswählen!");
                 return;
@@ -251,7 +251,7 @@ namespace Pizzeria_Projekt_Schule
                         cmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
                         cmd.Parameters.AddWithValue("@gast", gastId);
                         cmd.Parameters.AddWithValue("@tisch", tisch.TischId);
-                        cmd.Parameters.AddWithValue("@mitarbeiter", comboBox2.SelectedValue);
+                        cmd.Parameters.AddWithValue("@mitarbeiter", tischauswahl_comboBox2.SelectedValue);
                         cmd.Parameters.AddWithValue("@slot", HoleSlot());
                         bestellNr = Convert.ToInt32(cmd.ExecuteScalar());
                     }
@@ -328,14 +328,14 @@ namespace Pizzeria_Projekt_Schule
                 });
         }
 
-        private void combobox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void slot_comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             AktualisiereTische();
         }
 
-        private void TextBox1_TextChanged(object sender, EventArgs e) { }
+        private void summe_TextBox1_TextChanged(object sender, EventArgs e) { }
 
-        private void combobox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void Mitarbeiter_combobox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             AktualisiereTische();
         }
@@ -400,8 +400,8 @@ ORDER BY t.tisch_id";
         // Wandelt den ComboBox-Index in die Slot-Nummer der DB um
         private int HoleSlot()
         {
-            if (comboBox1.SelectedIndex == -1) return 0;
-            return comboBox1.SelectedIndex + 1;
+            if (slot_comboBox1_.SelectedIndex == -1) return 0;
+            return slot_comboBox1_.SelectedIndex + 1;
         }
 
         private void AktualisiereTischeAuto() { }
@@ -413,13 +413,13 @@ ORDER BY t.tisch_id";
             if (tischauswahl.SelectedItem is TischItem alterTisch)
                 aktuellGewaehlterTischId = alterTisch.TischId;
 
-            if (comboBox2.SelectedValue == null || HoleSlot() == 0)
+            if (tischauswahl_comboBox2.SelectedValue == null || HoleSlot() == 0)
             {
                 tischauswahl.Items.Clear();
                 return;
             }
 
-            int personalNr = Convert.ToInt32(comboBox2.SelectedValue);
+            int personalNr = Convert.ToInt32(tischauswahl_comboBox2.SelectedValue);
             string query = "SELECT bereich FROM mitarbeiter WHERE personalnr = @pnr";
 
             using (var conn = Database.GetConnection())
@@ -510,9 +510,9 @@ ORDER BY t.tisch_id";
             }
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e) { }
-        private void tischauswahl_SelectedIndexChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
-        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e) { AktualisiereTische(); }
+        private void Bestellkorb_listBox1_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void tischauswahl_comboBox2_SelectedIndexChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
+        private void slot_comboBox1_SelectedIndexChanged_1(object sender, EventArgs e) { AktualisiereTische(); }
         private void dateTimePicker1_ValueChanged_1(object sender, EventArgs e) { AktualisiereTischeAuto(); }
         private void label7_Click(object sender, EventArgs e) { }
 
@@ -520,6 +520,16 @@ ORDER BY t.tisch_id";
         private void Timer1_Tick(object sender, EventArgs e)
         {
             timenow();
+        }
+
+        private void Bestellung_dateTimePicker1_ValueChanged_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

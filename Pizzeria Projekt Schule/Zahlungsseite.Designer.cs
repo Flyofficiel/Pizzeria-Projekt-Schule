@@ -35,15 +35,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.Trinkgeld_Zahlen_TextBox1 = new System.Windows.Forms.TextBox();
+            this.Summe_zahlen_textBox2 = new System.Windows.Forms.TextBox();
+            this.gesamt_Zahlen_textBox3 = new System.Windows.Forms.TextBox();
+            this.Bargeld_zahlen_radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.Kartenzahlung_radioButton2 = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Tisch_zahlenseite_comboBox1 = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.button3 = new System.Windows.Forms.Button();
@@ -81,7 +81,6 @@
             this.label2.Size = new System.Drawing.Size(84, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "Positionen:";
-            
             // 
             // dataGridView1
             // 
@@ -91,7 +90,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(469, 171);
             this.dataGridView1.TabIndex = 2;
-
             // 
             // label3
             // 
@@ -123,45 +121,48 @@
             this.label5.TabIndex = 5;
             this.label5.Text = "Gesamt:";
             // 
-            // textBox1
+            // Trinkgeld_Zahlen_TextBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(761, 213);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(108, 20);
-            this.textBox1.TabIndex = 6;
-            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            this.Trinkgeld_Zahlen_TextBox1.Location = new System.Drawing.Point(761, 213);
+            this.Trinkgeld_Zahlen_TextBox1.Name = "Trinkgeld_Zahlen_TextBox1";
+            this.Trinkgeld_Zahlen_TextBox1.Size = new System.Drawing.Size(108, 20);
+            this.Trinkgeld_Zahlen_TextBox1.TabIndex = 6;
+            this.Trinkgeld_Zahlen_TextBox1.TextChanged += new System.EventHandler(this.Trinkgeld_Zahlen_TextBox1_TextChanged);
+            this.Trinkgeld_Zahlen_TextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
-            // textBox2
+            // Summe_zahlen_textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(761, 165);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(108, 20);
-            this.textBox2.TabIndex = 7;
+            this.Summe_zahlen_textBox2.Location = new System.Drawing.Point(761, 165);
+            this.Summe_zahlen_textBox2.Name = "Summe_zahlen_textBox2";
+            this.Summe_zahlen_textBox2.Size = new System.Drawing.Size(108, 20);
+            this.Summe_zahlen_textBox2.TabIndex = 7;
+            this.Summe_zahlen_textBox2.TextChanged += new System.EventHandler(this.Summe_zahlen_textBox2_TextChanged);
             // 
-            // textBox3
+            // gesamt_Zahlen_textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(761, 265);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(108, 20);
-            this.textBox3.TabIndex = 8;
+            this.gesamt_Zahlen_textBox3.Location = new System.Drawing.Point(761, 265);
+            this.gesamt_Zahlen_textBox3.Name = "gesamt_Zahlen_textBox3";
+            this.gesamt_Zahlen_textBox3.Size = new System.Drawing.Size(108, 20);
+            this.gesamt_Zahlen_textBox3.TabIndex = 8;
+            this.gesamt_Zahlen_textBox3.TextChanged += new System.EventHandler(this.gesamt_Zahlen_textBox3_TextChanged);
             // 
-            // radioButton1
+            // Bargeld_zahlen_radioButton1
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton1.Location = new System.Drawing.Point(58, 28);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(75, 19);
-            this.radioButton1.TabIndex = 9;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Bargeld";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.Bargeld_zahlen_radioButton1.AutoSize = true;
+            this.Bargeld_zahlen_radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Bargeld_zahlen_radioButton1.Location = new System.Drawing.Point(58, 28);
+            this.Bargeld_zahlen_radioButton1.Name = "Bargeld_zahlen_radioButton1";
+            this.Bargeld_zahlen_radioButton1.Size = new System.Drawing.Size(75, 19);
+            this.Bargeld_zahlen_radioButton1.TabIndex = 9;
+            this.Bargeld_zahlen_radioButton1.TabStop = true;
+            this.Bargeld_zahlen_radioButton1.Text = "Bargeld";
+            this.Bargeld_zahlen_radioButton1.UseVisualStyleBackColor = true;
+            this.Bargeld_zahlen_radioButton1.CheckedChanged += new System.EventHandler(this.Bargeld_zahlen_radioButton1_CheckedChanged);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.Kartenzahlung_radioButton2);
+            this.groupBox1.Controls.Add(this.Bargeld_zahlen_radioButton1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(510, 324);
             this.groupBox1.Name = "groupBox1";
@@ -172,15 +173,16 @@
             // 
             // radioButton2
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton2.Location = new System.Drawing.Point(185, 28);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(118, 19);
-            this.radioButton2.TabIndex = 10;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Kartenzahlung";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.Kartenzahlung_radioButton2.AutoSize = true;
+            this.Kartenzahlung_radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Kartenzahlung_radioButton2.Location = new System.Drawing.Point(185, 28);
+            this.Kartenzahlung_radioButton2.Name = "radioButton2";
+            this.Kartenzahlung_radioButton2.Size = new System.Drawing.Size(118, 19);
+            this.Kartenzahlung_radioButton2.TabIndex = 10;
+            this.Kartenzahlung_radioButton2.TabStop = true;
+            this.Kartenzahlung_radioButton2.Text = "Kartenzahlung";
+            this.Kartenzahlung_radioButton2.UseVisualStyleBackColor = true;
+            this.Kartenzahlung_radioButton2.CheckedChanged += new System.EventHandler(this.Kartenzahlung_radioButton2_CheckedChanged);
             // 
             // button1
             // 
@@ -210,10 +212,10 @@
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // comboBox1
+            // Tisch_zahlenseite_comboBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.Tisch_zahlenseite_comboBox1.FormattingEnabled = true;
+            this.Tisch_zahlenseite_comboBox1.Items.AddRange(new object[] {
             "1",
             "2",
             "3",
@@ -254,11 +256,11 @@
             "38",
             "39",
             "40"});
-            this.comboBox1.Location = new System.Drawing.Point(510, 101);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 13;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.Tisch_zahlenseite_comboBox1.Location = new System.Drawing.Point(510, 101);
+            this.Tisch_zahlenseite_comboBox1.Name = "Tisch_zahlenseite_comboBox1";
+            this.Tisch_zahlenseite_comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.Tisch_zahlenseite_comboBox1.TabIndex = 13;
+            this.Tisch_zahlenseite_comboBox1.SelectedIndexChanged += new System.EventHandler(this.Tisch_zahlenseite_comboBox1_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -277,7 +279,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 16;
-           
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.Zahlenseite_dateTimePicker1_ValueChanged);
             // 
             // button3
             // 
@@ -301,13 +303,13 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.Tisch_zahlenseite_comboBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.gesamt_Zahlen_textBox3);
+            this.Controls.Add(this.Summe_zahlen_textBox2);
+            this.Controls.Add(this.Trinkgeld_Zahlen_TextBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -336,15 +338,15 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.TextBox Trinkgeld_Zahlen_TextBox1;
+        private System.Windows.Forms.TextBox Summe_zahlen_textBox2;
+        private System.Windows.Forms.TextBox gesamt_Zahlen_textBox3;
+        private System.Windows.Forms.RadioButton Bargeld_zahlen_radioButton1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton Kartenzahlung_radioButton2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox Tisch_zahlenseite_comboBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Button button3;

@@ -27,18 +27,18 @@ namespace Pizzeria_Projekt_Schule
         private void auswertung01_Load(object sender, EventArgs e)
         {
             // Auswahlmöglichkeiten für den Zeitraum festlegen
-            comboBox1.Items.Clear();
-            comboBox1.Items.Add("Heute");
-            comboBox1.Items.Add("Diese Woche");
-            comboBox1.Items.Add("Dieser Monat");
+            Zeitraum_auswahl_comboBox1.Items.Clear();
+            Zeitraum_auswahl_comboBox1.Items.Add("Heute");
+            Zeitraum_auswahl_comboBox1.Items.Add("Diese Woche");
+            Zeitraum_auswahl_comboBox1.Items.Add("Dieser Monat");
 
             // Standardmäßig "Heute" auswählen (Index 0)
-            comboBox1.SelectedIndex = 0;
+            Zeitraum_auswahl_comboBox1.SelectedIndex = 0;
 
             // Grundeinstellungen für die Tabelle (DataGridView)
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView2.ReadOnly = true;
-            dataGridView2.AllowUserToAddRows = false;
+            Auswertungs_dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Auswertungs_dataGridView2.ReadOnly = true;
+            Auswertungs_dataGridView2.AllowUserToAddRows = false;
 
             // Erste Daten beim Laden abrufen
             LadeAlleDaten();
@@ -54,9 +54,9 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Button: Manuelle Auswertung starten
-        private void button1_Click(object sender, EventArgs e)
+        private void Auswertung_auswertung_button1_Click(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem == null)
+            if (Zeitraum_auswahl_comboBox1.SelectedItem == null)
             {
                 MessageBox.Show("Bitte Zeitraum auswählen!");
                 return;
@@ -65,7 +65,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Button: Zurück zum Hauptmenü
-        private void button3_Click(object sender, EventArgs e)
+        private void Zuruck_button3_Click(object sender, EventArgs e)
         {
             Hauptmenu mainmenupage = new Hauptmenu();
             mainmenupage.Show();
@@ -93,9 +93,9 @@ namespace Pizzeria_Projekt_Schule
             {
                 if (reader.Read())
                 {
-                    textBox2.Text = $"{reader.GetString("speisename")} ({reader.GetInt32("verkauft")}x)";
+                    beliebteste_speisse_textBox2.Text = $"{reader.GetString("speisename")} ({reader.GetInt32("verkauft")}x)";
                 }
-                else textBox2.Text = "Keine Daten";
+                else beliebteste_speisse_textBox2.Text = "Keine Daten";
             }
         }
 
@@ -116,9 +116,9 @@ namespace Pizzeria_Projekt_Schule
             {
                 if (reader.Read())
                 {
-                    textBox3.Text = reader.GetInt32("Stunde").ToString("00") + ":00 Uhr";
+                    Beliebteste_uhrzeit_textBox3.Text = reader.GetInt32("Stunde").ToString("00") + ":00 Uhr";
                 }
-                else textBox3.Text = "Keine Daten";
+                else Beliebteste_uhrzeit_textBox3.Text = "Keine Daten";
             }
         }
 
@@ -178,18 +178,18 @@ namespace Pizzeria_Projekt_Schule
             {
                 DataTable dt = new DataTable();
                 da.Fill(dt);
-                dataGridView2.DataSource = dt;
+                Auswertungs_dataGridView2.DataSource = dt;
                 // Euro-Zeichen in der Umsatz-Spalte formatieren
-                if (dataGridView2.Columns.Contains("Umsatz"))
-                    dataGridView2.Columns["Umsatz"].DefaultCellStyle.Format = "C2";
+                if (Auswertungs_dataGridView2.Columns.Contains("Umsatz"))
+                    Auswertungs_dataGridView2.Columns["Umsatz"].DefaultCellStyle.Format = "C2";
             }
         }
 
         // Erzeugt den passenden WHERE-Teil für die SQL-Abfrage
         private string GetZeitraumFilter()
         {
-            if (comboBox1.SelectedItem == null) return "1=1";
-            string z = comboBox1.SelectedItem.ToString();
+            if (Zeitraum_auswahl_comboBox1.SelectedItem == null) return "1=1";
+            string z = Zeitraum_auswahl_comboBox1.SelectedItem.ToString();
 
             if (z == "Heute") return "DATE(b.datum) = CURDATE()";
             if (z == "Diese Woche") return "YEARWEEK(b.datum, 1) = YEARWEEK(CURDATE(), 1)";
@@ -212,18 +212,18 @@ namespace Pizzeria_Projekt_Schule
             using (var cmd = new MySqlCommand(query, conn))
             {
                 decimal umsatz = Convert.ToDecimal(cmd.ExecuteScalar() ?? 0);
-                textBox1.Text = umsatz.ToString("N2") + " €";
+                Umsatz_heute_textBox1.Text = umsatz.ToString("N2") + " €";
             }
         }
 
         // --- UI EVENTS ---
 
-        private void button5_Click(object sender, EventArgs e) => LadeUmsatzProMitarbeiter();
-        private void button6_Click(object sender, EventArgs e) => LadeUmsatzProTisch();
-        private void button7_Click(object sender, EventArgs e) => LadeUmsatzProGast();
+        private void Umsatz_p_mitarbeiter_button5_Click(object sender, EventArgs e) => LadeUmsatzProMitarbeiter();
+        private void Umsatz_p_tisch_button6_Click(object sender, EventArgs e) => LadeUmsatzProTisch();
+        private void Umsatz_p_gast_button7_Click(object sender, EventArgs e) => LadeUmsatzProGast();
 
         // Wenn der Zeitraum geändert wird, alles neu laden
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) => LadeAlleDaten();
+        private void Zeitraum_auswahl_comboBox1_SelectedIndexChanged(object sender, EventArgs e) => LadeAlleDaten();
 
         // Timer-Ereignis für die Uhr
         private void Timer1_Tick(object sender, EventArgs e) => timenow();
@@ -236,7 +236,27 @@ namespace Pizzeria_Projekt_Schule
         }
 
         private void label1_Click(object sender, EventArgs e) { }
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void Auswertungs_dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void textBox5_TextChanged(object sender, EventArgs e) { }
+
+        private void Zeitraum_auswahl_comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Umsatz_heute_textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void beliebteste_speisse_textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Beliebteste_uhrzeit_textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -23,27 +23,27 @@ namespace Pizzeria_Projekt_Schule
             speiseId = id;
 
             // Die Textboxen werden mit den aktuellen Daten gefüllt, damit man sie bearbeiten kann
-            textBox2.Text = name;
-            comboBox1.Text = typ;
-            textBox3.Text = preis.ToString();
-            textBox4.Text = zutaten;
+            Name_speisseupd_textBox2.Text = name;
+            Speisentyp_speisseupd_comboBox1.Text = typ;
+            Preis_speisseupd_textBox3.Text = preis.ToString();
+            zutaten_speisseupd_textBox4.Text = zutaten;
         }
 
         // Variable für die ID
         private int speiseId;
 
         // --- BUTTON: AKTUALISIEREN ---
-        private void button1_Click(object sender, EventArgs e)
+        private void Update_speisseupd_button1_Click(object sender, EventArgs e)
         {
             // 1. Check: Der Name darf nicht leer sein
-            if (string.IsNullOrWhiteSpace(textBox2.Text))
+            if (string.IsNullOrWhiteSpace(Name_speisseupd_textBox2.Text))
             {
                 MessageBox.Show("Speisename darf nicht leer sein!");
                 return;
             }
 
             // 2. Check: Der Name darf nicht nur aus Zahlen bestehen
-            if (textBox2.Text.All(char.IsDigit))
+            if (Name_speisseupd_textBox2.Text.All(char.IsDigit))
             {
                 MessageBox.Show("Speisename darf nicht nur Zahlen enthalten!");
                 return;
@@ -65,12 +65,12 @@ namespace Pizzeria_Projekt_Schule
             using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
                 // Die Werte aus den Eingabefeldern an den SQL-Befehl übergeben
-                cmd.Parameters.AddWithValue("@name", textBox2.Text);
-                cmd.Parameters.AddWithValue("@typ", comboBox1.Text);
+                cmd.Parameters.AddWithValue("@name", Name_speisseupd_textBox2.Text);
+                cmd.Parameters.AddWithValue("@typ", Speisentyp_speisseupd_comboBox1.Text);
 
                 // Den Preis sicher umwandeln (ersetzt Komma durch Punkt für die Datenbank)
                 if (!decimal.TryParse(
-                    textBox3.Text.Replace(",", "."),
+                    Preis_speisseupd_textBox3.Text.Replace(",", "."),
                     System.Globalization.NumberStyles.Any,
                     System.Globalization.CultureInfo.InvariantCulture,
                     out decimal preis))
@@ -80,7 +80,7 @@ namespace Pizzeria_Projekt_Schule
                 }
 
                 cmd.Parameters.AddWithValue("@preis", preis);
-                cmd.Parameters.AddWithValue("@zutaten", textBox4.Text);
+                cmd.Parameters.AddWithValue("@zutaten", zutaten_speisseupd_textBox4.Text);
                 cmd.Parameters.AddWithValue("@id", speiseId);
 
                 // Den Befehl ausführen
@@ -92,7 +92,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // --- BUTTON: ABBRECHEN ---
-        private void button2_Click(object sender, EventArgs e)
+        private void Abbrechen_button2_Click(object sender, EventArgs e)
         {
             this.Close(); // Schließt das Fenster ohne zu speichern
         }
@@ -132,6 +132,31 @@ namespace Pizzeria_Projekt_Schule
         private void speiupd_Load(object sender, EventArgs e)
         {
             // Hier könnte noch Code beim Laden stehen
+        }
+
+        private void Name_speisseupd_textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Speisentyp_speisseupd_comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Preis_speisseupd_textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void zutaten_speisseupd_textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Abbrechen_speisse_update_button2_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

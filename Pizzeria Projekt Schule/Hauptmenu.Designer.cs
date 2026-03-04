@@ -30,7 +30,7 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Reservierung_huaptmenu_dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -45,7 +45,7 @@
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Reservierung_huaptmenu_dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -54,7 +54,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
             this.panel1.Controls.Add(this.dateTimePicker1);
-            this.panel1.Controls.Add(this.dataGridView1);
+            this.panel1.Controls.Add(this.Reservierung_huaptmenu_dataGridView1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(308, 138);
             this.panel1.Name = "panel1";
@@ -68,16 +68,16 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 16;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.hauptmenu_dateTimePicker1_ValueChanged);
             // 
             // dataGridView1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(31, 54);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(712, 299);
-            this.dataGridView1.TabIndex = 15;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.Reservierung_huaptmenu_dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Reservierung_huaptmenu_dataGridView1.Location = new System.Drawing.Point(31, 54);
+            this.Reservierung_huaptmenu_dataGridView1.Name = "dataGridView1";
+            this.Reservierung_huaptmenu_dataGridView1.Size = new System.Drawing.Size(712, 299);
+            this.Reservierung_huaptmenu_dataGridView1.TabIndex = 15;
+            this.Reservierung_huaptmenu_dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Reservierung_huaptmenu_dataGridView1_CellContentClick);
             // 
             // label2
             // 
@@ -135,7 +135,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "Speisen";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.Buttonspeisemenü_Haupt);
+            this.button1.Click += new System.EventHandler(this.speisemenü_Haupt_button1_Click);
             // 
             // button2
             // 
@@ -149,7 +149,7 @@
             this.button2.TabIndex = 4;
             this.button2.Text = "Bestellungen";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.Button_Bestellungshaupt);
+            this.button2.Click += new System.EventHandler(this.Bestellungshaupt_button2_Click);
             // 
             // button3
             // 
@@ -163,7 +163,7 @@
             this.button3.TabIndex = 5;
             this.button3.Text = "Reservierungen";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.reservierungenmenu_button3_Click);
             // 
             // button4
             // 
@@ -177,7 +177,7 @@
             this.button4.TabIndex = 6;
             this.button4.Text = "Tische";
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.Tische_button4_Click);
             // 
             // button5
             // 
@@ -191,7 +191,7 @@
             this.button5.TabIndex = 7;
             this.button5.Text = "Zahlen";
             this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.Click += new System.EventHandler(this.Zahlungsmenu_button5_Click);
             // 
             // button6
             // 
@@ -205,7 +205,7 @@
             this.button6.TabIndex = 8;
             this.button6.Text = "Mitarbeiter";
             this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.Click += new System.EventHandler(this.Mitarbeiterverwaltung_button6_Click);
             // 
             // button7
             // 
@@ -219,7 +219,7 @@
             this.button7.TabIndex = 9;
             this.button7.Text = "Auswertung";
             this.button7.UseVisualStyleBackColor = false;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button7.Click += new System.EventHandler(this.Auswertungsmenu_button7_Click);
             // 
             // button8
             // 
@@ -233,7 +233,7 @@
             this.button8.TabIndex = 10;
             this.button8.Text = "Abmelden";
             this.button8.UseVisualStyleBackColor = false;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.Click += new System.EventHandler(this.Abmelden_button8_Click);
             // 
             // button9
             // 
@@ -247,7 +247,7 @@
             this.button9.TabIndex = 11;
             this.button9.Text = "Reservierung Stornieren";
             this.button9.UseVisualStyleBackColor = false;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.button9.Click += new System.EventHandler(this.Reservierung_stono_button9_Click);
             // 
             // Hauptmenu
             // 
@@ -271,7 +271,7 @@
             this.Load += new System.EventHandler(this.Hauptmenu_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Reservierung_huaptmenu_dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -294,7 +294,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView Reservierung_huaptmenu_dataGridView1;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }

@@ -30,7 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Speissen_menu_dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -39,10 +39,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.Aktive_speissen_checkBox1 = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Speissen_menu_dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,13 +69,13 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(22, 173);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(678, 330);
-            this.dataGridView1.TabIndex = 2;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.Speissen_menu_dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.Speissen_menu_dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Speissen_menu_dataGridView1.Location = new System.Drawing.Point(22, 173);
+            this.Speissen_menu_dataGridView1.Name = "dataGridView1";
+            this.Speissen_menu_dataGridView1.Size = new System.Drawing.Size(678, 330);
+            this.Speissen_menu_dataGridView1.TabIndex = 2;
+            this.Speissen_menu_dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Speissen_menu_dataGridView1_CellContentClick);
             // 
             // panel2
             // 
@@ -134,7 +134,7 @@
             this.button2.TabIndex = 5;
             this.button2.Text = "Hinzufügen ";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.Hinzufugen_button2_Click);
             // 
             // button3
             // 
@@ -148,7 +148,7 @@
             this.button3.TabIndex = 6;
             this.button3.Text = "Löschen";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.Loschen_button3_Click);
             // 
             // button4
             // 
@@ -162,7 +162,7 @@
             this.button4.TabIndex = 7;
             this.button4.Text = "Zurück";
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.Zuruck_Hauptmenu_button4_Click);
             // 
             // button5
             // 
@@ -176,19 +176,19 @@
             this.button5.TabIndex = 9;
             this.button5.Text = "Aktualisieren";
             this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.Click += new System.EventHandler(this.Aktualisieren_button5_Click);
             // 
             // checkBox1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(739, 129);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(157, 19);
-            this.checkBox1.TabIndex = 10;
-            this.checkBox1.Text = "Nur aktive Speissen ";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.Aktive_speissen_checkBox1.AutoSize = true;
+            this.Aktive_speissen_checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Aktive_speissen_checkBox1.Location = new System.Drawing.Point(739, 129);
+            this.Aktive_speissen_checkBox1.Name = "checkBox1";
+            this.Aktive_speissen_checkBox1.Size = new System.Drawing.Size(157, 19);
+            this.Aktive_speissen_checkBox1.TabIndex = 10;
+            this.Aktive_speissen_checkBox1.Text = "Nur aktive Speissen ";
+            this.Aktive_speissen_checkBox1.UseVisualStyleBackColor = true;
+            this.Aktive_speissen_checkBox1.CheckedChanged += new System.EventHandler(this.Aktive_speissen_checkBox1_CheckedChanged);
             // 
             // button1
             // 
@@ -202,7 +202,7 @@
             this.button1.TabIndex = 11;
             this.button1.Text = "Update";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button1.Click += new System.EventHandler(this.Update_button1_Click_1);
             // 
             // SpeisenMenu
             // 
@@ -211,20 +211,20 @@
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.ClientSize = new System.Drawing.Size(946, 534);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.Aktive_speissen_checkBox1);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.Speissen_menu_dataGridView1);
             this.Controls.Add(this.panel1);
             this.Name = "SpeisenMenu";
             this.Text = "Speißen";
             this.Load += new System.EventHandler(this.Speissen_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Speissen_menu_dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -236,7 +236,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView Speissen_menu_dataGridView1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
@@ -245,7 +245,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox Aktive_speissen_checkBox1;
         private System.Windows.Forms.Button button1;
     }
 }

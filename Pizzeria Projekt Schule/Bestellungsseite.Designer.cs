@@ -33,18 +33,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tischauswahl = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.tischauswahl_comboBox2 = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.Bestellkorb_listBox1 = new System.Windows.Forms.ListBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.summe_TextBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.slot_comboBox1_ = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -100,16 +100,16 @@
             this.tischauswahl.Name = "tischauswahl";
             this.tischauswahl.Size = new System.Drawing.Size(172, 21);
             this.tischauswahl.TabIndex = 4;
-            this.tischauswahl.SelectedIndexChanged += new System.EventHandler(this.tischauswahl_SelectedIndexChanged);
+            this.tischauswahl.SelectedIndexChanged += new System.EventHandler(this.tischauswahl_comboBox2_SelectedIndexChanged);
             // 
-            // comboBox2
+            // tischauswahl_comboBox2
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(492, 148);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(140, 21);
-            this.comboBox2.TabIndex = 5;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.combobox2_SelectedIndexChanged);
+            this.tischauswahl_comboBox2.FormattingEnabled = true;
+            this.tischauswahl_comboBox2.Location = new System.Drawing.Point(492, 148);
+            this.tischauswahl_comboBox2.Name = "tischauswahl_comboBox2";
+            this.tischauswahl_comboBox2.Size = new System.Drawing.Size(140, 21);
+            this.tischauswahl_comboBox2.TabIndex = 5;
+            this.tischauswahl_comboBox2.SelectedIndexChanged += new System.EventHandler(this.Mitarbeiter_combobox2_SelectedIndexChanged);
             // 
             // dataGridView1
             // 
@@ -119,13 +119,14 @@
             this.dataGridView1.Size = new System.Drawing.Size(384, 441);
             this.dataGridView1.TabIndex = 6;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick_1);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.listBox1);
+            this.groupBox1.Controls.Add(this.Bestellkorb_listBox1);
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.summe_TextBox1);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(571, 198);
@@ -135,15 +136,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bestellungskorb";
             // 
-            // listBox1
+            // Bestellkorb_listBox1
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(6, 20);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(336, 214);
-            this.listBox1.TabIndex = 8;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.Bestellkorb_listBox1.FormattingEnabled = true;
+            this.Bestellkorb_listBox1.ItemHeight = 15;
+            this.Bestellkorb_listBox1.Location = new System.Drawing.Point(6, 20);
+            this.Bestellkorb_listBox1.Name = "Bestellkorb_listBox1";
+            this.Bestellkorb_listBox1.Size = new System.Drawing.Size(336, 214);
+            this.Bestellkorb_listBox1.TabIndex = 8;
+            this.Bestellkorb_listBox1.SelectedIndexChanged += new System.EventHandler(this.Bestellkorb_listBox1_SelectedIndexChanged);
             // 
             // button5
             // 
@@ -157,7 +158,7 @@
             this.button5.TabIndex = 7;
             this.button5.Text = "Abbrechen";
             this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.Click += new System.EventHandler(this.abbrechen_button5_Click);
             // 
             // button3
             // 
@@ -171,15 +172,15 @@
             this.button3.TabIndex = 5;
             this.button3.Text = "An Küche senden";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.Button3_Click_aa);
+            this.button3.Click += new System.EventHandler(this.an_kuche_Button3_Click_aa);
             // 
-            // textBox1
+            // summe_TextBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(226, 252);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 21);
-            this.textBox1.TabIndex = 4;
-            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
+            this.summe_TextBox1.Location = new System.Drawing.Point(226, 252);
+            this.summe_TextBox1.Name = "summe_TextBox1";
+            this.summe_TextBox1.Size = new System.Drawing.Size(100, 21);
+            this.summe_TextBox1.TabIndex = 4;
+            this.summe_TextBox1.TextChanged += new System.EventHandler(this.summe_TextBox1_TextChanged);
             // 
             // label3
             // 
@@ -202,7 +203,7 @@
             this.button2.TabIndex = 2;
             this.button2.Text = "-";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            this.button2.Click += new System.EventHandler(this.loschen_Button2_Click);
             // 
             // button1
             // 
@@ -216,7 +217,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "+";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            this.button1.Click += new System.EventHandler(this.hinzufugen_Button1_Click);
             // 
             // label5
             // 
@@ -228,14 +229,14 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Artikelliste";
             // 
-            // comboBox1
+            // slot_comboBox1_
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(278, 151);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(67, 21);
-            this.comboBox1.TabIndex = 9;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
+            this.slot_comboBox1_.FormattingEnabled = true;
+            this.slot_comboBox1_.Location = new System.Drawing.Point(278, 151);
+            this.slot_comboBox1_.Name = "slot_comboBox1_";
+            this.slot_comboBox1_.Size = new System.Drawing.Size(67, 21);
+            this.slot_comboBox1_.TabIndex = 9;
+            this.slot_comboBox1_.SelectedIndexChanged += new System.EventHandler(this.slot_comboBox1_SelectedIndexChanged_1);
             // 
             // label6
             // 
@@ -264,7 +265,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 1;
-           
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.Bestellung_dateTimePicker1_ValueChanged_2);
             // 
             // Bestellungsseite
             // 
@@ -274,11 +275,11 @@
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.slot_comboBox1_);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.tischauswahl_comboBox2);
             this.Controls.Add(this.tischauswahl);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -304,10 +305,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox tischauswahl;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox tischauswahl_comboBox2;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox summe_TextBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
@@ -315,8 +316,8 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ListBox Bestellkorb_listBox1;
+        private System.Windows.Forms.ComboBox slot_comboBox1_;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;

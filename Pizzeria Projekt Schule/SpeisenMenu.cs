@@ -39,6 +39,7 @@ namespace Pizzeria_Projekt_Schule
                 // Wir holen uns die ID der Speise aus der aktuell angeklickten Zeile
                 cmd.Parameters.AddWithValue(
                     "@speise_id",
+                    Speissen_menu_
                     dataGridView1.CurrentRow.Cells["speise_id"].Value
                 );
 
@@ -50,12 +51,12 @@ namespace Pizzeria_Projekt_Schule
         }
 
         private void label1_Click(object sender, EventArgs e) { }
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void Speissen_menu_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void label2_Click(object sender, EventArgs e) { }
 
         // --- NAVIGATION ---
         // Schließt diese Seite und geht zurück zum Hauptmenü
-        private void button4_Click(object sender, EventArgs e)
+        private void Zuruck_Hauptmenu_button4_Click(object sender, EventArgs e)
         {
             Hauptmenu mainmenupage = new Hauptmenu();
             mainmenupage.Show();
@@ -69,18 +70,18 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Öffnet das kleine Fenster, um eine neue Pizza/Speise anzulegen
-        private void button2_Click(object sender, EventArgs e)
+        private void Hinzufugen_button2_Click(object sender, EventArgs e)
         {
             Speisehinzufügen speisenhinzufügen = new Speisehinzufügen();
             speisenhinzufügen.Show();
         }
 
         // --- BUTTON: LÖSCHEN ---
-        private void button3_Click(object sender, EventArgs e)
+        private void Loschen_button3_Click(object sender, EventArgs e)
         {
             // Erst prüfen, ob überhaupt eine Speise in der Liste markiert ist
-            if (dataGridView1.CurrentRow == null ||
-                dataGridView1.CurrentRow.Cells["speise_id"].Value == null)
+            if (Speissen_menu_dataGridView1.CurrentRow == null ||
+                Speissen_menu_dataGridView1.CurrentRow.Cells["speise_id"].Value == null)
             {
                 MessageBox.Show("Bitte zuerst eine Speise auswählen.");
                 return;
@@ -120,14 +121,14 @@ namespace Pizzeria_Projekt_Schule
                 {
                     DataTable table = new DataTable();
                     adapter.Fill(table);
-                    dataGridView1.DataSource = table; // Daten an die Tabelle binden
+                    Speissen_menu_dataGridView1.DataSource = table; // Daten an die Tabelle binden
                 }
 
                 // Hier stellen wir ein, dass die Preis-Spalte als Währung (€) angezeigt wird
-                if (dataGridView1.Columns.Contains("preis"))
+                if (Speissen_menu_dataGridView1.Columns.Contains("preis"))
                 {
-                    dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2"; // C2 steht für Currency (Währung)
-                    dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
+                    Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2"; // C2 steht für Currency (Währung)
+                    Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
                         System.Globalization.CultureInfo.GetCultureInfo("de-DE"); // Deutsches Format (Komma statt Punkt)
                 }
             }
@@ -138,12 +139,12 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // --- FILTER: NUR AKTIVE ODER ALLE SPEISEN ---
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void Aktive_speissen_checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             string query;
 
             // Je nachdem ob der Haken gesetzt ist, laden wir nur aktive oder wirklich alle Speisen
-            if (checkBox1.Checked)
+            if (Aktive_speissen_checkBox1.Checked)
             {
                 query = "SELECT speise_id, speisename, speisentyp, preis, zutaten FROM speisen WHERE aktiv = 1";
             }
@@ -157,45 +158,45 @@ namespace Pizzeria_Projekt_Schule
             {
                 DataTable table = new DataTable();
                 adapter.Fill(table);
-                dataGridView1.DataSource = table;
+                Speissen_menu_dataGridView1.DataSource = table;
             }
 
             // Währungsformatierung wieder anwenden
-            dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2";
-            dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
+            Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2";
+            Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
                 System.Globalization.CultureInfo.GetCultureInfo("de-DE");
         }
 
         // Button zum manuellen Aktualisieren der Liste
-        private void button5_Click(object sender, EventArgs e)
+        private void Aktualisieren_button5_Click(object sender, EventArgs e)
         {
             SpeisenLaden();
         }
 
         // --- BUTTON: BEARBEITEN / UPDATE ---
-        private void button1_Click_1(object sender, EventArgs e)
+        private void Update_button1_Click_1(object sender, EventArgs e)
         {
             // Prüfen, ob eine Zeile ausgewählt wurde
-            if (dataGridView1.CurrentRow == null)
+            if (Speissen_menu_dataGridView1.CurrentRow == null)
             {
                 MessageBox.Show("Bitte zuerst eine Speise auswählen.");
                 return;
             }
 
             // Wir lesen alle Daten aus der markierten Zeile aus
-            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["speise_id"].Value);
-            string name = dataGridView1.CurrentRow.Cells["speisename"].Value.ToString();
-            string typ = dataGridView1.CurrentRow.Cells["speisentyp"].Value.ToString();
+            int id = Convert.ToInt32(Speissen_menu_dataGridView1.CurrentRow.Cells["speise_id"].Value);
+            string name = Speissen_menu_dataGridView1.CurrentRow.Cells["speisename"].Value.ToString();
+            string typ = Speissen_menu_dataGridView1.CurrentRow.Cells["speisentyp"].Value.ToString();
 
             // Preis sicher umwandeln (beachtet Komma und Punkt)
             decimal preis = 0;
-            if (dataGridView1.CurrentRow.Cells["preis"].Value != null)
+            if (Speissen_menu_dataGridView1.CurrentRow.Cells["preis"].Value != null)
             {
-                decimal.TryParse(dataGridView1.CurrentRow.Cells["preis"].Value.ToString(),
+                decimal.TryParse(Speissen_menu_dataGridView1.CurrentRow.Cells["preis"].Value.ToString(),
                     System.Globalization.NumberStyles.Any,
                     System.Globalization.CultureInfo.GetCultureInfo("de-DE"), out preis);
             }
-            string zutaten = dataGridView1.CurrentRow.Cells["zutaten"].Value.ToString();
+            string zutaten = Speissen_menu_dataGridView1.CurrentRow.Cells["zutaten"].Value.ToString();
 
             // Wir öffnen das Update-Fenster und übergeben die Daten der Speise
             speiupd updateForm = new speiupd(id, name, typ, preis, zutaten);

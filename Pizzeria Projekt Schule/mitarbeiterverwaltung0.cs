@@ -96,8 +96,8 @@ namespace Pizzeria_Projekt_Schule
             if (dataGridView1.CurrentRow == null) return;
 
             var row = dataGridView1.CurrentRow;
-            textBox2.Text = row.Cells["vorname"].Value?.ToString();
-            textBox4.Text = row.Cells["nachname"].Value?.ToString();
+            Miarbeiterverwaltung_name_textBox2.Text = row.Cells["vorname"].Value?.ToString();
+            Miarbeiterverwaltung_nachname_textBox4.Text = row.Cells["nachname"].Value?.ToString();
 
             // Erst Rolle setzen, dann Sperre aktualisieren, dann Bereich anzeigen
             comboBox2.Text = row.Cells["rolle"].Value?.ToString();
@@ -170,16 +170,16 @@ namespace Pizzeria_Projekt_Schule
 
         private void SetParams(MySqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@vorname", textBox2.Text);
-            cmd.Parameters.AddWithValue("@nachname", textBox4.Text);
+            cmd.Parameters.AddWithValue("@vorname", Miarbeiterverwaltung_name_textBox2.Text);
+            cmd.Parameters.AddWithValue("@nachname", Miarbeiterverwaltung_nachname_textBox4.Text);
             cmd.Parameters.AddWithValue("@bereich", comboBox1.Text);
-            cmd.Parameters.AddWithValue("@passwort", textBox3.Text);
+            cmd.Parameters.AddWithValue("@passwort", Miarbeiterverwaltung_passwort_textBox3.Text);
             cmd.Parameters.AddWithValue("@rolle", comboBox2.Text);
         }
 
         private void FelderLeeren()
         {
-            textBox2.Clear(); textBox3.Clear(); textBox4.Clear();
+            Miarbeiterverwaltung_name_textBox2.Clear(); Miarbeiterverwaltung_passwort_textBox3.Clear(); Miarbeiterverwaltung_nachname_textBox4.Clear();
             comboBox1.SelectedIndex = -1;
             comboBox2.SelectedIndex = -1;
             AktualisiereBereichsSperre();
@@ -187,7 +187,7 @@ namespace Pizzeria_Projekt_Schule
 
         private bool ValidierungPruefen()
         {
-            if (string.IsNullOrWhiteSpace(textBox2.Text) || string.IsNullOrWhiteSpace(textBox4.Text))
+            if (string.IsNullOrWhiteSpace(Miarbeiterverwaltung_name_textBox2.Text) || string.IsNullOrWhiteSpace(Miarbeiterverwaltung_nachname_textBox4.Text))
             {
                 MessageBox.Show("Vorname und Nachname fehlen!");
                 return false;
@@ -197,17 +197,17 @@ namespace Pizzeria_Projekt_Schule
 
         // --- BUTTON EVENTS ---
 
-        private void button1_Click(object sender, EventArgs e)
+        private void mitarbeiter_hinzufugen_button1_Click(object sender, EventArgs e)
         {
             MitarbeiterHinzufuegen();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Mitarbeiterverwaltung_speichern_button2_Click(object sender, EventArgs e)
         {
             MitarbeiterUpdate();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void loschen_button3_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
             if (MessageBox.Show("Mitarbeiter wirklich löschen?", "Achtung", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -216,7 +216,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void abbrechen_button4_Click(object sender, EventArgs e)
         {
             new Hauptmenu().Show();
             this.Close();
@@ -229,7 +229,32 @@ namespace Pizzeria_Projekt_Schule
 
         private void showpassoword_CheckedChanged(object sender, EventArgs e)
         {
-            textBox3.PasswordChar = showpassoword.Checked ? '\0' : '●';
+            Miarbeiterverwaltung_passwort_textBox3.PasswordChar = showpassoword.Checked ? '\0' : '●';
+        }
+
+        private void mitarbeiterverwaltung_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Miarbeiterverwaltung_name_textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Miarbeiterverwaltung_nachname_textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Miarbeiterverwaltung_passwort_textBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

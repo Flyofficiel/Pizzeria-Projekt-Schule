@@ -33,21 +33,21 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.Umsatz_heute_textBox1 = new System.Windows.Forms.TextBox();
+            this.beliebteste_speisse_textBox2 = new System.Windows.Forms.TextBox();
+            this.Beliebteste_uhrzeit_textBox3 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Zeitraum_auswahl_comboBox1 = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Auswertungs_dataGridView2 = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Auswertungs_dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -100,26 +100,29 @@
             this.label4.TabIndex = 3;
             this.label4.Text = "Beliebteste Uhrzeit:";
             // 
-            // textBox1
+            // Umsatz_heute_textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(857, 273);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(125, 20);
-            this.textBox1.TabIndex = 4;
+            this.Umsatz_heute_textBox1.Location = new System.Drawing.Point(857, 273);
+            this.Umsatz_heute_textBox1.Name = "Umsatz_heute_textBox1";
+            this.Umsatz_heute_textBox1.Size = new System.Drawing.Size(125, 20);
+            this.Umsatz_heute_textBox1.TabIndex = 4;
+            this.Umsatz_heute_textBox1.TextChanged += new System.EventHandler(this.Umsatz_heute_textBox1_TextChanged);
             // 
-            // textBox2
+            // beliebteste_speisse_textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(857, 320);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(125, 20);
-            this.textBox2.TabIndex = 5;
+            this.beliebteste_speisse_textBox2.Location = new System.Drawing.Point(857, 320);
+            this.beliebteste_speisse_textBox2.Name = "beliebteste_speisse_textBox2";
+            this.beliebteste_speisse_textBox2.Size = new System.Drawing.Size(125, 20);
+            this.beliebteste_speisse_textBox2.TabIndex = 5;
+            this.beliebteste_speisse_textBox2.TextChanged += new System.EventHandler(this.beliebteste_speisse_textBox2_TextChanged);
             // 
-            // textBox3
+            // Beliebteste_uhrzeit_textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(857, 364);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(125, 20);
-            this.textBox3.TabIndex = 6;
+            this.Beliebteste_uhrzeit_textBox3.Location = new System.Drawing.Point(857, 364);
+            this.Beliebteste_uhrzeit_textBox3.Name = "Beliebteste_uhrzeit_textBox3";
+            this.Beliebteste_uhrzeit_textBox3.Size = new System.Drawing.Size(125, 20);
+            this.Beliebteste_uhrzeit_textBox3.TabIndex = 6;
+            this.Beliebteste_uhrzeit_textBox3.TextChanged += new System.EventHandler(this.Beliebteste_uhrzeit_textBox3_TextChanged);
             // 
             // button1
             // 
@@ -133,7 +136,7 @@
             this.button1.TabIndex = 13;
             this.button1.Text = "Auswertung";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Auswertung_auswertung_button1_Click);
             // 
             // button3
             // 
@@ -147,16 +150,16 @@
             this.button3.TabIndex = 15;
             this.button3.Text = "Zurück";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.Zuruck_button3_Click);
             // 
-            // comboBox1
+            // Zeitraum_auswahl_comboBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(858, 219);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(124, 21);
-            this.comboBox1.TabIndex = 20;
-           
+            this.Zeitraum_auswahl_comboBox1.FormattingEnabled = true;
+            this.Zeitraum_auswahl_comboBox1.Location = new System.Drawing.Point(858, 219);
+            this.Zeitraum_auswahl_comboBox1.Name = "Zeitraum_auswahl_comboBox1";
+            this.Zeitraum_auswahl_comboBox1.Size = new System.Drawing.Size(124, 21);
+            this.Zeitraum_auswahl_comboBox1.TabIndex = 20;
+            this.Zeitraum_auswahl_comboBox1.SelectedIndexChanged += new System.EventHandler(this.Zeitraum_auswahl_comboBox1_SelectedIndexChanged_1);
             // 
             // label9
             // 
@@ -180,7 +183,7 @@
             this.button7.TabIndex = 34;
             this.button7.Text = "Umsatz pro Gast";
             this.button7.UseVisualStyleBackColor = false;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button7.Click += new System.EventHandler(this.Umsatz_p_gast_button7_Click);
             // 
             // button5
             // 
@@ -194,7 +197,7 @@
             this.button5.TabIndex = 35;
             this.button5.Text = "Umsatz pro Mitarbeiter";
             this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.Click += new System.EventHandler(this.Umsatz_p_mitarbeiter_button5_Click);
             // 
             // button6
             // 
@@ -208,7 +211,7 @@
             this.button6.TabIndex = 36;
             this.button6.Text = "Umsatz pro Tisch";
             this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.Click += new System.EventHandler(this.Umsatz_p_tisch_button6_Click);
             // 
             // label11
             // 
@@ -223,15 +226,15 @@
             // 
             // dataGridView2
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.GridColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dataGridView2.Location = new System.Drawing.Point(57, 147);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.Size = new System.Drawing.Size(590, 180);
-            this.dataGridView2.TabIndex = 42;
-            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
+            this.Auswertungs_dataGridView2.AllowUserToAddRows = false;
+            this.Auswertungs_dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Auswertungs_dataGridView2.GridColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Auswertungs_dataGridView2.Location = new System.Drawing.Point(57, 147);
+            this.Auswertungs_dataGridView2.Name = "dataGridView2";
+            this.Auswertungs_dataGridView2.ReadOnly = true;
+            this.Auswertungs_dataGridView2.Size = new System.Drawing.Size(590, 180);
+            this.Auswertungs_dataGridView2.TabIndex = 42;
+            this.Auswertungs_dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Auswertungs_dataGridView2_CellContentClick);
             // 
             // label5
             // 
@@ -249,18 +252,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1006, 612);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.Auswertungs_dataGridView2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.Zeitraum_auswahl_comboBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.Beliebteste_uhrzeit_textBox3);
+            this.Controls.Add(this.beliebteste_speisse_textBox2);
+            this.Controls.Add(this.Umsatz_heute_textBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -270,7 +273,7 @@
             this.Load += new System.EventHandler(this.auswertung01_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Auswertungs_dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -283,18 +286,18 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox Umsatz_heute_textBox1;
+        private System.Windows.Forms.TextBox beliebteste_speisse_textBox2;
+        private System.Windows.Forms.TextBox Beliebteste_uhrzeit_textBox3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox Zeitraum_auswahl_comboBox1;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView Auswertungs_dataGridView2;
         private System.Windows.Forms.Label label5;
     }
 }

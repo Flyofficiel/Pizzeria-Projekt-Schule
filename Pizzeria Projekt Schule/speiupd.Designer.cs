@@ -35,10 +35,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.zutaten_speisseupd_textBox4 = new System.Windows.Forms.TextBox();
+            this.Preis_speisseupd_textBox3 = new System.Windows.Forms.TextBox();
+            this.Speisentyp_speisseupd_comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Name_speisseupd_textBox2 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +54,7 @@
             this.button2.TabIndex = 21;
             this.button2.Text = "Abbrechen";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.Abbrechen_speisse_update_button2_Click_1);
             // 
             // button1
             // 
@@ -67,7 +68,7 @@
             this.button1.TabIndex = 20;
             this.button1.Text = "Updaten";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Update_speisseupd_button1_Click);
             // 
             // panel1
             // 
@@ -125,42 +126,46 @@
             this.label5.TabIndex = 6;
             this.label5.Text = "Zutaten";
             // 
-            // textBox4
+            // zutaten_speisseupd_textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(172, 166);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(147, 20);
-            this.textBox4.TabIndex = 18;
-            this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
+            this.zutaten_speisseupd_textBox4.Location = new System.Drawing.Point(172, 166);
+            this.zutaten_speisseupd_textBox4.Name = "zutaten_speisseupd_textBox4";
+            this.zutaten_speisseupd_textBox4.Size = new System.Drawing.Size(147, 20);
+            this.zutaten_speisseupd_textBox4.TabIndex = 18;
+            this.zutaten_speisseupd_textBox4.TextChanged += new System.EventHandler(this.zutaten_speisseupd_textBox4_TextChanged);
+            this.zutaten_speisseupd_textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
             // 
-            // textBox3
+            // Preis_speisseupd_textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(172, 130);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(147, 20);
-            this.textBox3.TabIndex = 17;
-            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            this.Preis_speisseupd_textBox3.Location = new System.Drawing.Point(172, 130);
+            this.Preis_speisseupd_textBox3.Name = "Preis_speisseupd_textBox3";
+            this.Preis_speisseupd_textBox3.Size = new System.Drawing.Size(147, 20);
+            this.Preis_speisseupd_textBox3.TabIndex = 17;
+            this.Preis_speisseupd_textBox3.TextChanged += new System.EventHandler(this.Preis_speisseupd_textBox3_TextChanged);
+            this.Preis_speisseupd_textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
-            // comboBox1
+            // Speisentyp_speisseupd_comboBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.Speisentyp_speisseupd_comboBox1.FormattingEnabled = true;
+            this.Speisentyp_speisseupd_comboBox1.Items.AddRange(new object[] {
             "🥤 GETRÄNKE",
             "🍕 PIZZA",
             "🥗 SALATE",
             "🍝 PASTA",
             "🍰 DESSERT"});
-            this.comboBox1.Location = new System.Drawing.Point(172, 95);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(147, 21);
-            this.comboBox1.TabIndex = 16;
+            this.Speisentyp_speisseupd_comboBox1.Location = new System.Drawing.Point(172, 95);
+            this.Speisentyp_speisseupd_comboBox1.Name = "Speisentyp_speisseupd_comboBox1";
+            this.Speisentyp_speisseupd_comboBox1.Size = new System.Drawing.Size(147, 21);
+            this.Speisentyp_speisseupd_comboBox1.TabIndex = 16;
+            this.Speisentyp_speisseupd_comboBox1.SelectedIndexChanged += new System.EventHandler(this.Speisentyp_speisseupd_comboBox1_SelectedIndexChanged);
             // 
-            // textBox2
+            // Name_speisseupd_textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(172, 59);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(147, 20);
-            this.textBox2.TabIndex = 15;
+            this.Name_speisseupd_textBox2.Location = new System.Drawing.Point(172, 59);
+            this.Name_speisseupd_textBox2.Name = "Name_speisseupd_textBox2";
+            this.Name_speisseupd_textBox2.Size = new System.Drawing.Size(147, 20);
+            this.Name_speisseupd_textBox2.TabIndex = 15;
+            this.Name_speisseupd_textBox2.TextChanged += new System.EventHandler(this.Name_speisseupd_textBox2_TextChanged);
             // 
             // speiupd
             // 
@@ -170,10 +175,10 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.zutaten_speisseupd_textBox4);
+            this.Controls.Add(this.Preis_speisseupd_textBox3);
+            this.Controls.Add(this.Speisentyp_speisseupd_comboBox1);
+            this.Controls.Add(this.Name_speisseupd_textBox2);
             this.Name = "speiupd";
             this.Text = "Updaten";
             this.Load += new System.EventHandler(this.speiupd_Load);
@@ -193,9 +198,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox zutaten_speisseupd_textBox4;
+        private System.Windows.Forms.TextBox Preis_speisseupd_textBox3;
+        private System.Windows.Forms.ComboBox Speisentyp_speisseupd_comboBox1;
+        private System.Windows.Forms.TextBox Name_speisseupd_textBox2;
     }
 }
