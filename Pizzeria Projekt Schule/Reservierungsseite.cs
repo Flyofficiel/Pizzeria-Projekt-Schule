@@ -20,7 +20,7 @@ namespace Pizzeria_Projekt_Schule
             StammgastLaden(); // Lädt die Liste der bereits bekannten Gäste
         }
 
-        private void abbrechen_button2_Click(object sender, EventArgs e)
+        private void Abbrechen_button2_Click(object sender, EventArgs e)
         {
             Hauptmenu mainmenupage = new Hauptmenu();
             mainmenupage.Show();
@@ -214,7 +214,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void reservierung_Load(object sender, EventArgs e)
+        private void Reservierung_Load(object sender, EventArgs e)
         {
             dateTimePicker1.Value = DateTime.Now;
             Uhrzeit_comboBox1.Items.Clear();
@@ -226,7 +226,7 @@ namespace Pizzeria_Projekt_Schule
             AktualisiereTischeAuto();
         }
 
-        private void reservierung_personenzahl_numericUpDown1_ValueChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
+        private void Reservierung_personenzahl_numericUpDown1_ValueChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
 
         private int HoleSlot()
         {
@@ -234,11 +234,11 @@ namespace Pizzeria_Projekt_Schule
             return Uhrzeit_comboBox1.SelectedIndex + 1;
         }
 
-        private void reservierung_dateTimePicker1_ValueChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
+        private void Reservierung_dateTimePicker1_ValueChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
         private void Uhrzeit_comboBox1_SelectedIndexChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
 
         // --- VALIDIERUNG DER EINGABE ---
-        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        private void TextBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true;
         }
@@ -292,7 +292,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void guestuebernehmen_Click(object sender, EventArgs e)
+        private void Guestuebernehmen_Click(object sender, EventArgs e)
         {
             if (stammgaste_dataGridView1.CurrentRow != null)
             {
@@ -303,9 +303,9 @@ namespace Pizzeria_Projekt_Schule
         }
 
         private void Name_textBox1_TextChanged(object sender, EventArgs e) { }
-        private void panel2_Paint(object sender, PaintEventArgs e) { }
-        private void tabPage2_Click(object sender, EventArgs e) { }
-        private void tabPage1_Click(object sender, EventArgs e) { }
+        private void Panel2_Paint(object sender, PaintEventArgs e) { }
+        private void TabPage2_Click(object sender, EventArgs e) { }
+        private void TabPage1_Click(object sender, EventArgs e) { }
 
         private void Tischauswahl_comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {

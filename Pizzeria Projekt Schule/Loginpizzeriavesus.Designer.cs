@@ -58,7 +58,7 @@
             this.usernameinput.Name = "usernameinput";
             this.usernameinput.Size = new System.Drawing.Size(130, 20);
             this.usernameinput.TabIndex = 1;
-            this.usernameinput.TextChanged += new System.EventHandler(this.usernameinput_TextChanged);
+            this.usernameinput.TextChanged += new System.EventHandler(this.Usernameinput_TextChanged);
             // 
             // passwortinput
             // 
@@ -77,7 +77,7 @@
             this.label1.Size = new System.Drawing.Size(155, 24);
             this.label1.TabIndex = 3;
             this.label1.Text = "Personalnummer";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.label1.Click += new System.EventHandler(this.Label1_Click);
             // 
             // label2
             // 
@@ -99,7 +99,7 @@
             this.label3.Size = new System.Drawing.Size(752, 29);
             this.label3.TabIndex = 5;
             this.label3.Text = "Willkommen zum Mangement Programm von der Pizzeria Vesuv";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.label3.Click += new System.EventHandler(this.Label3_Click);
             // 
             // button2
             // 

@@ -39,8 +39,7 @@ namespace Pizzeria_Projekt_Schule
                 // Wir holen uns die ID der Speise aus der aktuell angeklickten Zeile
                 cmd.Parameters.AddWithValue(
                     "@speise_id",
-                    Speissen_menu_
-                    dataGridView1.CurrentRow.Cells["speise_id"].Value
+                    Speissen_menu_dataGridView1.CurrentRow.Cells["speise_id"].Value
                 );
 
                 cmd.ExecuteNonQuery();
@@ -50,9 +49,9 @@ namespace Pizzeria_Projekt_Schule
             SpeisenLaden(); // Die Liste aktualisieren, damit die gelöschte Speise verschwindet
         }
 
-        private void label1_Click(object sender, EventArgs e) { }
+        private void Label1_Click(object sender, EventArgs e) { }
         private void Speissen_menu_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void label2_Click(object sender, EventArgs e) { }
+        private void Label2_Click(object sender, EventArgs e) { }
 
         // --- NAVIGATION ---
         // Schließt diese Seite und geht zurück zum Hauptmenü

@@ -106,12 +106,12 @@ namespace Pizzeria_Projekt_Schule
             Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e)
         {
             // Noch nicht belegt
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        private void Label3_Click(object sender, EventArgs e)
         {
             // Noch nicht belegt
         }
@@ -133,12 +133,12 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void Label1_Click(object sender, EventArgs e)
         {
             // Noch nicht belegt
         }
 
-        private void usernameinput_TextChanged(object sender, EventArgs e)
+        private void Usernameinput_TextChanged(object sender, EventArgs e)
         {
             // Noch nicht belegt
         }

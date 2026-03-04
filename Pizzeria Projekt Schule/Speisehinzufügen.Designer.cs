@@ -85,7 +85,7 @@
             this.label4.Size = new System.Drawing.Size(40, 15);
             this.label4.TabIndex = 5;
             this.label4.Text = "Preis";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
+            this.label4.Click += new System.EventHandler(this.Label4_Click);
             // 
             // label5
             // 
@@ -105,7 +105,7 @@
             this.Name_textBox2.Size = new System.Drawing.Size(147, 20);
             this.Name_textBox2.TabIndex = 8;
             this.Name_textBox2.TextChanged += new System.EventHandler(this.Name_textBox2_TextChanged);
-            this.Name_textBox2.Leave += new System.EventHandler(this.textBox2_Leave);
+            this.Name_textBox2.Leave += new System.EventHandler(this.TextBox2_Leave);
             // 
             // Speissen_typ_comboBox1
             // 
@@ -129,7 +129,7 @@
             this.Preis_textBox3.Size = new System.Drawing.Size(147, 20);
             this.Preis_textBox3.TabIndex = 10;
             this.Preis_textBox3.TextChanged += new System.EventHandler(this.Preis_textBox3_TextChanged);
-            this.Preis_textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            this.Preis_textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox3_KeyPress);
             // 
             // textBox4
             // 
@@ -137,8 +137,8 @@
             this.zutaten_textBox4.Name = "textBox4";
             this.zutaten_textBox4.Size = new System.Drawing.Size(147, 20);
             this.zutaten_textBox4.TabIndex = 11;
-            this.zutaten_textBox4.TextChanged += new System.EventHandler(this.zutaten_textBox4_TextChanged);
-            this.zutaten_textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
+            this.zutaten_textBox4.TextChanged += new System.EventHandler(this.Zutaten_textBox4_TextChanged);
+            this.zutaten_textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox4_KeyPress);
             // 
             // panel1
             // 
@@ -164,7 +164,7 @@
             this.button1.TabIndex = 13;
             this.button1.Text = "Hinzufügen";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.hinzufugen_button1_Click);
+            this.button1.Click += new System.EventHandler(this.Hinzufugen_button1_Click);
             // 
             // button2
             // 
@@ -178,7 +178,7 @@
             this.button2.TabIndex = 14;
             this.button2.Text = "Abbrechen";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.abbrechen_button2_Click);
+            this.button2.Click += new System.EventHandler(this.Abbrechen_button2_Click);
             // 
             // errorProvider1
             // 
@@ -199,7 +199,7 @@
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "Speisehinzufügen";
             this.Text = "Hinzufügen";
-            this.Load += new System.EventHandler(this.speisenhin_Load);
+            this.Load += new System.EventHandler(this.Speisenhin_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();

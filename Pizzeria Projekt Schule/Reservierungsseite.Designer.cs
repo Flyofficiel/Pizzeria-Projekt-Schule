@@ -100,7 +100,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(260, 318);
             this.panel2.TabIndex = 1;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel2_Paint);
             // 
             // textBox2
             // 
@@ -109,7 +109,7 @@
             this.Telefon_textBox2.Size = new System.Drawing.Size(200, 20);
             this.Telefon_textBox2.TabIndex = 5;
             this.Telefon_textBox2.TextChanged += new System.EventHandler(this.Telefon_textBox2_TextChanged);
-            this.Telefon_textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
+            this.Telefon_textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox2_KeyPress);
             // 
             // textBox1
             // 
@@ -176,7 +176,7 @@
             this.nureservierung_personenzahl_numericUpDown1.Name = "nureservierung_personenzahl_numericUpDown1";
             this.nureservierung_personenzahl_numericUpDown1.Size = new System.Drawing.Size(200, 20);
             this.nureservierung_personenzahl_numericUpDown1.TabIndex = 2;
-            this.nureservierung_personenzahl_numericUpDown1.ValueChanged += new System.EventHandler(this.reservierung_personenzahl_numericUpDown1_ValueChanged);
+            this.nureservierung_personenzahl_numericUpDown1.ValueChanged += new System.EventHandler(this.Reservierung_personenzahl_numericUpDown1_ValueChanged);
             // 
             // Uhrzeit_comboBox1
             // 
@@ -200,7 +200,7 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 0;
             this.dateTimePicker1.Value = new System.DateTime(2026, 1, 28, 0, 0, 0, 0);
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.reservierung_dateTimePicker1_ValueChanged);
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.Reservierung_dateTimePicker1_ValueChanged);
             // 
             // label2
             // 
@@ -288,7 +288,7 @@
             this.button2.TabIndex = 9;
             this.button2.Text = "Abbrechen";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.abbrechen_button2_Click);
+            this.button2.Click += new System.EventHandler(this.Abbrechen_button2_Click);
             // 
             // tabControl1
             // 
@@ -316,7 +316,7 @@
             this.tabPage1.Size = new System.Drawing.Size(557, 367);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Reservierung";
-            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+            this.tabPage1.Click += new System.EventHandler(this.TabPage1_Click);
             // 
             // tabPage2
             // 
@@ -328,7 +328,7 @@
             this.tabPage2.Size = new System.Drawing.Size(557, 367);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Stammgäste";
-            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            this.tabPage2.Click += new System.EventHandler(this.TabPage2_Click);
             // 
             // guestuebernehmen
             // 
@@ -342,7 +342,7 @@
             this.guestuebernehmen.TabIndex = 1;
             this.guestuebernehmen.Text = "Gast Übernehmen";
             this.guestuebernehmen.UseVisualStyleBackColor = false;
-            this.guestuebernehmen.Click += new System.EventHandler(this.guestuebernehmen_Click);
+            this.guestuebernehmen.Click += new System.EventHandler(this.Guestuebernehmen_Click);
             // 
             // dataGridView1
             // 
@@ -364,7 +364,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "Reservierungsseite";
             this.Text = "Reservierung";
-            this.Load += new System.EventHandler(this.reservierung_Load);
+            this.Load += new System.EventHandler(this.Reservierung_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

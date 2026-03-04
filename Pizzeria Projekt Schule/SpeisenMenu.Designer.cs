@@ -56,7 +56,7 @@
             this.label1.Size = new System.Drawing.Size(471, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Speissen - Einfügen - Bearbeiten - Löschen";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.label1.Click += new System.EventHandler(this.Label1_Click);
             // 
             // panel1
             // 
@@ -120,7 +120,7 @@
             this.label2.Size = new System.Drawing.Size(29, 24);
             this.label2.TabIndex = 4;
             this.label2.Text = "ID";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.label2.Click += new System.EventHandler(this.Label2_Click);
             // 
             // button2
             // 

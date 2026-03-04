@@ -20,11 +20,11 @@ namespace Pizzeria_Projekt_Schule
             timer1.Tick += Timer1_Tick;
             timer1.Start();
 
-            timenow(); // Uhrzeit sofort beim Start anzeigen
+            Timenow(); // Uhrzeit sofort beim Start anzeigen
         }
 
         // Wird beim Laden der Seite ausgeführt
-        private void auswertung01_Load(object sender, EventArgs e)
+        private void Auswertung_Load(object sender, EventArgs e)
         {
             // Auswahlmöglichkeiten für den Zeitraum festlegen
             Zeitraum_auswahl_comboBox1.Items.Clear();
@@ -226,18 +226,18 @@ namespace Pizzeria_Projekt_Schule
         private void Zeitraum_auswahl_comboBox1_SelectedIndexChanged(object sender, EventArgs e) => LadeAlleDaten();
 
         // Timer-Ereignis für die Uhr
-        private void Timer1_Tick(object sender, EventArgs e) => timenow();
+        private void Timer1_Tick(object sender, EventArgs e) => Timenow();
 
-        private void timenow()
+        private void Timenow()
         {
             // Deutsche Formatierung für Datum und Uhrzeit
             label11.Text = DateTime.Now.ToString("HH:mm:ss dddd, dd.MM.yyyy",
                 System.Globalization.CultureInfo.GetCultureInfo("de-DE"));
         }
 
-        private void label1_Click(object sender, EventArgs e) { }
+        private void Label1_Click(object sender, EventArgs e) { }
         private void Auswertungs_dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void textBox5_TextChanged(object sender, EventArgs e) { }
+        private void TextBox5_TextChanged(object sender, EventArgs e) { }
 
         private void Zeitraum_auswahl_comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
@@ -249,7 +249,7 @@ namespace Pizzeria_Projekt_Schule
 
         }
 
-        private void beliebteste_speisse_textBox2_TextChanged(object sender, EventArgs e)
+        private void Beliebteste_speisse_textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }

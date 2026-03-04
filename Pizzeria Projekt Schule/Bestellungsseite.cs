@@ -24,19 +24,19 @@ namespace Pizzeria_Projekt_Schule
             InitializeComponent();
 
             // Verknüpfung der Events und Start des Timers für die Uhrzeit
-            tischauswahl.SelectionChangeCommitted += tischauswahl_SelectionChangeCommitted;
+            tischauswahl.SelectionChangeCommitted += Tischauswahl_SelectionChangeCommitted;
             timer1 = new Timer();
             timer1.Interval = 1000; // 1 Sekunde
             timer1.Tick += Timer1_Tick;
             timer1.Start();
 
-            timenow(); // Uhrzeit sofort beim Start anzeigen
+            Timenow(); // Uhrzeit sofort beim Start anzeigen
         }
 
         // Methode, um die aktuelle Uhrzeit schön formatiert anzuzeigen
-        private void timenow()
+        private void Timenow()
         {
-            label7.Text = DateTime.Now.ToString("HH:mm:ss dddd, dd.MM.yyyy",
+            Uhrzeitlabel.Text = DateTime.Now.ToString("HH:mm:ss dddd, dd.MM.yyyy",
             System.Globalization.CultureInfo.GetCultureInfo("de-DE"));
         }
 
@@ -52,12 +52,12 @@ namespace Pizzeria_Projekt_Schule
 
             // Tischauswahl optisch anpassen (OwnerDraw damit wir Farben nutzen können)
             tischauswahl.DrawMode = DrawMode.OwnerDrawFixed;
-            tischauswahl.DrawItem += tischauswahl_DrawItem;
+            tischauswahl.DrawItem += Tischauswahl_DrawItem;
             tischauswahl.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
+            dateTimePicker1.ValueChanged += DateTimePicker1_ValueChanged;
 
-            mitarbeiterLaden(); // Lädt nur Service-Mitarbeiter in die ComboBox
+            MitarbeiterLaden(); // Lädt nur Service-Mitarbeiter in die ComboBox
 
             if (tischauswahl_comboBox2.Items.Count > 0)
             {
@@ -90,7 +90,7 @@ namespace Pizzeria_Projekt_Schule
                 System.Globalization.CultureInfo.GetCultureInfo("de-DE");
         }
 
-        private void abbrechen_button5_Click(object sender, EventArgs e)
+        private void Abbrechen_button5_Click(object sender, EventArgs e)
         {
             // Zurück zum Hauptmenü
             Hauptmenu hauptmenu = new Hauptmenu();
@@ -132,7 +132,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // --- EVENT: SPEISE HINZUFÜGEN ---
-        private void hinzufugen_Button1_Click(object sender, EventArgs e)
+        private void Hinzufugen_Button1_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
@@ -146,7 +146,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Lädt die Mitarbeiter mit der Rolle 'service' aus der DB
-        private void mitarbeiterLaden()
+        private void MitarbeiterLaden()
         {
             string query = @"
         SELECT personalnr,
@@ -168,7 +168,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // --- EVENT: ARTIKEL AUS WARENKORB ENTFERNEN ---
-        private void loschen_Button2_Click(object sender, EventArgs e)
+        private void Loeschen_Button2_Click(object sender, EventArgs e)
         {
             if (Bestellkorb_listBox1.SelectedItem is WarenkorbItem item)
             {
@@ -185,7 +185,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // --- EVENT: BESTELLUNG ABSCHLIEẞEN (Wichtigster Teil!) ---
-        private void an_kuche_Button3_Click_aa(object sender, EventArgs e)
+        private void An_kueche_Button3_Click_aa(object sender, EventArgs e)
         {
             if (warenkorb.Count == 0)
             {
@@ -239,16 +239,16 @@ namespace Pizzeria_Projekt_Schule
 
                     // 2. Kopfdaten der Bestellung speichern
                     string bestellQuery = @"
-                INSERT INTO bestellungen 
-                (datum, gast_id_fk, tisch_id_fk, personalnr_fk, status, slot)
-                VALUES 
-                (@datum, @gast, @tisch, @mitarbeiter, 'offen', @slot);
-                SELECT LAST_INSERT_ID();";
+INSERT INTO bestellungen 
+(gast_id_fk, tisch_id_fk, personalnr_fk, status, slot)
+VALUES 
+(@gast, @tisch, @mitarbeiter, 'offen', @slot);
+SELECT LAST_INSERT_ID();";
 
                     int bestellNr;
                     using (var cmd = new MySqlCommand(bestellQuery, conn, transaction))
                     {
-                        cmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
+                        cmd.Parameters.AddWithValue("@datum", DateTime.Now);
                         cmd.Parameters.AddWithValue("@gast", gastId);
                         cmd.Parameters.AddWithValue("@tisch", tisch.TischId);
                         cmd.Parameters.AddWithValue("@mitarbeiter", tischauswahl_comboBox2.SelectedValue);
@@ -298,7 +298,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void dataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             dataGridView1.Rows[e.RowIndex].Selected = true;
@@ -328,12 +328,12 @@ namespace Pizzeria_Projekt_Schule
                 });
         }
 
-        private void slot_comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void Slot_comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             AktualisiereTische();
         }
 
-        private void summe_TextBox1_TextChanged(object sender, EventArgs e) { }
+        private void Summe_TextBox1_TextChanged(object sender, EventArgs e) { }
 
         private void Mitarbeiter_combobox2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -392,7 +392,7 @@ ORDER BY t.tisch_id";
             }
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             AktualisiereTische();
         }
@@ -453,13 +453,18 @@ ORDER BY t.tisch_id";
             using (var cmd = new MySqlCommand(query, conn, transaction))
             {
                 object result = cmd.ExecuteScalar();
-                if (result == null) throw new Exception("Kein Laufgast gefunden!");
+
+                if (result == null || result == DBNull.Value)
+                {
+                    throw new Exception("Kein Laufgast gefunden!");
+                }
+
                 return Convert.ToInt32(result);
             }
         }
 
         // Zeichnet die Tisch-Items in der ComboBox farbig (Rot = Besetzt, Grün = Frei)
-        private void tischauswahl_DrawItem(object sender, DrawItemEventArgs e)
+        private void Tischauswahl_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0) return;
             TischItem tisch = (TischItem)tischauswahl.Items[e.Index];
@@ -481,7 +486,7 @@ ORDER BY t.tisch_id";
         }
 
         // Logik: Wenn ein reservierter Tisch ausgewählt wird, fragen ob die Gäste da sind
-        private void tischauswahl_SelectionChangeCommitted(object sender, EventArgs e)
+        private void Tischauswahl_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (tischauswahl.SelectedItem == null) return;
             TischItem tisch = (TischItem)tischauswahl.SelectedItem;
@@ -511,15 +516,15 @@ ORDER BY t.tisch_id";
         }
 
         private void Bestellkorb_listBox1_SelectedIndexChanged(object sender, EventArgs e) { }
-        private void tischauswahl_comboBox2_SelectedIndexChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
-        private void slot_comboBox1_SelectedIndexChanged_1(object sender, EventArgs e) { AktualisiereTische(); }
-        private void dateTimePicker1_ValueChanged_1(object sender, EventArgs e) { AktualisiereTischeAuto(); }
-        private void label7_Click(object sender, EventArgs e) { }
+        private void Tischauswahl_comboBox2_SelectedIndexChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
+        private void Slot_comboBox1_SelectedIndexChanged_1(object sender, EventArgs e) { AktualisiereTische(); }
+        private void DateTimePicker1_ValueChanged_1(object sender, EventArgs e) { AktualisiereTischeAuto(); }
+        private void Label7_Click(object sender, EventArgs e) { }
 
         // Tick-Event für die Uhrzeit
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            timenow();
+            Timenow();
         }
 
         private void Bestellung_dateTimePicker1_ValueChanged_2(object sender, EventArgs e)
@@ -527,7 +532,7 @@ ORDER BY t.tisch_id";
 
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

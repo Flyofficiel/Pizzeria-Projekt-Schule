@@ -128,7 +128,7 @@
             this.Trinkgeld_Zahlen_TextBox1.Size = new System.Drawing.Size(108, 20);
             this.Trinkgeld_Zahlen_TextBox1.TabIndex = 6;
             this.Trinkgeld_Zahlen_TextBox1.TextChanged += new System.EventHandler(this.Trinkgeld_Zahlen_TextBox1_TextChanged);
-            this.Trinkgeld_Zahlen_TextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            this.Trinkgeld_Zahlen_TextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox1_KeyPress);
             // 
             // Summe_zahlen_textBox2
             // 
@@ -144,7 +144,7 @@
             this.gesamt_Zahlen_textBox3.Name = "gesamt_Zahlen_textBox3";
             this.gesamt_Zahlen_textBox3.Size = new System.Drawing.Size(108, 20);
             this.gesamt_Zahlen_textBox3.TabIndex = 8;
-            this.gesamt_Zahlen_textBox3.TextChanged += new System.EventHandler(this.gesamt_Zahlen_textBox3_TextChanged);
+            this.gesamt_Zahlen_textBox3.TextChanged += new System.EventHandler(this.Gesamt_Zahlen_textBox3_TextChanged);
             // 
             // Bargeld_zahlen_radioButton1
             // 
@@ -210,7 +210,7 @@
             this.button2.TabIndex = 12;
             this.button2.Text = "Abbrechen";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // Tisch_zahlenseite_comboBox1
             // 

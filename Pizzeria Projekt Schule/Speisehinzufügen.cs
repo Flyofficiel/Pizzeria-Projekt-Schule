@@ -19,16 +19,16 @@ namespace Pizzeria_Projekt_Schule
             InitializeComponent();
         }
 
-        private void label4_Click(object sender, EventArgs e) { }
+        private void Label4_Click(object sender, EventArgs e) { }
 
         // Schließt das Fenster, falls man es sich anders überlegt hat
-        private void abbrechen_button2_Click(object sender, EventArgs e)
+        private void Abbrechen_button2_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
         // --- BUTTON: SPEICHERN ---
-        private void hinzufugen_button1_Click(object sender, EventArgs e)
+        private void Hinzufugen_button1_Click(object sender, EventArgs e)
         {
             // --- 1. DATEN VORBEREITEN ---
             // Trim entfernt unnötige Leerzeichen am Anfang und Ende
@@ -120,10 +120,10 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void speisenhin_Load(object sender, EventArgs e) { }
+        private void Speisenhin_Load(object sender, EventArgs e) { }
 
         // Kontrolliert beim Tippen, dass im Preis-Feld nur Zahlen, Komma oder Punkt landen
-        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        private void TextBox3_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
                 e.KeyChar != ',' && e.KeyChar != '.')
@@ -133,7 +133,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Kontrolliert beim Tippen, dass bei den Zutaten nur Text und Kommas landen
-        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
+        private void TextBox4_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) &&
                 e.KeyChar != ' ' && e.KeyChar != ',')
@@ -149,7 +149,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Wenn der User das Namens-Feld verlässt, wird der erste Buchstabe automatisch groß gemacht
-        private void textBox2_Leave(object sender, EventArgs e)
+        private void TextBox2_Leave(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(Name_textBox2.Text))
             {
@@ -172,7 +172,7 @@ namespace Pizzeria_Projekt_Schule
 
         }
 
-        private void zutaten_textBox4_TextChanged(object sender, EventArgs e)
+        private void Zutaten_textBox4_TextChanged(object sender, EventArgs e)
         {
 
         }

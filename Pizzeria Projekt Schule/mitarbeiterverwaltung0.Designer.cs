@@ -99,8 +99,8 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(507, 342);
             this.dataGridView1.TabIndex = 3;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mitarbeiterverwaltung_dataGridView1_CellContentClick);
-            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Mitarbeiterverwaltung_dataGridView1_CellContentClick);
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.DataGridView1_SelectionChanged);
             // 
             // label5
             // 
@@ -176,7 +176,7 @@
             this.button1.TabIndex = 12;
             this.button1.Text = "Neu";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button1.Click += new System.EventHandler(this.Button1_Click_1);
             // 
             // button2
             // 
@@ -204,7 +204,7 @@
             this.button3.TabIndex = 14;
             this.button3.Text = "Löschen";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.loschen_button3_Click);
+            this.button3.Click += new System.EventHandler(this.Loeschen_button3_Click);
             // 
             // button4
             // 
@@ -218,7 +218,7 @@
             this.button4.TabIndex = 15;
             this.button4.Text = "Abbrechen";
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.abbrechen_button4_Click);
+            this.button4.Click += new System.EventHandler(this.Abbrechen_button4_Click);
             // 
             // comboBox2
             // 
@@ -230,7 +230,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(121, 21);
             this.comboBox2.TabIndex = 19;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.ComboBox2_SelectedIndexChanged);
             // 
             // textBox4
             // 
@@ -269,7 +269,7 @@
             this.showpassoword.TabIndex = 20;
             this.showpassoword.Text = "Passwort anzeigen";
             this.showpassoword.UseVisualStyleBackColor = true;
-            this.showpassoword.CheckedChanged += new System.EventHandler(this.showpassoword_CheckedChanged);
+            this.showpassoword.CheckedChanged += new System.EventHandler(this.Showpassoword_CheckedChanged);
             // 
             // Mitarbeiterverwaltung0
             // 
@@ -297,7 +297,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "Mitarbeiterverwaltung0";
             this.Text = "Mitarbeiterverwaltung";
-            this.Load += new System.EventHandler(this.mitarbeiterverwaltungrichtig_Load);
+            this.Load += new System.EventHandler(this.Mitarbeiterverwaltungrichtig_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

@@ -12,7 +12,7 @@ namespace Pizzeria_Projekt_Schule
             InitializeComponent();
         }
 
-        private void mitarbeiterverwaltungrichtig_Load(object sender, EventArgs e)
+        private void Mitarbeiterverwaltungrichtig_Load(object sender, EventArgs e)
         {
             MitarbeiterLaden();
 
@@ -32,20 +32,21 @@ namespace Pizzeria_Projekt_Schule
 
             if (rolle == "service")
             {
-                // Nur beim Service darf man den Tisch-Bereich wählen
                 comboBox1.Enabled = true;
 
-                // Falls die Liste leer ist, Tische für Service laden
-                if (comboBox1.Items.Count <= 1)
-                {
-                    comboBox1.Items.Clear();
-                    comboBox1.Items.AddRange(new string[] {
-                        "Tische 1-10 (Innen vorne)",
-                        "Tische 11-20 (Innen hinten)",
-                        "Tische 21-30 (Terrasse)",
-                        "Tische 31-40 (VIP)"
-                    });
-                }
+                // ALLES komplett zurücksetzen
+                comboBox1.Items.Clear();
+                comboBox1.Text = "";
+
+                // Nur Tische hinzufügen
+                comboBox1.Items.AddRange(new string[] {
+        "Tische 1-10 (Innen vorne)",
+        "Tische 11-20 (Innen hinten)",
+        "Tische 21-30 (Terrasse)",
+        "Tische 31-40 (VIP)"
+    });
+
+                comboBox1.SelectedIndex = -1; // nichts automatisch auswählen
             }
             else
             {
@@ -91,7 +92,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        private void DataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
 
@@ -197,7 +198,7 @@ namespace Pizzeria_Projekt_Schule
 
         // --- BUTTON EVENTS ---
 
-        private void mitarbeiter_hinzufugen_button1_Click(object sender, EventArgs e)
+        private void Mitarbeiter_hinzufugen_button1_Click(object sender, EventArgs e)
         {
             MitarbeiterHinzufuegen();
         }
@@ -207,7 +208,7 @@ namespace Pizzeria_Projekt_Schule
             MitarbeiterUpdate();
         }
 
-        private void loschen_button3_Click(object sender, EventArgs e)
+        private void Loeschen_button3_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
             if (MessageBox.Show("Mitarbeiter wirklich löschen?", "Achtung", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -216,28 +217,28 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void abbrechen_button4_Click(object sender, EventArgs e)
+        private void Abbrechen_button4_Click(object sender, EventArgs e)
         {
             new Hauptmenu().Show();
             this.Close();
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             AktualisiereBereichsSperre();
         }
 
-        private void showpassoword_CheckedChanged(object sender, EventArgs e)
+        private void Showpassoword_CheckedChanged(object sender, EventArgs e)
         {
             Miarbeiterverwaltung_passwort_textBox3.PasswordChar = showpassoword.Checked ? '\0' : '●';
         }
 
-        private void mitarbeiterverwaltung_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void Mitarbeiterverwaltung_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void Button1_Click_1(object sender, EventArgs e)
         {
 
         }

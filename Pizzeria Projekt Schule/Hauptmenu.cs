@@ -22,14 +22,14 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Platzhalter für Klicks auf Bilder oder Labels, falls man dort noch Logik braucht.
-        private void hauptmenu_pictureBox1_Click(object sender, EventArgs e) { }
-        private void label2_Click(object sender, EventArgs e) { }
-        private void label1_Click(object sender, EventArgs e) { }
+        private void Hauptmenu_pictureBox1_Click(object sender, EventArgs e) { }
+        private void Label2_Click(object sender, EventArgs e) { }
+        private void Label1_Click(object sender, EventArgs e) { }
 
         // --- NAVIGATION: Hier werden die anderen Fenster geöffnet ---
 
         // Öffnet die Speisekarte (z.B. um Preise zu ändern)
-        private void speisemenü_Haupt_button1_Click(object sender, EventArgs e)
+        private void Speisemenü_Haupt_button1_Click(object sender, EventArgs e)
         {
             SpeisenMenu speisenpage = new SpeisenMenu();
             speisenpage.Show(); // Neue Seite anzeigen
@@ -45,7 +45,7 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Öffnet die Seite, um Tische zu reservieren
-        private void reservierungenmenu_button3_Click(object sender, EventArgs e)
+        private void Reservierungenmenu_button3_Click(object sender, EventArgs e)
         {
             Reservierungsseite reservierungpage = new Reservierungsseite();
             reservierungpage.Show();
@@ -141,7 +141,7 @@ ORDER BY r.slot ASC";
         }
 
         // --- BUTTON: STORNIEREN ---
-        private void Reservierung_stono_button9_Click(object sender, EventArgs e)
+        private void Reservierung_storno_button9_Click(object sender, EventArgs e)
         {
             // 1. Erstmal prüfen, ob der Benutzer überhaupt eine Zeile angeklickt hat
             if (Reservierung_huaptmenu_dataGridView1.CurrentRow == null)
@@ -176,10 +176,10 @@ ORDER BY r.slot ASC";
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e) { }
+        private void Panel1_Paint(object sender, PaintEventArgs e) { }
 
         // Wenn man im Kalender ein anderes Datum wählt, soll die Liste sofort neu laden
-        private void hauptmenu_dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void Hauptmenu_dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             LadeReservierungen();
         }

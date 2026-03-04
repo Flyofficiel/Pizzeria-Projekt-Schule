@@ -234,8 +234,8 @@ namespace Pizzeria_Projekt_Schule
         }
 
         private void Tisch_zahlenseite_comboBox1_SelectedIndexChanged(object sender, EventArgs e) { BestellungenLaden(); }
-        private void button2_Click(object sender, EventArgs e) { new Hauptmenu().Show(); this.Close(); }
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e) { if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',' && e.KeyChar != '.') e.Handled = true; }
+        private void Button2_Click(object sender, EventArgs e) { new Hauptmenu().Show(); this.Close(); }
+        private void TextBox1_KeyPress(object sender, KeyPressEventArgs e) { if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',' && e.KeyChar != '.') e.Handled = true; }
 
         private void Zahlenseite_dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
@@ -247,7 +247,7 @@ namespace Pizzeria_Projekt_Schule
 
         }
 
-        private void gesamt_Zahlen_textBox3_TextChanged(object sender, EventArgs e)
+        private void Gesamt_Zahlen_textBox3_TextChanged(object sender, EventArgs e)
         {
 
         }

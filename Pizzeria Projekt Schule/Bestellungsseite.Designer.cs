@@ -46,7 +46,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.slot_comboBox1_ = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.Uhrzeitlabel = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -100,7 +100,7 @@
             this.tischauswahl.Name = "tischauswahl";
             this.tischauswahl.Size = new System.Drawing.Size(172, 21);
             this.tischauswahl.TabIndex = 4;
-            this.tischauswahl.SelectedIndexChanged += new System.EventHandler(this.tischauswahl_comboBox2_SelectedIndexChanged);
+            this.tischauswahl.SelectedIndexChanged += new System.EventHandler(this.Tischauswahl_comboBox2_SelectedIndexChanged);
             // 
             // tischauswahl_comboBox2
             // 
@@ -118,8 +118,8 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(384, 441);
             this.dataGridView1.TabIndex = 6;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick_1);
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellClick_1);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
             // 
             // groupBox1
             // 
@@ -158,7 +158,7 @@
             this.button5.TabIndex = 7;
             this.button5.Text = "Abbrechen";
             this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.abbrechen_button5_Click);
+            this.button5.Click += new System.EventHandler(this.Abbrechen_button5_Click);
             // 
             // button3
             // 
@@ -172,7 +172,7 @@
             this.button3.TabIndex = 5;
             this.button3.Text = "An Küche senden";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.an_kuche_Button3_Click_aa);
+            this.button3.Click += new System.EventHandler(this.An_kueche_Button3_Click_aa);
             // 
             // summe_TextBox1
             // 
@@ -180,7 +180,7 @@
             this.summe_TextBox1.Name = "summe_TextBox1";
             this.summe_TextBox1.Size = new System.Drawing.Size(100, 21);
             this.summe_TextBox1.TabIndex = 4;
-            this.summe_TextBox1.TextChanged += new System.EventHandler(this.summe_TextBox1_TextChanged);
+            this.summe_TextBox1.TextChanged += new System.EventHandler(this.Summe_TextBox1_TextChanged);
             // 
             // label3
             // 
@@ -203,7 +203,7 @@
             this.button2.TabIndex = 2;
             this.button2.Text = "-";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.loschen_Button2_Click);
+            this.button2.Click += new System.EventHandler(this.Loeschen_Button2_Click);
             // 
             // button1
             // 
@@ -217,7 +217,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "+";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.hinzufugen_Button1_Click);
+            this.button1.Click += new System.EventHandler(this.Hinzufugen_Button1_Click);
             // 
             // label5
             // 
@@ -236,7 +236,7 @@
             this.slot_comboBox1_.Name = "slot_comboBox1_";
             this.slot_comboBox1_.Size = new System.Drawing.Size(67, 21);
             this.slot_comboBox1_.TabIndex = 9;
-            this.slot_comboBox1_.SelectedIndexChanged += new System.EventHandler(this.slot_comboBox1_SelectedIndexChanged_1);
+            this.slot_comboBox1_.SelectedIndexChanged += new System.EventHandler(this.Slot_comboBox1_SelectedIndexChanged_1);
             // 
             // label6
             // 
@@ -250,13 +250,13 @@
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(777, 120);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(52, 13);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Labeltime";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
+            this.Uhrzeitlabel.AutoSize = true;
+            this.Uhrzeitlabel.Location = new System.Drawing.Point(777, 120);
+            this.Uhrzeitlabel.Name = "label7";
+            this.Uhrzeitlabel.Size = new System.Drawing.Size(52, 13);
+            this.Uhrzeitlabel.TabIndex = 11;
+            this.Uhrzeitlabel.Text = "Labeltime";
+            this.Uhrzeitlabel.Click += new System.EventHandler(this.Label7_Click);
             // 
             // dateTimePicker1
             // 
@@ -273,7 +273,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(985, 731);
             this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.Uhrzeitlabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.slot_comboBox1_);
             this.Controls.Add(this.label5);
@@ -319,7 +319,7 @@
         private System.Windows.Forms.ListBox Bestellkorb_listBox1;
         private System.Windows.Forms.ComboBox slot_comboBox1_;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label Uhrzeitlabel;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

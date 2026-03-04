@@ -60,7 +60,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(775, 377);
             this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel1_Paint);
             // 
             // dateTimePicker1
             // 
@@ -68,7 +68,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 16;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.hauptmenu_dateTimePicker1_ValueChanged);
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.Hauptmenu_dateTimePicker1_ValueChanged);
             // 
             // dataGridView1
             // 
@@ -121,7 +121,7 @@
             this.label1.Size = new System.Drawing.Size(456, 73);
             this.label1.TabIndex = 0;
             this.label1.Text = "Pizzeria Vesuv";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.label1.Click += new System.EventHandler(this.Label1_Click);
             // 
             // button1
             // 
@@ -135,7 +135,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "Speisen";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.speisemenü_Haupt_button1_Click);
+            this.button1.Click += new System.EventHandler(this.Speisemenü_Haupt_button1_Click);
             // 
             // button2
             // 
@@ -163,7 +163,7 @@
             this.button3.TabIndex = 5;
             this.button3.Text = "Reservierungen";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.reservierungenmenu_button3_Click);
+            this.button3.Click += new System.EventHandler(this.Reservierungenmenu_button3_Click);
             // 
             // button4
             // 
@@ -247,7 +247,7 @@
             this.button9.TabIndex = 11;
             this.button9.Text = "Reservierung Stornieren";
             this.button9.UseVisualStyleBackColor = false;
-            this.button9.Click += new System.EventHandler(this.Reservierung_stono_button9_Click);
+            this.button9.Click += new System.EventHandler(this.Reservierung_storno_button9_Click);
             // 
             // Hauptmenu
             // 
