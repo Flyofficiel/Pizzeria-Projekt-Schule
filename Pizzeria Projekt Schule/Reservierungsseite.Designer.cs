@@ -65,7 +65,7 @@
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
             this.panel1.Controls.Add(this.label1);
             this.panel1.ForeColor = System.Drawing.SystemColors.Control;
-            this.panel1.Location = new System.Drawing.Point(13, 13);
+            this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(958, 77);
             this.panel1.TabIndex = 0;
@@ -102,19 +102,19 @@
             this.panel2.TabIndex = 1;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel2_Paint);
             // 
-            // textBox2
+            // Telefon_textBox2
             // 
             this.Telefon_textBox2.Location = new System.Drawing.Point(27, 270);
-            this.Telefon_textBox2.Name = "textBox2";
+            this.Telefon_textBox2.Name = "Telefon_textBox2";
             this.Telefon_textBox2.Size = new System.Drawing.Size(200, 20);
             this.Telefon_textBox2.TabIndex = 5;
             this.Telefon_textBox2.TextChanged += new System.EventHandler(this.Telefon_textBox2_TextChanged);
             this.Telefon_textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox2_KeyPress);
             // 
-            // textBox1
+            // Name_textBox1
             // 
             this.Name_textBox1.Location = new System.Drawing.Point(27, 226);
-            this.Name_textBox1.Name = "textBox1";
+            this.Name_textBox1.Name = "Name_textBox1";
             this.Name_textBox1.Size = new System.Drawing.Size(200, 20);
             this.Name_textBox1.TabIndex = 4;
             this.Name_textBox1.TextChanged += new System.EventHandler(this.Name_textBox1_TextChanged);
@@ -268,7 +268,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.Control;
-            this.button1.Location = new System.Drawing.Point(655, 187);
+            this.button1.Location = new System.Drawing.Point(654, 185);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(206, 61);
             this.button1.TabIndex = 8;
@@ -282,7 +282,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.SystemColors.Control;
-            this.button2.Location = new System.Drawing.Point(655, 358);
+            this.button2.Location = new System.Drawing.Point(654, 356);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(206, 61);
             this.button2.TabIndex = 9;
@@ -294,7 +294,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(13, 120);
+            this.tabControl1.Location = new System.Drawing.Point(12, 118);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(565, 393);
@@ -344,12 +344,12 @@
             this.guestuebernehmen.UseVisualStyleBackColor = false;
             this.guestuebernehmen.Click += new System.EventHandler(this.Guestuebernehmen_Click);
             // 
-            // dataGridView1
+            // stammgaste_dataGridView1
             // 
             this.stammgaste_dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
             this.stammgaste_dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.stammgaste_dataGridView1.Location = new System.Drawing.Point(25, 21);
-            this.stammgaste_dataGridView1.Name = "dataGridView1";
+            this.stammgaste_dataGridView1.Name = "stammgaste_dataGridView1";
             this.stammgaste_dataGridView1.Size = new System.Drawing.Size(368, 328);
             this.stammgaste_dataGridView1.TabIndex = 0;
             // 
@@ -357,11 +357,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(983, 547);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(1032, 596);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button2);
             this.Name = "Reservierungsseite";
             this.Text = "Reservierung";
             this.Load += new System.EventHandler(this.Reservierung_Load);

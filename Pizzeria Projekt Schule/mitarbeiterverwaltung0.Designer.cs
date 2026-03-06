@@ -38,12 +38,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.Miarbeiterverwaltung_name_textBox2 = new System.Windows.Forms.TextBox();
             this.Miarbeiterverwaltung_passwort_textBox3 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.berreich_comboBox1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.rolle_comboBox2 = new System.Windows.Forms.ComboBox();
             this.Miarbeiterverwaltung_nachname_textBox4 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -151,18 +151,18 @@
             // 
             // comboBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.berreich_comboBox1.FormattingEnabled = true;
+            this.berreich_comboBox1.Items.AddRange(new object[] {
             "Tisch 1-10",
             "Tisch 10-20",
             "Tisch 20-30",
             "Tisch 30-40",
             "Küche",
             "Kasse"});
-            this.comboBox1.Location = new System.Drawing.Point(925, 353);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 11;
+            this.berreich_comboBox1.Location = new System.Drawing.Point(925, 353);
+            this.berreich_comboBox1.Name = "comboBox1";
+            this.berreich_comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.berreich_comboBox1.TabIndex = 11;
             // 
             // button1
             // 
@@ -176,7 +176,7 @@
             this.button1.TabIndex = 12;
             this.button1.Text = "Neu";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.Button1_Click_1);
+            this.button1.Click += new System.EventHandler(this.mitarbeiterhinzufügen_Button1_Click_1);
             // 
             // button2
             // 
@@ -222,15 +222,15 @@
             // 
             // comboBox2
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.rolle_comboBox2.FormattingEnabled = true;
+            this.rolle_comboBox2.Items.AddRange(new object[] {
             "Service",
             "Küche"});
-            this.comboBox2.Location = new System.Drawing.Point(925, 320);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 19;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.ComboBox2_SelectedIndexChanged);
+            this.rolle_comboBox2.Location = new System.Drawing.Point(925, 320);
+            this.rolle_comboBox2.Name = "comboBox2";
+            this.rolle_comboBox2.Size = new System.Drawing.Size(121, 21);
+            this.rolle_comboBox2.TabIndex = 19;
+            this.rolle_comboBox2.SelectedIndexChanged += new System.EventHandler(this.ComboBox2_SelectedIndexChanged);
             // 
             // textBox4
             // 
@@ -277,7 +277,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1133, 645);
             this.Controls.Add(this.showpassoword);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.rolle_comboBox2);
             this.Controls.Add(this.Miarbeiterverwaltung_nachname_textBox4);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label9);
@@ -285,7 +285,7 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.berreich_comboBox1);
             this.Controls.Add(this.Miarbeiterverwaltung_passwort_textBox3);
             this.Controls.Add(this.Miarbeiterverwaltung_name_textBox2);
             this.Controls.Add(this.label7);
@@ -318,12 +318,12 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox Miarbeiterverwaltung_name_textBox2;
         private System.Windows.Forms.TextBox Miarbeiterverwaltung_passwort_textBox3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox berreich_comboBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox rolle_comboBox2;
         private System.Windows.Forms.TextBox Miarbeiterverwaltung_nachname_textBox4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;

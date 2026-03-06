@@ -42,6 +42,7 @@ namespace Pizzeria_Projekt_Schule
 
         private void Bestellungspagerichtig_Load(object sender, EventArgs e)
         {
+            Bestellkorb_listBox1.Font = new Font("Segoe UI", 12, FontStyle.Regular);
             // Zeitslots für die Pizzeria festlegen
             slot_comboBox1_.Items.Clear();
             slot_comboBox1_.Items.Add("12-15");
@@ -75,6 +76,7 @@ namespace Pizzeria_Projekt_Schule
                 DataTable table = new DataTable();
                 adapter.Fill(table);
                 dataGridView1.DataSource = table;
+                BestellGridDesign();
 
                 dataGridView1.ClearSelection();
                 dataGridView1.CurrentCell = null;
@@ -526,15 +528,44 @@ ORDER BY t.tisch_id";
         {
             Timenow();
         }
-
-        private void Bestellung_dateTimePicker1_ValueChanged_2(object sender, EventArgs e)
+        private void BestellGridDesign()
         {
+            // Entfernt den grauen Balken ganz links
+            dataGridView1.RowHeadersVisible = false;
 
-        }
+            // Ganze Zeile auswählen und Rahmen schöner machen
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridView1.BackgroundColor = Color.White;
 
-        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+            // Header (Überschriften) stylen - Passend zum Rot deiner Buttons
+            dataGridView1.EnableHeadersVisualStyles = false;
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(139, 34, 34); // Dein Dunkelrot
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.ColumnHeadersHeight = 40;
 
+            // Schrift in den Zeilen größer machen
+            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(200, 50, 50); // Helleres Rot beim Anklicken
+            dataGridView1.RowTemplate.Height = 35;
+
+            // Spaltenbreite automatisch anpassen
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Spaltennamen schöner machen
+            if (dataGridView1.Columns.Contains("speise_id"))
+                dataGridView1.Columns["speise_id"].HeaderText = "Nr.";
+
+            if (dataGridView1.Columns.Contains("speisename"))
+                dataGridView1.Columns["speisename"].HeaderText = "Gericht";
+
+            if (dataGridView1.Columns.Contains("preis"))
+            {
+                dataGridView1.Columns["preis"].HeaderText = "Preis";
+                dataGridView1.Columns["preis"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
         }
     }
 }

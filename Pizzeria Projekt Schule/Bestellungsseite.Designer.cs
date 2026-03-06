@@ -119,7 +119,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(384, 441);
             this.dataGridView1.TabIndex = 6;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellClick_1);
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
+            
             // 
             // groupBox1
             // 
@@ -265,7 +265,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 1;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.Bestellung_dateTimePicker1_ValueChanged_2);
+          
             // 
             // Bestellungsseite
             // 

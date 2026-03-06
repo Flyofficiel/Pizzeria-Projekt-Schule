@@ -129,6 +129,7 @@ namespace Pizzeria_Projekt_Schule
                     Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2"; // C2 steht für Currency (Währung)
                     Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
                         System.Globalization.CultureInfo.GetCultureInfo("de-DE"); // Deutsches Format (Komma statt Punkt)
+                    DataGridDesign();
                 }
             }
             catch (Exception ex)
@@ -164,6 +165,7 @@ namespace Pizzeria_Projekt_Schule
             Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2";
             Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
                 System.Globalization.CultureInfo.GetCultureInfo("de-DE");
+            DataGridDesign();
         }
 
         // Button zum manuellen Aktualisieren der Liste
@@ -202,6 +204,46 @@ namespace Pizzeria_Projekt_Schule
             updateForm.ShowDialog(); // ShowDialog pausiert dieses Fenster, bis das andere geschlossen wird
 
             SpeisenLaden(); // Wenn das Update-Fenster zugeht, laden wir die Liste neu
+        }
+        private void DataGridDesign()
+        {
+            // Überschriften größer & fett
+            Speissen_menu_dataGridView1.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Segoe UI", 14, FontStyle.Bold);
+
+            Speissen_menu_dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter;
+
+            Speissen_menu_dataGridView1.ColumnHeadersHeight = 45;
+
+            // Normale Zeilen größer
+            Speissen_menu_dataGridView1.DefaultCellStyle.Font =
+                new Font("Segoe UI", 12, FontStyle.Regular);
+
+            Speissen_menu_dataGridView1.RowTemplate.Height = 35;
+
+            // Ganze Breite nutzen
+            Speissen_menu_dataGridView1.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Schöne Spaltennamen
+            if (Speissen_menu_dataGridView1.Columns.Contains("speise_id"))
+                Speissen_menu_dataGridView1.Columns["speise_id"].HeaderText = "ID";
+
+            if (Speissen_menu_dataGridView1.Columns.Contains("speisename"))
+                Speissen_menu_dataGridView1.Columns["speisename"].HeaderText = "Speise";
+
+            if (Speissen_menu_dataGridView1.Columns.Contains("speisentyp"))
+                Speissen_menu_dataGridView1.Columns["speisentyp"].HeaderText = "Typ";
+
+            if (Speissen_menu_dataGridView1.Columns.Contains("preis"))
+                Speissen_menu_dataGridView1.Columns["preis"].HeaderText = "Preis (€)";
+
+            if (Speissen_menu_dataGridView1.Columns.Contains("zutaten"))
+                Speissen_menu_dataGridView1.Columns["zutaten"].HeaderText = "Zutaten";
+
+            if (Speissen_menu_dataGridView1.Columns.Contains("aktiv"))
+                Speissen_menu_dataGridView1.Columns["aktiv"].HeaderText = "Aktiv";
         }
     }
 }

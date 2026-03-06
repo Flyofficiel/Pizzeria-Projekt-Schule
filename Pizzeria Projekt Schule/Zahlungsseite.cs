@@ -21,17 +21,21 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Berechnet die aktuelle Summe der Bestellung aus der Datenbank
-        double LadeSumme()
+        private double LadeSumme(List<int> bestellNummern)
         {
-            string sql = @"
-                SELECT SUM(menge * preis_beim_kauf)
-                FROM bestellposition
-                WHERE bestellnr_fk = @bnr";
+            if (bestellNummern == null || bestellNummern.Count == 0) return 0;
+
+            // Erstellt den String für SQL, z.B. "10,11,12"
+            string ids = string.Join(",", bestellNummern);
+
+            string sql = $@"
+        SELECT SUM(menge * preis_beim_kauf)
+        FROM bestellposition
+        WHERE bestellnr_fk IN ({ids})";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("@bnr", bestellNr);
                 object result = cmd.ExecuteScalar();
                 return result == DBNull.Value ? 0 : Convert.ToDouble(result);
             }
@@ -133,9 +137,9 @@ namespace Pizzeria_Projekt_Schule
             if (Tisch_zahlenseite_comboBox1.SelectedValue == null) return;
 
             int tischId = Convert.ToInt32(Tisch_zahlenseite_comboBox1.SelectedValue);
-            bestellNr = HoleOffeneBestellung(tischId);
+            List<int> alleNummern = HoleAlleOffenenBestellnummern(tischId);
 
-            if (bestellNr == 0)
+            if (alleNummern.Count == 0)
             {
                 dataGridView1.DataSource = null;
                 Summe_zahlen_textBox2.Text = "0.00";
@@ -143,10 +147,16 @@ namespace Pizzeria_Projekt_Schule
                 return;
             }
 
-            string query = @"SELECT bp.positionid, s.speisename AS Speise, bp.menge AS Menge, 
-                             bp.preis_beim_kauf AS Einzelpreis, (bp.menge * bp.preis_beim_kauf) AS Gesamt
-                             FROM bestellposition bp JOIN speisen s ON bp.speise_id_fk = s.speise_id
-                             WHERE bp.bestellnr_fk = @bnr;";
+            // Erstellt einen String wie "10, 12, 15" aus der Liste
+            string filter = string.Join(",", alleNummern);
+
+            // Ändere das WHERE in deinem SQL-Query zu:
+            string query = $@"SELECT bp.positionid, s.speisename AS Speise, bp.menge AS Menge, 
+                  bp.preis_beim_kauf AS Einzelpreis, (bp.menge * bp.preis_beim_kauf) AS Gesamt
+                  FROM bestellposition bp JOIN speisen s ON bp.speise_id_fk = s.speise_id
+                  WHERE bp.bestellnr_fk IN ({filter});";
+
+           
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
@@ -163,24 +173,34 @@ namespace Pizzeria_Projekt_Schule
                 dataGridView1.Columns["Gesamt"].DefaultCellStyle.Format = "C2";
             }
 
-            double summe = LadeSumme();
+            // Wir übergeben die Liste 'alleNummern', die wir oben in der Methode erstellt haben
+            double summe = LadeSumme(alleNummern);
             Summe_zahlen_textBox2.Text = summe.ToString("N2");
             gesamt_Zahlen_textBox3.Text = summe.ToString("N2");
         }
 
-        private int HoleOffeneBestellung(int tischId)
+        private List<int> HoleAlleOffenenBestellnummern(int tischId)
         {
-            string query = "SELECT bestellnr FROM bestellungen WHERE tisch_id_fk = @tisch AND status = 'offen' LIMIT 1;";
+            List<int> nummern = new List<int>();
+            // LIMIT 1 gelöscht, damit ALLE offenen Bestellungen des Tisches gefunden werden
+            string query = "SELECT bestellnr FROM bestellungen WHERE tisch_id_fk = @tisch AND status = 'offen';";
+
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@tisch", tischId);
-                object result = cmd.ExecuteScalar();
-                return result != null ? Convert.ToInt32(result) : 0;
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        nummern.Add(reader.GetInt32("bestellnr"));
+                    }
+                }
             }
+            return nummern;
         }
 
-        
+
         // Automatisches Berechnen des Gesamtbetrags bei Trinkgeld-Eingabe
         private void Trinkgeld_Zahlen_TextBox1_TextChanged(object sender, EventArgs e)
         {

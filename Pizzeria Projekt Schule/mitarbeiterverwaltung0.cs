@@ -1,6 +1,7 @@
 ﻿using MySqlConnector;
 using System;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Pizzeria_Projekt_Schule
@@ -17,8 +18,8 @@ namespace Pizzeria_Projekt_Schule
             MitarbeiterLaden();
 
             // Initialisierung der Rollen-Auswahl
-            comboBox2.Items.Clear();
-            comboBox2.Items.AddRange(new string[] { "service", "koch", "kasse", "admin", "management" });
+            rolle_comboBox2.Items.Clear();
+            rolle_comboBox2.Items.AddRange(new string[] { "service", "koch", "kasse", "admin", "management" });
 
             // Sicherstellen, dass beim Start alles korrekt gesperrt/eingestellt ist
             AktualisiereBereichsSperre();
@@ -28,36 +29,36 @@ namespace Pizzeria_Projekt_Schule
         private void AktualisiereBereichsSperre()
         {
             // Wir holen die Rolle aus der ComboBox
-            string rolle = comboBox2.Text.ToLower();
+            string rolle = rolle_comboBox2.Text.ToLower();
 
             if (rolle == "service")
             {
-                comboBox1.Enabled = true;
+                berreich_comboBox1.Enabled = true;
 
                 // ALLES komplett zurücksetzen
-                comboBox1.Items.Clear();
-                comboBox1.Text = "";
+                berreich_comboBox1.Items.Clear();
+                berreich_comboBox1.Text = "";
 
                 // Nur Tische hinzufügen
-                comboBox1.Items.AddRange(new string[] {
+                berreich_comboBox1.Items.AddRange(new string[] {
         "Tische 1-10 (Innen vorne)",
         "Tische 11-20 (Innen hinten)",
         "Tische 21-30 (Terrasse)",
         "Tische 31-40 (VIP)"
     });
 
-                comboBox1.SelectedIndex = -1; // nichts automatisch auswählen
+                berreich_comboBox1.SelectedIndex = -1; // nichts automatisch auswählen
             }
             else
             {
                 // Bei allen anderen Rollen: Feld sperren (Disabled)
-                comboBox1.Enabled = false;
+                berreich_comboBox1.Enabled = false;
 
                 // Automatisch den passenden Text setzen
-                if (rolle == "koch") comboBox1.Text = "Küche";
-                else if (rolle == "kasse") comboBox1.Text = "Kasse";
-                else if (rolle == "management") comboBox1.Text = "Management";
-                else if (rolle == "admin") comboBox1.Text = "EDV / Admin";
+                if (rolle == "koch") berreich_comboBox1.Text = "Küche";
+                else if (rolle == "kasse") berreich_comboBox1.Text = "Kasse";
+                else if (rolle == "management") berreich_comboBox1.Text = "Management";
+                else if (rolle == "admin") berreich_comboBox1.Text = "EDV / Admin";
             }
         }
 
@@ -89,6 +90,7 @@ namespace Pizzeria_Projekt_Schule
 
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dataGridView1.ReadOnly = true;
+                MitarbeiterGridDesign();
             }
         }
 
@@ -101,10 +103,10 @@ namespace Pizzeria_Projekt_Schule
             Miarbeiterverwaltung_nachname_textBox4.Text = row.Cells["nachname"].Value?.ToString();
 
             // Erst Rolle setzen, dann Sperre aktualisieren, dann Bereich anzeigen
-            comboBox2.Text = row.Cells["rolle"].Value?.ToString();
+            rolle_comboBox2.Text = row.Cells["rolle"].Value?.ToString();
             AktualisiereBereichsSperre();
 
-            comboBox1.Text = row.Cells["bereich"].Value?.ToString();
+            berreich_comboBox1.Text = row.Cells["bereich"].Value?.ToString();
         }
 
         // --- CRUD OPERATIONEN ---
@@ -173,16 +175,16 @@ namespace Pizzeria_Projekt_Schule
         {
             cmd.Parameters.AddWithValue("@vorname", Miarbeiterverwaltung_name_textBox2.Text);
             cmd.Parameters.AddWithValue("@nachname", Miarbeiterverwaltung_nachname_textBox4.Text);
-            cmd.Parameters.AddWithValue("@bereich", comboBox1.Text);
+            cmd.Parameters.AddWithValue("@bereich", berreich_comboBox1.Text);
             cmd.Parameters.AddWithValue("@passwort", Miarbeiterverwaltung_passwort_textBox3.Text);
-            cmd.Parameters.AddWithValue("@rolle", comboBox2.Text);
+            cmd.Parameters.AddWithValue("@rolle", rolle_comboBox2.Text);
         }
 
         private void FelderLeeren()
         {
             Miarbeiterverwaltung_name_textBox2.Clear(); Miarbeiterverwaltung_passwort_textBox3.Clear(); Miarbeiterverwaltung_nachname_textBox4.Clear();
-            comboBox1.SelectedIndex = -1;
-            comboBox2.SelectedIndex = -1;
+            berreich_comboBox1.SelectedIndex = -1;
+            rolle_comboBox2.SelectedIndex = -1;
             AktualisiereBereichsSperre();
         }
 
@@ -238,9 +240,33 @@ namespace Pizzeria_Projekt_Schule
 
         }
 
-        private void Button1_Click_1(object sender, EventArgs e)
+        private void mitarbeiterhinzufügen_Button1_Click_1(object sender, EventArgs e)
         {
+            try
+            {
 
+
+                // 1. Zuerst alle Felder sauber leeren
+
+
+                // 2. Die Auswahl im DataGridView komplett aufheben. 
+                // Das ist entscheidend, damit MitarbeiterUpdate() nicht aus Versehen aufgerufen wird.
+                /*dataGridView1.ClearSelection();
+                if (dataGridView1.CurrentRow != null)
+                {
+                    dataGridView1.CurrentCell = null;
+                }*/
+                MitarbeiterHinzufuegen();
+                // 3. Den Cursor in das Vorname-Feld setzen
+                Miarbeiterverwaltung_name_textBox2.Focus();
+
+              
+                
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("error" + ex);
+            }
         }
 
         private void Miarbeiterverwaltung_name_textBox2_TextChanged(object sender, EventArgs e)
@@ -256,6 +282,42 @@ namespace Pizzeria_Projekt_Schule
         private void Miarbeiterverwaltung_passwort_textBox3_TextChanged(object sender, EventArgs e)
         {
 
+        }
+        private void MitarbeiterGridDesign()
+        {
+            // Überschriften: Segoe UI, Größe 12, Fett
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.ColumnHeadersHeight = 45;
+
+            // Zeilen: Segoe UI, Größe 11
+            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            dataGridView1.RowTemplate.Height = 35;
+
+            // Hintergrundfarbe für jede zweite Zeile (bessere Lesbarkeit)
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(235, 235, 235);
+
+            // Spaltenüberschriften umbenennen
+            if (dataGridView1.Columns.Contains("personalnr"))
+                dataGridView1.Columns["personalnr"].HeaderText = "ID";
+
+            if (dataGridView1.Columns.Contains("vorname"))
+                dataGridView1.Columns["vorname"].HeaderText = "Vorname";
+
+            if (dataGridView1.Columns.Contains("nachname"))
+                dataGridView1.Columns["nachname"].HeaderText = "Nachname";
+
+            if (dataGridView1.Columns.Contains("rolle"))
+                dataGridView1.Columns["rolle"].HeaderText = "Rolle";
+
+            if (dataGridView1.Columns.Contains("bereich"))
+                dataGridView1.Columns["bereich"].HeaderText = "Bereich";
+
+            if (dataGridView1.Columns.Contains("Aktive_Tische"))
+                dataGridView1.Columns["Aktive_Tische"].HeaderText = "Tische";
+
+            if (dataGridView1.Columns.Contains("Offene_Bestellungen"))
+                dataGridView1.Columns["Offene_Bestellungen"].HeaderText = "Offen";
         }
     }
 }

@@ -18,6 +18,8 @@ namespace Pizzeria_Projekt_Schule
         {
             InitializeComponent();
             StammgastLaden(); // Lädt die Liste der bereits bekannten Gäste
+            
+           
         }
 
         private void Abbrechen_button2_Click(object sender, EventArgs e)
@@ -315,6 +317,11 @@ namespace Pizzeria_Projekt_Schule
         private void Telefon_textBox2_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+            
         }
     }
 }
