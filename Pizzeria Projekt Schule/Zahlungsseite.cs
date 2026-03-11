@@ -175,7 +175,10 @@ namespace Pizzeria_Projekt_Schule
 
                     trans.Commit();
                     MessageBox.Show("Zahlung erfolgreich! Der Tisch ist nun wieder für neue Gäste bereit.");
+                    Hauptmenu hauptmenu = new Hauptmenu();
                     this.Close();
+                    hauptmenu.Show();
+
                 }
                 catch (Exception ex)
                 {
@@ -237,7 +240,13 @@ namespace Pizzeria_Projekt_Schule
 
         private void Tisch_zahlenseite_comboBox1_SelectedIndexChanged(object sender, EventArgs e) { BestellungenLaden(); }
 
-        private void Button2_Click(object sender, EventArgs e) { this.Close(); }
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            Hauptmenu hauptmenu = new Hauptmenu();
+            hauptmenu.Show();
+            this.Close(); 
+        }
+
 
         // Optische Gestaltung der Tabelle
         private void ZahlungsGridDesign()
@@ -249,6 +258,21 @@ namespace Pizzeria_Projekt_Schule
             if (dataGridView1.Columns.Contains("positionid")) dataGridView1.Columns["positionid"].Visible = false;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.ClearSelection();
+        }
+
+        private void Trinkgeld_Zahlen_TextBox1_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            // 1. Erlaube Zahlen (0-9) und die Backspace-Taste (Löschen)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ','))
+            {
+                e.Handled = true; // Eingabe wird abgelehnt
+            }
+
+            // 2. Erlaube das Komma nur EINMAL
+            if (e.KeyChar == ',' && (sender as TextBox).Text.Contains(","))
+            {
+                e.Handled = true; // Zweites Komma wird abgelehnt
+            }
         }
     }
 }

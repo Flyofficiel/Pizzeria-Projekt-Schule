@@ -54,7 +54,8 @@
             this.button2.TabIndex = 21;
             this.button2.Text = "Zurück";
             this.button2.UseVisualStyleBackColor = false;
-        
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
@@ -131,7 +132,6 @@
             this.zutaten_speisseupd_textBox4.Name = "zutaten_speisseupd_textBox4";
             this.zutaten_speisseupd_textBox4.Size = new System.Drawing.Size(147, 20);
             this.zutaten_speisseupd_textBox4.TabIndex = 18;
-          
             this.zutaten_speisseupd_textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
             // 
             // Preis_speisseupd_textBox3
@@ -140,7 +140,6 @@
             this.Preis_speisseupd_textBox3.Name = "Preis_speisseupd_textBox3";
             this.Preis_speisseupd_textBox3.Size = new System.Drawing.Size(147, 20);
             this.Preis_speisseupd_textBox3.TabIndex = 17;
-          
             this.Preis_speisseupd_textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // Speisentyp_speisseupd_comboBox1
@@ -156,7 +155,6 @@
             this.Speisentyp_speisseupd_comboBox1.Name = "Speisentyp_speisseupd_comboBox1";
             this.Speisentyp_speisseupd_comboBox1.Size = new System.Drawing.Size(147, 21);
             this.Speisentyp_speisseupd_comboBox1.TabIndex = 16;
-          
             // 
             // Name_speisseupd_textBox2
             // 
@@ -164,7 +162,6 @@
             this.Name_speisseupd_textBox2.Name = "Name_speisseupd_textBox2";
             this.Name_speisseupd_textBox2.Size = new System.Drawing.Size(147, 20);
             this.Name_speisseupd_textBox2.TabIndex = 15;
-           
             // 
             // speiupd
             // 
@@ -180,7 +177,6 @@
             this.Controls.Add(this.Name_speisseupd_textBox2);
             this.Name = "speiupd";
             this.Text = "Updaten";
-          
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
