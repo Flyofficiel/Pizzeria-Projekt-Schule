@@ -55,6 +55,7 @@ namespace Pizzeria_Projekt_Schule
             slot_comboBox1_.SelectedIndex = 0;
             slot_comboBox1_.DropDownStyle = ComboBoxStyle.DropDownList; // Verhindert Tippen in der Box
 
+
             // 2. Tischauswahl: Wir nutzen 'OwnerDraw', um die Tische später farbig zu markieren
             tischauswahl.DrawMode = DrawMode.OwnerDrawFixed;
             tischauswahl.DrawItem += Tischauswahl_DrawItem;
@@ -63,11 +64,8 @@ namespace Pizzeria_Projekt_Schule
             // 3. Service-Personal aus der Datenbank laden
             MitarbeiterLaden();
             tischauswahl_comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            if (tischauswahl_comboBox2.Items.Count > 0)
-            {
-                tischauswahl_comboBox2.SelectedIndex = 0;
-            }
+            // HINZUFÜGEN: Event registrieren, damit bei Auswahl eines neuen Mitarbeiters die Tische laden
+            tischauswahl_comboBox2.SelectedIndexChanged += (s, ev) => AktualisiereTische();
 
             // 4. Kalender-Event verknüpfen und Tische laden
             dateTimePicker1.ValueChanged += DateTimePicker1_ValueChanged;
@@ -356,17 +354,33 @@ namespace Pizzeria_Projekt_Schule
         // Aktualisiert die Tischliste basierend auf dem Bereich des Mitarbeiters
         private void AktualisiereTische()
         {
-            if (tischauswahl_comboBox2.SelectedValue == null || HoleSlot() == 0) return;
+            // Sicherheitscheck: Ist ein Mitarbeiter gewählt?
+            if (tischauswahl_comboBox2.SelectedValue == null || tischauswahl_comboBox2.SelectedValue is DataRowView) return;
 
-            int personalNr = Convert.ToInt32(tischauswahl_comboBox2.SelectedValue);
-            string query = "SELECT bereich FROM mitarbeiter WHERE personalnr = @pnr";
-
-            using (var conn = Database.GetConnection())
-            using (var cmd = new MySqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@pnr", personalNr);
-                object result = cmd.ExecuteScalar();
-                if (result != null) LadeTische(result.ToString());
+                int personalNr = Convert.ToInt32(tischauswahl_comboBox2.SelectedValue);
+
+                // Wir holen den Bereich (z.B. 'Tische 11-20') des gewählten Mitarbeiters
+                string query = "SELECT bereich FROM mitarbeiter WHERE personalnr = @pnr";
+
+                using (var conn = Database.GetConnection())
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@pnr", personalNr);
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        // Hier wird LadeTische mit dem String "Tische 11-20" etc. aufgerufen
+                        LadeTische(result.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Hilft beim Debuggen, falls der Cast fehlschlägt
+                Console.WriteLine("Fehler beim Aktualisieren der Tische: " + ex.Message);
             }
         }
 
