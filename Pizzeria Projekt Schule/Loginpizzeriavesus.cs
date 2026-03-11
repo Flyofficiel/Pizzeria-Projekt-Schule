@@ -13,77 +13,90 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace Pizzeria_Projekt_Schule
 {
+    // Das ist das Formular für den Login-Bereich unserer Pizzeria
     public partial class Loginpizzeriavesus : Form
     {
         public Loginpizzeriavesus()
         {
             InitializeComponent();
 
-            // Hier stellen wir ein, dass man die Fenstergröße ziehen kann und das Fenster maximieren darf
+            // Fenster-Einstellungen: Wir erlauben dem User das Fenster groß zu ziehen 
+            // oder zu maximieren, damit es auf jedem Bildschirm gut aussieht.
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.MaximizeBox = true;
             this.WindowState = FormWindowState.Normal;
+
+            // Komfort-Funktion: Wenn man die Enter-Taste drückt, wird automatisch 
+            // der Login-Button (button1) ausgelöst.
+            this.AcceptButton = button1;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Momentan passiert nichts direkt beim Laden der Seite
+            // Hier könnte man beim Starten der Seite noch Dinge vorbereiten
         }
 
+        // --- LOGIK: EINLOGGEN ---
         private void Einloggen_Button(object sender, EventArgs e)
         {
-            // Erstmal prüfen, ob der Benutzer überhaupt etwas in die Felder eingegeben hat
+            // 1. Validierung: Erstmal checken, ob überhaupt was in den Feldern steht.
+            // Wenn eines der Felder leer ist, zeigen wir eine Warnung und stoppen hier.
             if (string.IsNullOrWhiteSpace(usernameinput.Text) ||
                 string.IsNullOrWhiteSpace(passwortinput.Text))
             {
-                MessageBox.Show("Bitte alle Felder ausfüllen!");
-                return; // Wenn was fehlt, wird hier abgebrochen
+                MessageBox.Show("Bitte alle Felder ausfüllen!", "Eingabe fehlt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
-            // Da die Personalnummer in der Datenbank eine Zahl ist, wandeln wir den Text hier um
+            // 2. Datentyp prüfen: Die Personalnummer muss eine Zahl sein, damit die DB sie finden kann.
+            // 'TryParse' versucht den Text in eine Zahl zu wandeln. Wenn's klappt, landet sie in 'personalNr'.
             if (!int.TryParse(usernameinput.Text, out int personalNr))
             {
-                MessageBox.Show("Personalnummer muss eine Zahl sein!");
+                MessageBox.Show("Die Personalnummer muss eine gültige Zahl sein!", "Fehler");
                 return;
             }
 
             string inputPassword = passwortinput.Text;
 
-            // Das ist unsere SQL-Abfrage. Wir suchen den Mitarbeiter mit der passenden Nummer und Passwort.
-            // Die @-Zeichen sind Platzhalter, damit der Login sicher ist (SQL-Injection Schutz).
+            // 3. SQL-Abfrage: Wir suchen in der Tabelle 'mitarbeiter' nach der Nummer und dem Passwort.
+            // WICHTIG: Wir nutzen Parameter (@username, @passwort) gegen SQL-Injection Angriffe!
+            // Nur aktive Mitarbeiter (aktiv = true) dürfen sich einloggen.
             const string query = @"
-        SELECT personalnr, rolle, bereich 
-        FROM mitarbeiter 
-        WHERE personalnr = @username 
-        AND passwort = @passwort
-        AND aktiv = true";
+                SELECT personalnr, rolle, bereich 
+                FROM mitarbeiter 
+                WHERE personalnr = @username 
+                AND passwort = @passwort
+                AND aktiv = true";
 
-            // Wir holen uns die Verbindung zur Datenbank
+            // Wir öffnen die Verbindung zur Datenbank (Database-Klasse wird vorausgesetzt)
             using (MySqlConnection conn = Database.GetConnection())
             {
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
-                    // Hier füllen wir die Platzhalter von oben mit den echten Eingaben aus den Textboxen
+                    // Hier binden wir die echten Werte an die Platzhalter der SQL-Abfrage
                     cmd.Parameters.AddWithValue("@username", personalNr);
                     cmd.Parameters.AddWithValue("@passwort", inputPassword);
 
                     try
                     {
-                        // Wir führen den Befehl aus und schauen nach, ob ein Datensatz gefunden wurde
+                        // Wir führen die Abfrage aus
                         using (var reader = cmd.ExecuteReader())
                         {
+                            // Wenn der Reader eine Zeile findet, waren die Daten korrekt
                             if (reader.Read())
                             {
-                                // Wenn ein Mitarbeiter gefunden wurde, geht es zum Hauptmenü
-                                MessageBox.Show("Login erfolgreich!");
+                                MessageBox.Show("Login erfolgreich! Willkommen zurück.", "Erfolg");
 
+                                // Neues Fenster (Hauptmenü) erstellen und anzeigen
                                 Hauptmenu mainpage = new Hauptmenu();
                                 mainpage.Show();
-                                this.Hide(); // Das Login-Fenster wird nur versteckt, nicht gelöscht
+
+                                // Dieses Fenster hier verstecken
+                                this.Hide();
                             }
                             else
                             {
-                                // Falls Nummer oder Passwort nicht in der Datenbank stehen
+                                // Keine Übereinstimmung in der Datenbank gefunden
                                 MessageBox.Show("Personalnummer oder Passwort falsch!",
                                     "Login fehlgeschlagen",
                                     MessageBoxButtons.OK,
@@ -93,39 +106,32 @@ namespace Pizzeria_Projekt_Schule
                     }
                     catch (Exception ex)
                     {
-                        // Falls es ein Problem mit dem Server oder der Datenbank gibt
-                        MessageBox.Show("Datenbankfehler: " + ex.Message);
+                        // Falls die DB-Verbindung mal streikt, fangen wir den Fehler hier ab
+                        MessageBox.Show("Fehler bei der Datenbankverbindung: " + ex.Message, "Systemfehler");
                     }
                 }
             }
         }
 
+        // --- LOGIK: ABBRECHEN ---
         private void Abbrechen_Button(object sender, EventArgs e)
         {
-            // Schließt das Fenster, wenn man auf Abbrechen klickt
-            Close();
+            // Programm beenden oder Fenster schließen
+            Application.Exit();
         }
 
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            // Noch nicht belegt
-        }
-
-        private void Label3_Click(object sender, EventArgs e)
-        {
-            // Noch nicht belegt
-        }
-
-        // Diese Funktion kann Passwörter verschlüsseln (SHA256 Hash)
+        // --- EXTRA: PASSWORT VERSCHLÜSSELN ---
+        // Diese Methode nutzt SHA256, um ein Passwort in einen Hash-Code zu verwandeln.
+        // Das ist sicherer, als Passwörter im Klartext in der DB zu speichern.
         private string HashPassword(string password)
         {
             using (SHA256 sha = SHA256.Create())
             {
-                // Passwort in Bytes umwandeln und Hashen
+                // Text in Byte-Array umwandeln und hashen
                 byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
                 StringBuilder builder = new StringBuilder();
 
-                // Den Byte-Salat in einen lesbaren Text umwandeln
+                // Jedes Byte in ein Hex-Format umwandeln (macht den Text lesbar)
                 foreach (byte b in bytes)
                     builder.Append(b.ToString("x2"));
 
@@ -133,29 +139,26 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void Label1_Click(object sender, EventArgs e)
-        {
-            // Noch nicht belegt
-        }
-
-        private void Usernameinput_TextChanged(object sender, EventArgs e)
-        {
-            // Noch nicht belegt
-        }
-
-        // Das hier steuert, ob man das Passwort lesen kann oder nur Punkte sieht
+        // --- LOGIK: PASSWORT ANZEIGEN / VERSTECKEN ---
+        // Wenn man die Checkbox anklickt, wird das Passwort lesbar oder durch Punkte verdeckt.
         private void Passwordunhide_CheckedChanged(object sender, EventArgs e)
         {
             if (Passwordunhide.Checked)
             {
-                // Passwort wird als normaler Text angezeigt
+                // '\0' bedeutet: Kein spezielles Zeichen, also normaler Text
                 passwortinput.PasswordChar = '\0';
             }
             else
             {
-                // Passwort wird hinter dicken Punkten versteckt
+                // '●' ist das klassische Zeichen zum Verstecken von Passwörtern
                 passwortinput.PasswordChar = '●';
             }
         }
+
+        // Leere Methoden für Events, die wir aktuell nicht brauchen (aber im Designer existieren)
+        private void Button3_Click(object sender, EventArgs e) { }
+        private void Label3_Click(object sender, EventArgs e) { }
+        private void Label1_Click(object sender, EventArgs e) { }
+        private void Usernameinput_TextChanged(object sender, EventArgs e) { }
     }
 }

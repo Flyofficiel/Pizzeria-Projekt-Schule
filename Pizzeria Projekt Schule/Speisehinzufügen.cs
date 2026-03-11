@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Pizzeria_Projekt_Schule
 {
-    // Dieses Fenster dient dazu, eine neue Speise (z.B. eine Pizza) in die Datenbank einzutragen.
+    // In diesem Fenster legen wir neue Pizzen, Nudeln oder Getränke in der Datenbank an
     public partial class Speisehinzufügen : Form
     {
         public Speisehinzufügen()
@@ -21,118 +21,116 @@ namespace Pizzeria_Projekt_Schule
 
         private void Label4_Click(object sender, EventArgs e) { }
 
-        // Schließt das Fenster, falls man es sich anders überlegt hat
+        // Falls man doch keine Lust hat was einzutragen, bricht das Fenster hier einfach ab
         private void Abbrechen_button2_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        // --- BUTTON: SPEICHERN ---
+        // Das ist das Herzstück: Hier werden die Eingaben geprüft und gespeichert
         private void Hinzufugen_button1_Click(object sender, EventArgs e)
         {
-            // --- 1. DATEN VORBEREITEN ---
-            // Trim entfernt unnötige Leerzeichen am Anfang und Ende
+            // Wir nehmen den Text und entfernen Leerzeichen am Rand (Trim), damit die DB sauber bleibt
             string name = Name_textBox2.Text.Trim();
             string zutaten = zutaten_textBox4.Text.Trim();
 
-            // Vorbereitung für die Fehlermeldungen (ErrorProvider)
+            // Variable um zu merken, ob wir einen Fehler gefunden haben
             bool hatFehler = false;
-            errorProvider1.Clear(); // Zuerst alle alten Warn-Symbole löschen
+            errorProvider1.Clear(); // Alle alten Fehlermeldungen einmal wegwischen
 
-            // --- 2. PLAUSIBILITÄTS-CHECKS (Prüfen ob die Eingaben Sinn machen) ---
-
-            // Check: Ist der Name leer oder zu kurz?
+            // Check: Der Name darf nicht leer sein und sollte mindestens 3 Zeichen haben
             if (string.IsNullOrWhiteSpace(name) || name.Length < 3)
             {
-                errorProvider1.SetError(Name_textBox2, "Der Name muss mindestens 3 Zeichen lang sein!");
+                errorProvider1.SetError(Name_textBox2, "Der Name ist ein bisschen zu kurz!");
                 hatFehler = true;
             }
 
-            // Check: Besteht der Name nur aus Zahlen? (Wir brauchen echte Buchstaben)
+            // Check: Eine Pizza braucht im Namen mindestens ein paar Buchstaben
             if (!name.Any(char.IsLetter))
             {
-                errorProvider1.SetError(Name_textBox2, "Der Name muss echte Buchstaben enthalten.");
+                errorProvider1.SetError(Name_textBox2, "Der Name muss auch Buchstaben haben.");
                 hatFehler = true;
             }
 
-            // Check: Ist der Preis im richtigen Format (z.B. 8,50)?
+            // Check: Ist der Preis eine richtige Zahl? Wir nutzen TryParse, damit das Programm nicht abstürzt
             if (!decimal.TryParse(Preis_textBox3.Text, System.Globalization.NumberStyles.Number,
                 System.Globalization.CultureInfo.GetCultureInfo("de-DE"), out decimal preis))
             {
-                errorProvider1.SetError(Preis_textBox3, "Bitte einen gültigen Preis eingeben (z.B. 8,50).");
+                errorProvider1.SetError(Preis_textBox3, "Bitte einen Preis wie 8,50 eingeben.");
                 hatFehler = true;
             }
-            // Check: Ist der Preis realistisch (nicht 0 € und nicht über 1000 €)?
+            // Check: Der Preis sollte nicht negativ oder völlig übertrieben sein
             else if (preis <= 0 || preis > 999.99m)
             {
-                errorProvider1.SetError(Preis_textBox3, "Der Preis muss zwischen 0,01 € und 999,99 € liegen.");
+                errorProvider1.SetError(Preis_textBox3, "Der Preis muss zwischen 0 und 1000 Euro liegen.");
                 hatFehler = true;
             }
 
-            // Check: Wurde eine Kategorie (Pizza, Pasta, Getränk) ausgewählt?
+            // Check: Man muss eine Kategorie in der Liste auswählen
             if (Speissen_typ_comboBox1.SelectedItem == null)
             {
-                errorProvider1.SetError(Speissen_typ_comboBox1, "Bitte eine Kategorie auswählen!");
+                errorProvider1.SetError(Speissen_typ_comboBox1, "Bitte wähle aus, was es für ein Typ ist.");
                 hatFehler = true;
             }
 
-            // Wenn irgendeiner der Checks oben fehlgeschlagen ist, speichern wir NICHT
+            // Wenn irgendwo oben ein Fehler war, hören wir hier auf und speichern nichts
             if (hatFehler)
             {
                 return;
             }
 
-            // --- 3. DATENBANK-LOGIK ---
             try
             {
                 using (MySqlConnection conn = Database.GetConnection())
                 {
-                    // Sicherheit: Wir prüfen erst, ob es diese Speise schon gibt
+                    // Wir schauen erst mal nach, ob es eine aktive Speise mit dem Namen schon gibt
                     string checkQuery = "SELECT COUNT(*) FROM speisen WHERE speisename = @name AND aktiv = true";
                     using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
                     {
                         checkCmd.Parameters.AddWithValue("@name", name);
                         if (Convert.ToInt32(checkCmd.ExecuteScalar()) > 0)
                         {
-                            errorProvider1.SetError(Name_textBox2, "Diese Speise existiert bereits!");
+                            errorProvider1.SetError(Name_textBox2, "Dieses Gericht gibt es schon auf der Karte!");
                             return;
                         }
                     }
 
-                    // Wenn alles okay ist, legen wir den neuen Datensatz an (INSERT)
+                    // Wenn alles passt, schießen wir die Daten mit INSERT in die Tabelle
                     string query = "INSERT INTO speisen (speisename, speisentyp, preis, zutaten, aktiv) VALUES (@name, @typ, @preis, @zutaten, true)";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
+                        // Parameter schützen uns davor, dass jemand böse Befehle in die Textboxen schreibt (SQL Injection)
                         cmd.Parameters.AddWithValue("@name", name);
                         cmd.Parameters.AddWithValue("@typ", Speissen_typ_comboBox1.SelectedItem.ToString());
                         cmd.Parameters.AddWithValue("@preis", preis);
                         cmd.Parameters.AddWithValue("@zutaten", zutaten);
 
-                        cmd.ExecuteNonQuery(); // Befehl ausführen
+                        cmd.ExecuteNonQuery(); // Den Befehl abschicken
                     }
                 }
-                MessageBox.Show("Speise erfolgreich hinzugefügt! ✔");
-                this.Close(); // Fenster schließen nach Erfolg
+                MessageBox.Show("Die Speise wurde erfolgreich gespeichert! ✔");
+                this.Close(); // Fenster zu, wenn alles geklappt hat
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim Speichern: " + ex.Message);
+                // Falls die Datenbank mal nicht will
+                MessageBox.Show("Fehler beim Speichern in der Datenbank: " + ex.Message);
             }
         }
 
         private void Speisenhin_Load(object sender, EventArgs e) { }
 
-        // Kontrolliert beim Tippen, dass im Preis-Feld nur Zahlen, Komma oder Punkt landen
+        // Hier wird beim Tippen kontrolliert, dass im Preis nur Zahlen und Komma/Punkt landen
         private void TextBox3_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
                 e.KeyChar != ',' && e.KeyChar != '.')
             {
-                e.Handled = true; // Ungültige Zeichen blockieren
+                e.Handled = true; // Taste wird einfach verschluckt
             }
         }
 
-        // Kontrolliert beim Tippen, dass bei den Zutaten nur Text und Kommas landen
+        // Bei den Zutaten erlauben wir nur Text, Kommas und Leerzeichen
         private void TextBox4_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) &&
@@ -142,13 +140,13 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        // Löscht das Fehler-Symbol, sobald der User wieder anfängt zu tippen
+        // Wenn der Nutzer wieder tippt, löschen wir das rote Fehler-Icon
         private void Name_textBox2_TextChanged(object sender, EventArgs e)
         {
             errorProvider1.SetError(Name_textBox2, "");
         }
 
-        // Wenn der User das Namens-Feld verlässt, wird der erste Buchstabe automatisch groß gemacht
+        // Sobald man aus der Namensbox klickt, machen wir den ersten Buchstaben automatisch groß
         private void TextBox2_Leave(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(Name_textBox2.Text))
@@ -156,25 +154,14 @@ namespace Pizzeria_Projekt_Schule
                 string input = Name_textBox2.Text.Trim();
                 if (input.Length > 0)
                 {
-                    // Erster Buchstabe Groß + der Rest vom Text
                     Name_textBox2.Text = char.ToUpper(input[0]) + input.Substring(1);
                 }
             }
         }
 
-        private void Speissen_typ_comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Preis_textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Zutaten_textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        // Diese Methoden lassen wir leer, falls wir später noch was beim Klicken ändern wollen
+        private void Speissen_typ_comboBox1_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void Preis_textBox3_TextChanged(object sender, EventArgs e) { }
+        private void Zutaten_textBox4_TextChanged(object sender, EventArgs e) { }
     }
 }

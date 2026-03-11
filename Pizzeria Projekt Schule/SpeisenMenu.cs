@@ -1,33 +1,24 @@
 ﻿using MySqlConnector;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace Pizzeria_Projekt_Schule
 {
-    // Dieses Formular zeigt die Liste aller Speisen an.
-    // Man kann hier Speisen hinzufügen, bearbeiten oder löschen.
+    // In diesem Fenster verwalten wir die Speisekarte (Speisen anschauen, hinzufügen, ändern)
     public partial class SpeisenMenu : Form
     {
         public SpeisenMenu()
         {
-            // Initialisiert die Fenster-Oberfläche
             InitializeComponent();
         }
 
-        // --- SPEISE LÖSCHEN (Logik) ---
-        // Wir löschen die Speise nicht wirklich aus der Tabelle (wegen alter Bestellungen),
-        // sondern setzen nur den Status 'aktiv' auf 0. Das nennt man "Soft Delete".
+        // Logik zum "Löschen" einer Speise
         private void SpeiseLoeschen()
         {
+            // WICHTIG: Wir löschen nicht mit DELETE, weil die Speise noch in alten Rechnungen stehen könnte.
+            // Stattdessen setzen wir aktiv auf 0 (das nennt man Soft Delete).
             string query = @"
                 UPDATE speisen
                 SET aktiv = 0
@@ -36,7 +27,7 @@ namespace Pizzeria_Projekt_Schule
             using (MySqlConnection conn = Database.GetConnection())
             using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
-                // Wir holen uns die ID der Speise aus der aktuell angeklickten Zeile
+                // Die ID holen wir uns aus der Zeile, die im Gitter gerade angeklickt ist
                 cmd.Parameters.AddWithValue(
                     "@speise_id",
                     Speissen_menu_dataGridView1.CurrentRow.Cells["speise_id"].Value
@@ -45,16 +36,11 @@ namespace Pizzeria_Projekt_Schule
                 cmd.ExecuteNonQuery();
             }
 
-            MessageBox.Show("Speise gelöscht ✔");
-            SpeisenLaden(); // Die Liste aktualisieren, damit die gelöschte Speise verschwindet
+            MessageBox.Show("Speise wurde aus der Karte entfernt ✔");
+            SpeisenLaden(); // Liste neu laden, damit die Speise verschwindet
         }
 
-        private void Label1_Click(object sender, EventArgs e) { }
-        private void Speissen_menu_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void Label2_Click(object sender, EventArgs e) { }
-
-        // --- NAVIGATION ---
-        // Schließt diese Seite und geht zurück zum Hauptmenü
+        // Zurück zum Hauptmenü Knopf
         private void Zuruck_Hauptmenu_button4_Click(object sender, EventArgs e)
         {
             Hauptmenu mainmenupage = new Hauptmenu();
@@ -62,56 +48,52 @@ namespace Pizzeria_Projekt_Schule
             this.Close();
         }
 
-        // Beim Starten des Fensters laden wir sofort alle Speisen aus der Datenbank
+        // Wenn das Fenster öffnet, laden wir direkt die Liste
         private void Speissen_Load(object sender, EventArgs e)
         {
             SpeisenLaden();
         }
 
-        // Öffnet das kleine Fenster, um eine neue Pizza/Speise anzulegen
+        // Öffnet das Fenster, um eine ganz neue Speise einzutippen
         private void Hinzufugen_button2_Click(object sender, EventArgs e)
         {
             Speisehinzufügen speisenhinzufügen = new Speisehinzufügen();
             speisenhinzufügen.Show();
         }
 
-        // --- BUTTON: LÖSCHEN ---
+        // Der Löschen-Button mit Sicherheitsabfrage
         private void Loschen_button3_Click(object sender, EventArgs e)
         {
-            // Erst prüfen, ob überhaupt eine Speise in der Liste markiert ist
-            if (Speissen_menu_dataGridView1.CurrentRow == null ||
-                Speissen_menu_dataGridView1.CurrentRow.Cells["speise_id"].Value == null)
+            // Prüfen, ob überhaupt was ausgewählt wurde
+            if (Speissen_menu_dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Bitte zuerst eine Speise auswählen.");
+                MessageBox.Show("Bitte wähle erst eine Speise aus der Liste aus.");
                 return;
             }
 
-            // Wir fragen zur Sicherheit nochmal nach, bevor wir löschen
+            // Den Nutzer nochmal fragen, damit er nicht aus Versehen löscht
             DialogResult result = MessageBox.Show(
-                "Möchten Sie diese Speise wirklich löschen?",
-                "Bestätigung",
+                "Soll diese Speise wirklich von der Karte genommen werden?",
+                "Sicherheitsabfrage",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning
             );
 
-            // Nur wenn der Benutzer auf 'Ja' klickt, wird die Methode SpeiseLoeschen ausgeführt
             if (result == DialogResult.Yes)
             {
                 SpeiseLoeschen();
             }
         }
 
-        // --- DATEN LADEN ---
-        // Holt alle aktiven Speisen aus der Datenbank und zeigt sie in der Tabelle an
+        // Holt die Speisen-Daten aus der Datenbank
         private void SpeisenLaden()
         {
             try
             {
-                // SQL: Wir laden ID, Name, Typ, Preis und Zutaten.
-                // COALESCE(preis, 0.00) sorgt dafür, dass kein Fehler kommt, falls mal kein Preis eingetragen ist.
+                // Wir laden nur Speisen, die 'aktiv = 1' sind
                 string query = @"
                     SELECT speise_id, speisename, speisentyp, 
-                    COALESCE(preis, 0.00) as preis, zutaten ,aktiv
+                    COALESCE(preis, 0.00) as preis, zutaten, aktiv
                     FROM speisen
                     WHERE aktiv = 1";
 
@@ -120,30 +102,29 @@ namespace Pizzeria_Projekt_Schule
                 {
                     DataTable table = new DataTable();
                     adapter.Fill(table);
-                    Speissen_menu_dataGridView1.DataSource = table; // Daten an die Tabelle binden
+                    Speissen_menu_dataGridView1.DataSource = table;
                 }
 
-                // Hier stellen wir ein, dass die Preis-Spalte als Währung (€) angezeigt wird
+                // Den Preis schön als Euro-Betrag formatieren
                 if (Speissen_menu_dataGridView1.Columns.Contains("preis"))
                 {
-                    Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2"; // C2 steht für Currency (Währung)
+                    Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2";
                     Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
-                        System.Globalization.CultureInfo.GetCultureInfo("de-DE"); // Deutsches Format (Komma statt Punkt)
-                    DataGridDesign();
+                        System.Globalization.CultureInfo.GetCultureInfo("de-DE");
+                    DataGridDesign(); // Das Aussehen der Tabelle anpassen
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim Laden der Speisen: " + ex.Message);
+                MessageBox.Show("Fehler beim Laden: " + ex.Message);
             }
         }
 
-        // --- FILTER: NUR AKTIVE ODER ALLE SPEISEN ---
+        // Filter: Entweder nur aktive Speisen oder alles (auch alte) anzeigen
         private void Aktive_speissen_checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             string query;
 
-            // Je nachdem ob der Haken gesetzt ist, laden wir nur aktive oder wirklich alle Speisen
             if (Aktive_speissen_checkBox1.Checked)
             {
                 query = "SELECT speise_id, speisename, speisentyp, preis, zutaten FROM speisen WHERE aktiv = 1";
@@ -153,43 +134,36 @@ namespace Pizzeria_Projekt_Schule
                 query = "SELECT speise_id, speisename, speisentyp, preis, zutaten, aktiv FROM speisen";
             }
 
-            using (MySqlConnection conn = Database.GetConnection())
-            using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn))
+            using (var conn = Database.GetConnection())
+            using (var adapter = new MySqlDataAdapter(query, conn))
             {
                 DataTable table = new DataTable();
                 adapter.Fill(table);
                 Speissen_menu_dataGridView1.DataSource = table;
             }
-
-            // Währungsformatierung wieder anwenden
-            Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.Format = "C2";
-            Speissen_menu_dataGridView1.Columns["preis"].DefaultCellStyle.FormatProvider =
-                System.Globalization.CultureInfo.GetCultureInfo("de-DE");
             DataGridDesign();
         }
 
-        // Button zum manuellen Aktualisieren der Liste
+        // Einfacher Refresh-Button
         private void Aktualisieren_button5_Click(object sender, EventArgs e)
         {
             SpeisenLaden();
         }
 
-        // --- BUTTON: BEARBEITEN / UPDATE ---
+        // Öffnet das Bearbeiten-Fenster für die gewählte Speise
         private void Update_button1_Click_1(object sender, EventArgs e)
         {
-            // Prüfen, ob eine Zeile ausgewählt wurde
             if (Speissen_menu_dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Bitte zuerst eine Speise auswählen.");
+                MessageBox.Show("Bitte wähle erst eine Speise aus.");
                 return;
             }
 
-            // Wir lesen alle Daten aus der markierten Zeile aus
+            // Wir ziehen uns alle Infos aus der Tabelle, um sie dem anderen Fenster zu geben
             int id = Convert.ToInt32(Speissen_menu_dataGridView1.CurrentRow.Cells["speise_id"].Value);
             string name = Speissen_menu_dataGridView1.CurrentRow.Cells["speisename"].Value.ToString();
             string typ = Speissen_menu_dataGridView1.CurrentRow.Cells["speisentyp"].Value.ToString();
 
-            // Preis sicher umwandeln (beachtet Komma und Punkt)
             decimal preis = 0;
             if (Speissen_menu_dataGridView1.CurrentRow.Cells["preis"].Value != null)
             {
@@ -199,51 +173,47 @@ namespace Pizzeria_Projekt_Schule
             }
             string zutaten = Speissen_menu_dataGridView1.CurrentRow.Cells["zutaten"].Value.ToString();
 
-            // Wir öffnen das Update-Fenster und übergeben die Daten der Speise
+            // Das Bearbeiten-Fenster öffnen
             speiupd updateForm = new speiupd(id, name, typ, preis, zutaten);
-            updateForm.ShowDialog(); // ShowDialog pausiert dieses Fenster, bis das andere geschlossen wird
+            updateForm.ShowDialog(); // Das Programm wartet hier, bis das Fenster zu ist
 
-            SpeisenLaden(); // Wenn das Update-Fenster zugeht, laden wir die Liste neu
+            SpeisenLaden(); // Danach Liste aktualisieren
         }
+
+        // Hier wird eingestellt, wie das Gitter (DataGridView) optisch aussieht
         private void DataGridDesign()
         {
-            // Überschriften größer & fett
-            Speissen_menu_dataGridView1.ColumnHeadersDefaultCellStyle.Font =
-                new Font("Segoe UI", 14, FontStyle.Bold);
+            Speissen_menu_dataGridView1.ReadOnly = true; // Keiner darf direkt in die Zellen schreiben
 
-            Speissen_menu_dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
-                DataGridViewContentAlignment.MiddleCenter;
-
+            // Schriftart für die Köpfe der Tabelle
+            Speissen_menu_dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 14, FontStyle.Bold);
             Speissen_menu_dataGridView1.ColumnHeadersHeight = 45;
 
-            // Normale Zeilen größer
-            Speissen_menu_dataGridView1.DefaultCellStyle.Font =
-                new Font("Segoe UI", 12, FontStyle.Regular);
-
+            // Schriftart für die Zeilen
+            Speissen_menu_dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Regular);
             Speissen_menu_dataGridView1.RowTemplate.Height = 35;
 
-            // Ganze Breite nutzen
-            Speissen_menu_dataGridView1.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
+            // Spaltenbreite automatisch so einstellen, dass alles draufpasst
+            Speissen_menu_dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
-            // Schöne Spaltennamen
-            if (Speissen_menu_dataGridView1.Columns.Contains("speise_id"))
-                Speissen_menu_dataGridView1.Columns["speise_id"].HeaderText = "ID";
+            // Die Zutaten-Spalte darf den restlichen Platz verbrauchen (sie ist meist am längsten)
+            if (Speissen_menu_dataGridView1.Columns.Contains("zutaten"))
+            {
+                Speissen_menu_dataGridView1.Columns["zutaten"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
 
+            // Die Spaltennamen im Fenster schöner benennen als in der Datenbank
             if (Speissen_menu_dataGridView1.Columns.Contains("speisename"))
-                Speissen_menu_dataGridView1.Columns["speisename"].HeaderText = "Speise";
-
-            if (Speissen_menu_dataGridView1.Columns.Contains("speisentyp"))
-                Speissen_menu_dataGridView1.Columns["speisentyp"].HeaderText = "Typ";
+                Speissen_menu_dataGridView1.Columns["speisename"].HeaderText = "Name der Speise";
 
             if (Speissen_menu_dataGridView1.Columns.Contains("preis"))
                 Speissen_menu_dataGridView1.Columns["preis"].HeaderText = "Preis (€)";
-
-            if (Speissen_menu_dataGridView1.Columns.Contains("zutaten"))
-                Speissen_menu_dataGridView1.Columns["zutaten"].HeaderText = "Zutaten";
-
-            if (Speissen_menu_dataGridView1.Columns.Contains("aktiv"))
-                Speissen_menu_dataGridView1.Columns["aktiv"].HeaderText = "Aktiv";
         }
+
+        // Platzhalter für Klick-Events, falls du sie später brauchst
+        private void Label1_Click(object sender, EventArgs e) { }
+        private void Speissen_menu_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void Label2_Click(object sender, EventArgs e) { }
+        private void panel2_Paint(object sender, PaintEventArgs e) { }
     }
 }

@@ -18,30 +18,31 @@ namespace Pizzeria_Projekt_Schule
             InitializeComponent();
         }
 
+        // Das hier passiert sofort, wenn das Fenster geöffnet wird
         private void Form3_Load(object sender, EventArgs e)
         {
-            // Beim Laden der Form werden sofort alle Tischdaten aus der DB geholt
+            // Wir rufen die Methode auf, die alle Tische aus der Datenbank holt
             LadeTische();
         }
 
-        // --- NAVIGATION ---
+        // Der Zurück-Button schließt die Tischübersicht und öffnet wieder das Hauptmenü
         private void Zuruck_button41_Click(object sender, EventArgs e)
         {
             Hauptmenu mainmenupage = new Hauptmenu();
             mainmenupage.Show();
-            this.Close();
+            this.Close(); // Schließt das aktuelle Fenster
         }
 
-        // --- DATEN LADEN ---
+        // Hier passiert die eigentliche Arbeit mit der Datenbank
         private void LadeTische()
         {
-            // Verbindung über deine zentrale Database-Klasse holen
+            // Wir holen uns die offene Verbindung aus unserer Database-Klasse
             MySqlConnection conn = Database.GetConnection();
 
             try
             {
-                // SQL-Abfrage mit Verknüpfung (Join) der Mitarbeiter-Tabelle
-                // So sieht man sofort, welcher Kellner für welchen Bereich eingeteilt ist
+                // In diesem SQL-Befehl verknüpfen wir die Tische mit den Mitarbeitern (LEFT JOIN)
+                // So wird direkt angezeigt, welcher Kellner für welchen Bereich (z.B. Terrasse) zuständig ist
                 string query = @"
                     SELECT  
                         t.tisch_id AS 'Tisch Nr.',
@@ -56,25 +57,30 @@ namespace Pizzeria_Projekt_Schule
                         AND m.rolle = 'service'
                     ORDER BY t.tisch_id;";
 
+                // Der Adapter führt den Befehl aus und holt die Daten
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                DataTable dt = new DataTable(); // Eine leere Tabelle im Arbeitsspeicher erstellen
+                adapter.Fill(dt); // Die Tabelle mit den Datenbank-Ergebnissen befüllen
 
-                // Das DataGridView wird automatisch mit den Spalten aus dem SQL-Query befüllt
+                // Die befüllte Tabelle wird jetzt einfach im DataGridView (dem Gitter) angezeigt
                 Tischauswahl_dataGridView1.DataSource = dt;
 
-                // Optisches Tuning für das Grid
-                Tischauswahl_dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                Tischauswahl_dataGridView1.AllowUserToAddRows = false; // Verhindert leere Zeile am Ende
-                Tischauswahl_dataGridView1.ReadOnly = true;            // Nur zum Anschauen gedacht
+                // Hier machen wir die Tabelle noch ein bisschen hübscher
+                Tischauswahl_dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Spalten füllen das Fenster aus
+                Tischauswahl_dataGridView1.AllowUserToAddRows = false; // Verhindert, dass man unten neue Zeilen von Hand eintippt
+                Tischauswahl_dataGridView1.ReadOnly = true; // Sperrt das Bearbeiten, da es eine reine Info-Seite ist
+
+                // Wir nehmen die Standard-Markierung der ersten Zelle raus
+                Tischauswahl_dataGridView1.ClearSelection();
             }
             catch (Exception ex)
             {
+                // Falls der Server nicht erreichbar ist oder der SQL-Befehl einen Fehler hat
                 MessageBox.Show("Fehler beim Laden der Tischübersicht: " + ex.Message);
             }
         }
 
-        // Platzhalter für Event-Handler (können gelöscht werden, wenn nicht genutzt)
+        // Leere Event-Methoden können hier stehen bleiben, damit es im Designer keine Fehler gibt
         private void label1_Click(object sender, EventArgs e) { }
         private void Tischauswahl_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     }

@@ -106,7 +106,6 @@
             this.Umsatz_heute_textBox1.Name = "Umsatz_heute_textBox1";
             this.Umsatz_heute_textBox1.Size = new System.Drawing.Size(125, 20);
             this.Umsatz_heute_textBox1.TabIndex = 4;
-            this.Umsatz_heute_textBox1.TextChanged += new System.EventHandler(this.Umsatz_heute_textBox1_TextChanged);
             // 
             // beliebteste_speisse_textBox2
             // 
@@ -114,7 +113,6 @@
             this.beliebteste_speisse_textBox2.Name = "beliebteste_speisse_textBox2";
             this.beliebteste_speisse_textBox2.Size = new System.Drawing.Size(125, 20);
             this.beliebteste_speisse_textBox2.TabIndex = 5;
-            this.beliebteste_speisse_textBox2.TextChanged += new System.EventHandler(this.Beliebteste_speisse_textBox2_TextChanged);
             // 
             // Beliebteste_uhrzeit_textBox3
             // 
@@ -122,7 +120,6 @@
             this.Beliebteste_uhrzeit_textBox3.Name = "Beliebteste_uhrzeit_textBox3";
             this.Beliebteste_uhrzeit_textBox3.Size = new System.Drawing.Size(125, 20);
             this.Beliebteste_uhrzeit_textBox3.TabIndex = 6;
-            this.Beliebteste_uhrzeit_textBox3.TextChanged += new System.EventHandler(this.Beliebteste_uhrzeit_textBox3_TextChanged);
             // 
             // button1
             // 
@@ -159,7 +156,7 @@
             this.Zeitraum_auswahl_comboBox1.Name = "Zeitraum_auswahl_comboBox1";
             this.Zeitraum_auswahl_comboBox1.Size = new System.Drawing.Size(124, 21);
             this.Zeitraum_auswahl_comboBox1.TabIndex = 20;
-            this.Zeitraum_auswahl_comboBox1.SelectedIndexChanged += new System.EventHandler(this.Zeitraum_auswahl_comboBox1_SelectedIndexChanged_1);
+           
             // 
             // label9
             // 
@@ -222,19 +219,19 @@
             this.label11.Size = new System.Drawing.Size(91, 16);
             this.label11.TabIndex = 41;
             this.label11.Text = " XXXX.XX.XX";
-            this.label11.Click += new System.EventHandler(this.Label1_Click);
+           
             // 
-            // dataGridView2
+            // Auswertungs_dataGridView2
             // 
             this.Auswertungs_dataGridView2.AllowUserToAddRows = false;
             this.Auswertungs_dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Auswertungs_dataGridView2.GridColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Auswertungs_dataGridView2.Location = new System.Drawing.Point(57, 147);
-            this.Auswertungs_dataGridView2.Name = "dataGridView2";
+            this.Auswertungs_dataGridView2.Name = "Auswertungs_dataGridView2";
             this.Auswertungs_dataGridView2.ReadOnly = true;
             this.Auswertungs_dataGridView2.Size = new System.Drawing.Size(590, 180);
             this.Auswertungs_dataGridView2.TabIndex = 42;
-            this.Auswertungs_dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Auswertungs_dataGridView2_CellContentClick);
+           
             // 
             // label5
             // 

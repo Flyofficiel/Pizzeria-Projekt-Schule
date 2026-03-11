@@ -67,12 +67,12 @@
             this.panel1.Size = new System.Drawing.Size(895, 69);
             this.panel1.TabIndex = 1;
             // 
-            // dataGridView1
+            // Speissen_menu_dataGridView1
             // 
             this.Speissen_menu_dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
             this.Speissen_menu_dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Speissen_menu_dataGridView1.Location = new System.Drawing.Point(22, 173);
-            this.Speissen_menu_dataGridView1.Name = "dataGridView1";
+            this.Speissen_menu_dataGridView1.Name = "Speissen_menu_dataGridView1";
             this.Speissen_menu_dataGridView1.Size = new System.Drawing.Size(678, 330);
             this.Speissen_menu_dataGridView1.TabIndex = 2;
             this.Speissen_menu_dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Speissen_menu_dataGridView1_CellContentClick);
@@ -87,6 +87,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(678, 51);
             this.panel2.TabIndex = 3;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // label4
             // 
@@ -178,12 +179,12 @@
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.Aktualisieren_button5_Click);
             // 
-            // checkBox1
+            // Aktive_speissen_checkBox1
             // 
             this.Aktive_speissen_checkBox1.AutoSize = true;
             this.Aktive_speissen_checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Aktive_speissen_checkBox1.Location = new System.Drawing.Point(739, 129);
-            this.Aktive_speissen_checkBox1.Name = "checkBox1";
+            this.Aktive_speissen_checkBox1.Name = "Aktive_speissen_checkBox1";
             this.Aktive_speissen_checkBox1.Size = new System.Drawing.Size(157, 19);
             this.Aktive_speissen_checkBox1.TabIndex = 10;
             this.Aktive_speissen_checkBox1.Text = "Nur aktive Speissen ";

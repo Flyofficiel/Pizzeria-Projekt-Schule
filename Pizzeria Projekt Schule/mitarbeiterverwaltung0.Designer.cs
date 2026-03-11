@@ -99,7 +99,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(507, 342);
             this.dataGridView1.TabIndex = 3;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Mitarbeiterverwaltung_dataGridView1_CellContentClick);
+           
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.DataGridView1_SelectionChanged);
             // 
             // label5
@@ -132,24 +132,23 @@
             this.label7.TabIndex = 7;
             this.label7.Text = "Passwort";
             // 
-            // textBox2
+            // Miarbeiterverwaltung_name_textBox2
             // 
             this.Miarbeiterverwaltung_name_textBox2.Location = new System.Drawing.Point(925, 246);
-            this.Miarbeiterverwaltung_name_textBox2.Name = "textBox2";
+            this.Miarbeiterverwaltung_name_textBox2.Name = "Miarbeiterverwaltung_name_textBox2";
             this.Miarbeiterverwaltung_name_textBox2.Size = new System.Drawing.Size(121, 20);
             this.Miarbeiterverwaltung_name_textBox2.TabIndex = 9;
-            this.Miarbeiterverwaltung_name_textBox2.TextChanged += new System.EventHandler(this.Miarbeiterverwaltung_name_textBox2_TextChanged);
+           
             // 
-            // textBox3
+            // Miarbeiterverwaltung_passwort_textBox3
             // 
             this.Miarbeiterverwaltung_passwort_textBox3.Location = new System.Drawing.Point(925, 392);
-            this.Miarbeiterverwaltung_passwort_textBox3.Name = "textBox3";
+            this.Miarbeiterverwaltung_passwort_textBox3.Name = "Miarbeiterverwaltung_passwort_textBox3";
             this.Miarbeiterverwaltung_passwort_textBox3.PasswordChar = '●';
             this.Miarbeiterverwaltung_passwort_textBox3.Size = new System.Drawing.Size(121, 20);
             this.Miarbeiterverwaltung_passwort_textBox3.TabIndex = 10;
-            this.Miarbeiterverwaltung_passwort_textBox3.TextChanged += new System.EventHandler(this.Miarbeiterverwaltung_passwort_textBox3_TextChanged);
             // 
-            // comboBox1
+            // berreich_comboBox1
             // 
             this.berreich_comboBox1.FormattingEnabled = true;
             this.berreich_comboBox1.Items.AddRange(new object[] {
@@ -160,7 +159,7 @@
             "Küche",
             "Kasse"});
             this.berreich_comboBox1.Location = new System.Drawing.Point(925, 353);
-            this.berreich_comboBox1.Name = "comboBox1";
+            this.berreich_comboBox1.Name = "berreich_comboBox1";
             this.berreich_comboBox1.Size = new System.Drawing.Size(121, 21);
             this.berreich_comboBox1.TabIndex = 11;
             // 
@@ -204,7 +203,7 @@
             this.button3.TabIndex = 14;
             this.button3.Text = "Löschen";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.Loeschen_button3_Click);
+            this.button3.Click += new System.EventHandler(this.loeschenbutton_Click);
             // 
             // button4
             // 
@@ -216,29 +215,29 @@
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(131, 40);
             this.button4.TabIndex = 15;
-            this.button4.Text = "Abbrechen";
+            this.button4.Text = "Zurück";
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.Abbrechen_button4_Click);
             // 
-            // comboBox2
+            // rolle_comboBox2
             // 
             this.rolle_comboBox2.FormattingEnabled = true;
             this.rolle_comboBox2.Items.AddRange(new object[] {
             "Service",
             "Küche"});
             this.rolle_comboBox2.Location = new System.Drawing.Point(925, 320);
-            this.rolle_comboBox2.Name = "comboBox2";
+            this.rolle_comboBox2.Name = "rolle_comboBox2";
             this.rolle_comboBox2.Size = new System.Drawing.Size(121, 21);
             this.rolle_comboBox2.TabIndex = 19;
-            this.rolle_comboBox2.SelectedIndexChanged += new System.EventHandler(this.ComboBox2_SelectedIndexChanged);
+            this.rolle_comboBox2.SelectedIndexChanged += new System.EventHandler(this.ComboBoxRolle_SelectedIndexChanged);
             // 
-            // textBox4
+            // Miarbeiterverwaltung_nachname_textBox4
             // 
             this.Miarbeiterverwaltung_nachname_textBox4.Location = new System.Drawing.Point(925, 286);
-            this.Miarbeiterverwaltung_nachname_textBox4.Name = "textBox4";
+            this.Miarbeiterverwaltung_nachname_textBox4.Name = "Miarbeiterverwaltung_nachname_textBox4";
             this.Miarbeiterverwaltung_nachname_textBox4.Size = new System.Drawing.Size(121, 20);
             this.Miarbeiterverwaltung_nachname_textBox4.TabIndex = 18;
-            this.Miarbeiterverwaltung_nachname_textBox4.TextChanged += new System.EventHandler(this.Miarbeiterverwaltung_nachname_textBox4_TextChanged);
+           
             // 
             // label8
             // 

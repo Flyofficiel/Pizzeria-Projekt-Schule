@@ -150,6 +150,13 @@ namespace Pizzeria_Projekt_Schule
                     return;
                 }
 
+                // NEU: Prüfung auf Mindestlänge der Telefonnummer
+                if (telefon.Length < 8)
+                {
+                    MessageBox.Show("Die Telefonnummer muss mindestens 8 Ziffern lang sein! 📞");
+                    return;
+                }
+
                 string connString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
 
                 using (var conn = new MySqlConnection(connString))
@@ -314,14 +321,8 @@ namespace Pizzeria_Projekt_Schule
 
         }
 
-        private void Telefon_textBox2_TextChanged(object sender, EventArgs e)
-        {
+       
 
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-            
-        }
+       
     }
 }

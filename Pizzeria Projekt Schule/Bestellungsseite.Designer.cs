@@ -100,7 +100,7 @@
             this.tischauswahl.Name = "tischauswahl";
             this.tischauswahl.Size = new System.Drawing.Size(172, 21);
             this.tischauswahl.TabIndex = 4;
-            this.tischauswahl.SelectedIndexChanged += new System.EventHandler(this.Tischauswahl_comboBox2_SelectedIndexChanged);
+          
             // 
             // tischauswahl_comboBox2
             // 
@@ -119,7 +119,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(384, 441);
             this.dataGridView1.TabIndex = 6;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellClick_1);
-            
             // 
             // groupBox1
             // 
@@ -156,7 +155,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(304, 34);
             this.button5.TabIndex = 7;
-            this.button5.Text = "Abbrechen";
+            this.button5.Text = "Zurück";
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.Abbrechen_button5_Click);
             // 
@@ -248,16 +247,15 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Slot:";
             // 
-            // label7
+            // Uhrzeitlabel
             // 
             this.Uhrzeitlabel.AutoSize = true;
             this.Uhrzeitlabel.Location = new System.Drawing.Point(777, 120);
-            this.Uhrzeitlabel.Name = "label7";
+            this.Uhrzeitlabel.Name = "Uhrzeitlabel";
             this.Uhrzeitlabel.Size = new System.Drawing.Size(52, 13);
             this.Uhrzeitlabel.TabIndex = 11;
             this.Uhrzeitlabel.Text = "Labeltime";
-            this.Uhrzeitlabel.Click += new System.EventHandler(this.Label7_Click);
-            // 
+           
             // dateTimePicker1
             // 
             this.dateTimePicker1.Enabled = false;
@@ -265,7 +263,6 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 1;
-          
             // 
             // Bestellungsseite
             // 

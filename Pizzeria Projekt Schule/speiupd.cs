@@ -11,46 +11,48 @@ using System.Windows.Forms;
 
 namespace Pizzeria_Projekt_Schule
 {
+    // Dieses Fenster öffnet sich, wenn wir eine Speise aus der Liste bearbeiten wollen
     public partial class speiupd : Form
     {
-        // Der Konstruktor: Hier werden die Daten der Speise aus der Liste empfangen
+        // Der Konstruktor bekommt die aktuellen Daten der Speise direkt beim Öffnen mitgeliefert
         public speiupd(int id, string name, string typ, decimal preis, string zutaten)
         {
             InitializeComponent();
 
-            // Wir speichern die ID der Speise in einer Variable, damit wir wissen, 
-            // welche Pizza wir später in der Datenbank ändern müssen.
+            // Wir merken uns die ID in der Variable speiseId, damit wir später wissen,
+            // welchen Datensatz wir in der Datenbank mit dem UPDATE-Befehl treffen müssen.
             speiseId = id;
 
-            // Die Textboxen werden mit den aktuellen Daten gefüllt, damit man sie bearbeiten kann
+            // Die Textfelder werden mit den Werten gefüllt, die momentan in der Datenbank stehen
             Name_speisseupd_textBox2.Text = name;
             Speisentyp_speisseupd_comboBox1.Text = typ;
             Preis_speisseupd_textBox3.Text = preis.ToString();
             zutaten_speisseupd_textBox4.Text = zutaten;
         }
 
-        // Variable für die ID
+        // Hier speichern wir die ID zwischen, weil wir sie im Konstruktor bekommen, 
+        // aber erst beim Klick auf "Speichern" wieder brauchen.
         private int speiseId;
 
-        // --- BUTTON: AKTUALISIEREN ---
+        // Das passiert, wenn man auf den Speichern/Aktualisieren Button drückt
         private void Update_speisseupd_button1_Click(object sender, EventArgs e)
         {
-            // 1. Check: Der Name darf nicht leer sein
+            // Check: Das Feld darf nicht leer gelassen werden
             if (string.IsNullOrWhiteSpace(Name_speisseupd_textBox2.Text))
             {
-                MessageBox.Show("Speisename darf nicht leer sein!");
+                MessageBox.Show("Bitte gib einen Namen für die Speise ein!");
                 return;
             }
 
-            // 2. Check: Der Name darf nicht nur aus Zahlen bestehen
+            // Check: Ein Name der nur aus Zahlen besteht, ist wahrscheinlich ein Tippfehler
             if (Name_speisseupd_textBox2.Text.All(char.IsDigit))
             {
-                MessageBox.Show("Speisename darf nicht nur Zahlen enthalten!");
+                MessageBox.Show("Der Name darf nicht nur aus Zahlen bestehen!");
                 return;
             }
 
-            // Der SQL-Befehl zum Ändern (Update) der Daten.
-            // Wir nutzen wieder @-Parameter für die Sicherheit.
+            // Wir bereiten den SQL-Befehl vor. UPDATE ändert bestehende Zeilen.
+            // Die @-Platzhalter sind wichtig, damit niemand Schadcode einschleusen kann.
             string query = @"
                 UPDATE speisen
                 SET speisename = @name,
@@ -59,67 +61,66 @@ namespace Pizzeria_Projekt_Schule
                     zutaten = @zutaten
                 WHERE speise_id = @id";
 
-            // Verbindung zur Datenbank holen
+            // Wir holen uns die Verbindung zur Datenbank
             MySqlConnection conn = Database.GetConnection();
 
             using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
-                // Die Werte aus den Eingabefeldern an den SQL-Befehl übergeben
+                // Die Werte aus den Textboxen werden an die SQL-Parameter übergeben
                 cmd.Parameters.AddWithValue("@name", Name_speisseupd_textBox2.Text);
                 cmd.Parameters.AddWithValue("@typ", Speisentyp_speisseupd_comboBox1.Text);
 
-                // Den Preis sicher umwandeln (ersetzt Komma durch Punkt für die Datenbank)
+                // Den Preis müssen wir vorsichtig umwandeln, damit Punkte und Kommas kein Chaos anrichten
                 if (!decimal.TryParse(
                     Preis_speisseupd_textBox3.Text.Replace(",", "."),
                     System.Globalization.NumberStyles.Any,
                     System.Globalization.CultureInfo.InvariantCulture,
                     out decimal preis))
                 {
-                    MessageBox.Show("Ungültiger Preis!");
+                    MessageBox.Show("Der Preis hat ein falsches Format!");
                     return;
                 }
 
                 cmd.Parameters.AddWithValue("@preis", preis);
                 cmd.Parameters.AddWithValue("@zutaten", zutaten_speisseupd_textBox4.Text);
-                cmd.Parameters.AddWithValue("@id", speiseId);
+                cmd.Parameters.AddWithValue("@id", speiseId); // Hier nutzen wir die ID von oben
 
-                // Den Befehl ausführen
+                // Den Befehl an die Datenbank schicken
                 cmd.ExecuteNonQuery();
             }
 
-            MessageBox.Show("Speise erfolgreich aktualisiert ✔");
-            this.Close(); // Fenster schließen nach dem Speichern
+            MessageBox.Show("Änderungen wurden übernommen ✔");
+            this.Close(); // Fenster schließen, wir springen automatisch zurück zur Liste
         }
 
-        // --- BUTTON: ABBRECHEN ---
+        // Einfach das Fenster zumachen, wenn man sich umentscheidet
         private void Abbrechen_button2_Click(object sender, EventArgs e)
         {
-            this.Close(); // Schließt das Fenster ohne zu speichern
+            this.Close();
         }
 
-        // --- EINGABE-KONTROLLE: PREIS ---
+        // Hier passen wir auf, dass der User im Preisfeld keinen Quatsch eintippt
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Nur Zahlen, Backspace, Komma und Punkt erlauben
+            // Erlaubt sind nur Zahlen, die Löschtaste und Trennzeichen
             if (!char.IsControl(e.KeyChar) &&
                 !char.IsDigit(e.KeyChar) &&
                 e.KeyChar != ',' &&
                 e.KeyChar != '.')
             {
-                e.Handled = true; // Ungültige Zeichen blockieren
+                e.Handled = true; // Blockiert die Taste
             }
 
-            // Komfort: Wenn der User einen Punkt tippt, machen wir automatisch ein Komma daraus
+            // Kleiner Trick: Wenn der User einen Punkt tippt, machen wir ein Komma daraus
             if (e.KeyChar == '.')
             {
                 e.KeyChar = ',';
             }
         }
 
-        // --- EINGABE-KONTROLLE: ZUTATEN ---
+        // Bei den Zutaten erlauben wir nur Buchstaben und Kommas zur Trennung
         private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Nur Buchstaben, Leerzeichen, Kommas und Löschtaste erlauben
             if (!char.IsControl(e.KeyChar) &&
                     !char.IsLetter(e.KeyChar) &&
                     e.KeyChar != ' ' &&
@@ -129,34 +130,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void speiupd_Load(object sender, EventArgs e)
-        {
-            // Hier könnte noch Code beim Laden stehen
-        }
+        // Diese Methoden bleiben leer, damit der Designer keine Fehler wirft
 
-        private void Name_speisseupd_textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Speisentyp_speisseupd_comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Preis_speisseupd_textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void zutaten_speisseupd_textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Abbrechen_speisse_update_button2_Click_1(object sender, EventArgs e)
-        {
-
-        }
     }
 }

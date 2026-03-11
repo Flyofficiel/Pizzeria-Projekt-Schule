@@ -1,37 +1,118 @@
 ﻿using MySqlConnector;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pizzeria_Projekt_Schule
 {
     public partial class Zahlungsseite : Form
     {
-        int bestellNr;
+        private int bestellNr; // Speichert die aktuelle Haupt-Bestellnummer
 
         public Zahlungsseite()
         {
             InitializeComponent();
         }
 
-        // Berechnet die aktuelle Summe der Bestellung aus der Datenbank
+        // --- LADEN DER SEITE ---
+        private void Zahlung_Load(object sender, EventArgs e)
+        {
+            // Textfelder auf "Nur Lesen" setzen, da sie nur Ergebnisse anzeigen
+            Summe_zahlen_textBox2.ReadOnly = true;
+            gesamt_Zahlen_textBox3.ReadOnly = true;
+            Summe_zahlen_textBox2.BackColor = Color.WhiteSmoke;
+            gesamt_Zahlen_textBox3.BackColor = Color.WhiteSmoke;
+
+            TischeLaden(); // Alle Tische mit offenen Rechnungen holen
+        }
+
+        // Holt alle Tische aus der DB, die mindestens eine 'offene' Bestellung haben
+        private void TischeLaden()
+        {
+            string query = "SELECT DISTINCT tisch_id_fk AS tisch_id FROM bestellungen WHERE status = 'offen'";
+
+            using (var conn = Database.GetConnection())
+            using (var da = new MySqlDataAdapter(query, conn))
+            {
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                // Platzhalter-Zeile hinzufügen
+                DataRow dr = dt.NewRow();
+                dr["tisch_id"] = 0;
+                dt.Rows.InsertAt(dr, 0);
+
+                Tisch_zahlenseite_comboBox1.DisplayMember = "tisch_id";
+                Tisch_zahlenseite_comboBox1.ValueMember = "tisch_id";
+                Tisch_zahlenseite_comboBox1.DataSource = dt;
+                Tisch_zahlenseite_comboBox1.SelectedIndex = 0;
+            }
+        }
+
+        // Lädt alle Speisen eines Tisches in das Grid
+        private void BestellungenLaden()
+        {
+            try
+            {
+                if (Tisch_zahlenseite_comboBox1.SelectedValue == null ||
+                    Tisch_zahlenseite_comboBox1.SelectedValue is DataRowView) return;
+
+                int tischId = Convert.ToInt32(Tisch_zahlenseite_comboBox1.SelectedValue);
+
+                if (tischId == 0)
+                {
+                    dataGridView1.DataSource = null;
+                    Summe_zahlen_textBox2.Text = "0,00";
+                    gesamt_Zahlen_textBox3.Text = "0,00";
+                    return;
+                }
+
+                List<int> alleNummern = HoleAlleOffenenBestellnummern(tischId);
+
+                if (alleNummern.Count == 0)
+                {
+                    DataTable emptyTable = new DataTable();
+                    emptyTable.Columns.Add("Speise");
+                    emptyTable.Rows.Add("KEINE OFFENEN BESTELLUNGEN");
+                    dataGridView1.DataSource = emptyTable;
+                    return;
+                }
+
+                bestellNr = alleNummern[0]; // Referenz-ID für die Rechnung
+                string filter = string.Join(",", alleNummern);
+
+                string query = $@"SELECT bp.positionid, s.speisename AS Speise, bp.menge AS Menge, 
+                                 bp.preis_beim_kauf AS Einzelpreis, (bp.menge * bp.preis_beim_kauf) AS Gesamt
+                                 FROM bestellposition bp JOIN speisen s ON bp.speise_id_fk = s.speise_id
+                                 WHERE bp.bestellnr_fk IN ({filter});";
+
+                using (var conn = Database.GetConnection())
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    DataTable table = new DataTable();
+                    new MySqlDataAdapter(cmd).Fill(table);
+                    dataGridView1.DataSource = table;
+                    ZahlungsGridDesign();
+                }
+
+                double summe = LadeSumme(alleNummern);
+                Summe_zahlen_textBox2.Text = summe.ToString("N2") + " €";
+                gesamt_Zahlen_textBox3.Text = summe.ToString("N2") + " €";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Laden der Bestellungen: " + ex.Message);
+            }
+        }
+
+        // Berechnet die Gesamtsumme über alle offenen Bestellnummern eines Tisches
         private double LadeSumme(List<int> bestellNummern)
         {
-            if (bestellNummern == null || bestellNummern.Count == 0) return 0;
-
-            // Erstellt den String für SQL, z.B. "10,11,12"
+            if (bestellNummern.Count == 0) return 0;
             string ids = string.Join(",", bestellNummern);
-
-            string sql = $@"
-        SELECT SUM(menge * preis_beim_kauf)
-        FROM bestellposition
-        WHERE bestellnr_fk IN ({ids})";
+            string sql = $"SELECT SUM(menge * preis_beim_kauf) FROM bestellposition WHERE bestellnr_fk IN ({ids})";
 
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(sql, conn))
@@ -41,9 +122,9 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
+        // --- BEZAHLVORGANG (TRANSAKTION) ---
         private void Button1_Click(object sender, EventArgs e)
         {
-            // Validierung: Zahlungsart gewählt?
             if (!Bargeld_zahlen_radioButton1.Checked && !Kartenzahlung_radioButton2.Checked)
             {
                 MessageBox.Show("Bitte Zahlungsart auswählen!");
@@ -52,23 +133,16 @@ namespace Pizzeria_Projekt_Schule
 
             string zahlungsart = Bargeld_zahlen_radioButton1.Checked ? "Bar" : "Karte";
 
-            // Beträge parsen (Kommata/Punkte Handling für Internationalisierung)
-            double.TryParse(gesamt_Zahlen_textBox3.Text.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double gesamt);
+            // Parsen der Beträge (Vermeidung von Komma-Fehlern)
+            double.TryParse(Summe_zahlen_textBox2.Text.Replace(" €", "").Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double gesamt);
             double.TryParse(Trinkgeld_Zahlen_TextBox1.Text.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double trinkgeld);
 
-            if (bestellNr == 0)
-            {
-                MessageBox.Show("Keine gültige Bestellung ausgewählt!");
-                return;
-            }
-
-            // --- TRANSAKTION STARTEN ---
             using (var conn = Database.GetConnection())
             using (var trans = conn.BeginTransaction())
             {
                 try
                 {
-                    // 1. Rechnung in DB anlegen
+                    // 1. Rechnung erstellen
                     string sqlRechnung = "INSERT INTO rechnungen (bestellnr_fk, gesamtpreis, datum, zahlungsart, trinkgeld) VALUES (@bestell, @gesamt, NOW(), @art, @tg)";
                     using (var cmd = new MySqlCommand(sqlRechnung, conn, trans))
                     {
@@ -79,155 +153,39 @@ namespace Pizzeria_Projekt_Schule
                         cmd.ExecuteNonQuery();
                     }
 
-                    // 2. Bestellungs-Status auf 'bezahlt' setzen
-                    string updateStatus = "UPDATE bestellungen SET status = 'bezahlt' WHERE bestellnr = @bnr";
+                    // 2. Alle Bestellungen dieses Tisches auf 'bezahlt' setzen
+                    int tischId = Convert.ToInt32(Tisch_zahlenseite_comboBox1.SelectedValue);
+                    List<int> alleNummern = HoleAlleOffenenBestellnummern(tischId);
+                    string idsFilter = string.Join(",", alleNummern);
+
+                    string updateStatus = $"UPDATE bestellungen SET status = 'bezahlt' WHERE bestellnr IN ({idsFilter})";
                     using (var statusCmd = new MySqlCommand(updateStatus, conn, trans))
                     {
-                        statusCmd.Parameters.AddWithValue("@bnr", bestellNr);
                         statusCmd.ExecuteNonQuery();
                     }
 
-                    // 3. Tisch-Reservierung beenden (Tisch wird wieder frei für LadeTische())
+                    // 3. Reservierung beenden, damit der Tisch wieder im System frei wird
                     string updateReservierung = @"UPDATE reservierungen SET zustand = 'beendet' 
-                                          WHERE tisch_id_fk = (SELECT tisch_id_fk FROM bestellungen WHERE bestellnr = @bnr)
-                                          AND (zustand = 'aktiv' OR zustand = 'offen')";
+                                                  WHERE tisch_id_fk = @tid AND (zustand = 'aktiv' OR zustand = 'offen')";
                     using (var resCmd = new MySqlCommand(updateReservierung, conn, trans))
                     {
-                        resCmd.Parameters.AddWithValue("@bnr", bestellNr);
+                        resCmd.Parameters.AddWithValue("@tid", tischId);
                         resCmd.ExecuteNonQuery();
                     }
 
-                    trans.Commit(); // Alles okay? Dann speichern!
-                    MessageBox.Show("Bezahlung abgeschlossen ✅. Der Tisch ist nun wieder frei.");
-
-                    new Hauptmenu().Show();
+                    trans.Commit();
+                    MessageBox.Show("Zahlung erfolgreich! Der Tisch ist nun wieder für neue Gäste bereit.");
                     this.Close();
                 }
                 catch (Exception ex)
                 {
-                    trans.Rollback(); // Bei Fehler: Alle Änderungen zurückrollen
-                    MessageBox.Show("Fehler beim Bezahlen: " + ex.Message);
+                    trans.Rollback();
+                    MessageBox.Show("Fehler bei der Transaktion: " + ex.Message);
                 }
             }
         }
 
-        private void Zahlung_Load(object sender, EventArgs e)
-        {
-            TischeLaden();
-            BestellungenLaden();
-        }
-
-        // Lädt alle Tische, die gerade eine 'offene' Bestellung haben
-        private void TischeLaden()
-        {
-            string query = "SELECT DISTINCT tisch_id_fk AS tisch_id FROM bestellungen WHERE status = 'offen'";
-            using (var conn = Database.GetConnection())
-            using (var da = new MySqlDataAdapter(query, conn))
-            {
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                Tisch_zahlenseite_comboBox1.DisplayMember = "tisch_id";
-                Tisch_zahlenseite_comboBox1.ValueMember = "tisch_id";
-                Tisch_zahlenseite_comboBox1.DataSource = dt;
-            }
-        }
-
-        private void BestellungenLaden()
-        {
-            if (Tisch_zahlenseite_comboBox1.SelectedValue == null) return;
-
-            int tischId = Convert.ToInt32(Tisch_zahlenseite_comboBox1.SelectedValue);
-            List<int> alleNummern = HoleAlleOffenenBestellnummern(tischId);
-
-            if (alleNummern.Count == 0)
-            {
-                dataGridView1.DataSource = null;
-                Summe_zahlen_textBox2.Text = "0.00";
-                gesamt_Zahlen_textBox3.Text = "0.00";
-                return;
-            }
-
-            // Erstellt einen String wie "10, 12, 15" aus der Liste
-            string filter = string.Join(",", alleNummern);
-
-            // Ändere das WHERE in deinem SQL-Query zu:
-            string query = $@"SELECT bp.positionid, s.speisename AS Speise, bp.menge AS Menge, 
-                  bp.preis_beim_kauf AS Einzelpreis, (bp.menge * bp.preis_beim_kauf) AS Gesamt
-                  FROM bestellposition bp JOIN speisen s ON bp.speise_id_fk = s.speise_id
-                  WHERE bp.bestellnr_fk IN ({filter});";
-
-           
-
-            using (var conn = Database.GetConnection())
-            using (var cmd = new MySqlCommand(query, conn))
-            {
-                cmd.Parameters.AddWithValue("@bnr", bestellNr);
-                DataTable table = new DataTable();
-                new MySqlDataAdapter(cmd).Fill(table);
-                dataGridView1.DataSource = table;
-
-                if (dataGridView1.Columns.Contains("positionid"))
-                    dataGridView1.Columns["positionid"].Visible = false;
-
-                dataGridView1.Columns["Einzelpreis"].DefaultCellStyle.Format = "C2";
-                dataGridView1.Columns["Gesamt"].DefaultCellStyle.Format = "C2";
-            }
-
-            // Wir übergeben die Liste 'alleNummern', die wir oben in der Methode erstellt haben
-            double summe = LadeSumme(alleNummern);
-            Summe_zahlen_textBox2.Text = summe.ToString("N2");
-            gesamt_Zahlen_textBox3.Text = summe.ToString("N2");
-        }
-
-        private List<int> HoleAlleOffenenBestellnummern(int tischId)
-        {
-            List<int> nummern = new List<int>();
-            // LIMIT 1 gelöscht, damit ALLE offenen Bestellungen des Tisches gefunden werden
-            string query = "SELECT bestellnr FROM bestellungen WHERE tisch_id_fk = @tisch AND status = 'offen';";
-
-            using (var conn = Database.GetConnection())
-            using (var cmd = new MySqlCommand(query, conn))
-            {
-                cmd.Parameters.AddWithValue("@tisch", tischId);
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        nummern.Add(reader.GetInt32("bestellnr"));
-                    }
-                }
-            }
-            return nummern;
-        }
-
-
-        // Automatisches Berechnen des Gesamtbetrags bei Trinkgeld-Eingabe
-        private void Trinkgeld_Zahlen_TextBox1_TextChanged(object sender, EventArgs e)
-        {
-            // 1. Summe aus TextBox2 sicher einlesen (Inhalt von 'Summe:')
-            // Wir nutzen 'CultureInfo.InvariantCulture', damit Punkte immer als Dezimaltrenner erkannt werden
-            double.TryParse(
-                Summe_zahlen_textBox2.Text.Replace(",", "."),
-                System.Globalization.NumberStyles.Any,
-                System.Globalization.CultureInfo.InvariantCulture,
-                out double summe);
-
-            // 2. Trinkgeld aus TextBox1 sicher einlesen (Inhalt von 'Trinkgeld:')
-            double.TryParse(
-                Trinkgeld_Zahlen_TextBox1.Text.Replace(",", "."),
-                System.Globalization.NumberStyles.Any,
-                System.Globalization.CultureInfo.InvariantCulture,
-                out double tg);
-
-            // 3. Mathematische Addition der beiden Zahlen
-            double gesamt = summe + tg;
-
-            // 4. Ergebnis in TextBox3 schreiben (Inhalt von 'Gesamt:')
-            // "N2" formatiert die Zahl auf 2 Nachkommastellen (z.B. 54.00)
-            gesamt_Zahlen_textBox3.Text = gesamt.ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
-        }
-
-        // Stornierungs-Logik: Ermöglicht das Abziehen einzelner Posten vor der Zahlung
+        // --- STORNO-LOGIK ---
         private void Stornierungbutton_rechnungseite(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
@@ -235,7 +193,7 @@ namespace Pizzeria_Projekt_Schule
             int posId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["positionid"].Value);
             int menge = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Menge"].Value);
 
-            DialogResult result = MessageBox.Show("Nur 1 Stück stornieren?", "Storno", MessageBoxButtons.YesNoCancel);
+            DialogResult result = MessageBox.Show("Soll 1 Stück storniert werden? (Nein löscht die ganze Position)", "Storno", MessageBoxButtons.YesNoCancel);
             if (result == DialogResult.Cancel) return;
 
             using (var conn = Database.GetConnection())
@@ -253,33 +211,44 @@ namespace Pizzeria_Projekt_Schule
             BestellungenLaden();
         }
 
+        private List<int> HoleAlleOffenenBestellnummern(int tischId)
+        {
+            List<int> nummern = new List<int>();
+            string query = "SELECT bestellnr FROM bestellungen WHERE tisch_id_fk = @tisch AND status = 'offen'";
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@tisch", tischId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read()) { nummern.Add(reader.GetInt32("bestellnr")); }
+                }
+            }
+            return nummern;
+        }
+
+        // Verhindert falsche Eingaben im Trinkgeld-Feld
+        private void Trinkgeld_Zahlen_TextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',')) e.Handled = true;
+            if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') > -1)) e.Handled = true;
+            if (e.KeyChar == '.') { e.KeyChar = ','; e.Handled = false; }
+        }
+
         private void Tisch_zahlenseite_comboBox1_SelectedIndexChanged(object sender, EventArgs e) { BestellungenLaden(); }
-        private void Button2_Click(object sender, EventArgs e) { new Hauptmenu().Show(); this.Close(); }
-        private void TextBox1_KeyPress(object sender, KeyPressEventArgs e) { if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',' && e.KeyChar != '.') e.Handled = true; }
 
-        private void Zahlenseite_dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void Button2_Click(object sender, EventArgs e) { this.Close(); }
+
+        // Optische Gestaltung der Tabelle
+        private void ZahlungsGridDesign()
         {
-
-        }
-
-        private void Summe_zahlen_textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Gesamt_Zahlen_textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Bargeld_zahlen_radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Kartenzahlung_radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-
+            dataGridView1.EnableHeadersVisualStyles = false;
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45, 45, 45);
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            if (dataGridView1.Columns.Contains("positionid")) dataGridView1.Columns["positionid"].Visible = false;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.ClearSelection();
         }
     }
 }

@@ -98,10 +98,10 @@
             this.label5.TabIndex = 6;
             this.label5.Text = "Zutaten";
             // 
-            // textBox2
+            // Name_textBox2
             // 
             this.Name_textBox2.Location = new System.Drawing.Point(162, 66);
-            this.Name_textBox2.Name = "textBox2";
+            this.Name_textBox2.Name = "Name_textBox2";
             this.Name_textBox2.Size = new System.Drawing.Size(147, 20);
             this.Name_textBox2.TabIndex = 8;
             this.Name_textBox2.TextChanged += new System.EventHandler(this.Name_textBox2_TextChanged);
@@ -122,19 +122,19 @@
             this.Speissen_typ_comboBox1.TabIndex = 9;
             this.Speissen_typ_comboBox1.SelectedIndexChanged += new System.EventHandler(this.Speissen_typ_comboBox1_SelectedIndexChanged);
             // 
-            // textBox3
+            // Preis_textBox3
             // 
             this.Preis_textBox3.Location = new System.Drawing.Point(162, 137);
-            this.Preis_textBox3.Name = "textBox3";
+            this.Preis_textBox3.Name = "Preis_textBox3";
             this.Preis_textBox3.Size = new System.Drawing.Size(147, 20);
             this.Preis_textBox3.TabIndex = 10;
             this.Preis_textBox3.TextChanged += new System.EventHandler(this.Preis_textBox3_TextChanged);
             this.Preis_textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox3_KeyPress);
             // 
-            // textBox4
+            // zutaten_textBox4
             // 
             this.zutaten_textBox4.Location = new System.Drawing.Point(162, 173);
-            this.zutaten_textBox4.Name = "textBox4";
+            this.zutaten_textBox4.Name = "zutaten_textBox4";
             this.zutaten_textBox4.Size = new System.Drawing.Size(147, 20);
             this.zutaten_textBox4.TabIndex = 11;
             this.zutaten_textBox4.TextChanged += new System.EventHandler(this.Zutaten_textBox4_TextChanged);
@@ -176,7 +176,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(110, 45);
             this.button2.TabIndex = 14;
-            this.button2.Text = "Abbrechen";
+            this.button2.Text = "Zurück";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.Abbrechen_button2_Click);
             // 

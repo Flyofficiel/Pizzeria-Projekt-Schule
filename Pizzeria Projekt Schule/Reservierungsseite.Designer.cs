@@ -108,7 +108,6 @@
             this.Telefon_textBox2.Name = "Telefon_textBox2";
             this.Telefon_textBox2.Size = new System.Drawing.Size(200, 20);
             this.Telefon_textBox2.TabIndex = 5;
-            this.Telefon_textBox2.TextChanged += new System.EventHandler(this.Telefon_textBox2_TextChanged);
             this.Telefon_textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox2_KeyPress);
             // 
             // Name_textBox1
@@ -248,9 +247,9 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(9, 236);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 15);
+            this.label6.Size = new System.Drawing.Size(84, 15);
             this.label6.TabIndex = 6;
-            this.label6.Text = "Name:";
+            this.label6.Text = "Nachname :";
             // 
             // label7
             // 
@@ -286,7 +285,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(206, 61);
             this.button2.TabIndex = 9;
-            this.button2.Text = "Abbrechen";
+            this.button2.Text = "Zurück";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.Abbrechen_button2_Click);
             // 
