@@ -95,12 +95,13 @@
             // 
             // tischauswahl
             // 
+            this.tischauswahl.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.tischauswahl.FormattingEnabled = true;
             this.tischauswahl.Location = new System.Drawing.Point(61, 151);
             this.tischauswahl.Name = "tischauswahl";
             this.tischauswahl.Size = new System.Drawing.Size(172, 21);
             this.tischauswahl.TabIndex = 4;
-          
+            this.tischauswahl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tischauswahl_DrawItem_1);
             // 
             // tischauswahl_comboBox2
             // 
@@ -109,7 +110,6 @@
             this.tischauswahl_comboBox2.Name = "tischauswahl_comboBox2";
             this.tischauswahl_comboBox2.Size = new System.Drawing.Size(140, 21);
             this.tischauswahl_comboBox2.TabIndex = 5;
-            this.tischauswahl_comboBox2.SelectedIndexChanged += new System.EventHandler(this.Mitarbeiter_combobox2_SelectedIndexChanged);
             // 
             // dataGridView1
             // 
@@ -143,7 +143,6 @@
             this.Bestellkorb_listBox1.Name = "Bestellkorb_listBox1";
             this.Bestellkorb_listBox1.Size = new System.Drawing.Size(336, 214);
             this.Bestellkorb_listBox1.TabIndex = 8;
-            this.Bestellkorb_listBox1.SelectedIndexChanged += new System.EventHandler(this.Bestellkorb_listBox1_SelectedIndexChanged);
             // 
             // button5
             // 
@@ -179,7 +178,6 @@
             this.summe_TextBox1.Name = "summe_TextBox1";
             this.summe_TextBox1.Size = new System.Drawing.Size(100, 21);
             this.summe_TextBox1.TabIndex = 4;
-            this.summe_TextBox1.TextChanged += new System.EventHandler(this.Summe_TextBox1_TextChanged);
             // 
             // label3
             // 
@@ -235,7 +233,7 @@
             this.slot_comboBox1_.Name = "slot_comboBox1_";
             this.slot_comboBox1_.Size = new System.Drawing.Size(67, 21);
             this.slot_comboBox1_.TabIndex = 9;
-            this.slot_comboBox1_.SelectedIndexChanged += new System.EventHandler(this.Slot_comboBox1_SelectedIndexChanged_1);
+            this.slot_comboBox1_.SelectedIndexChanged += new System.EventHandler(this.slot_comboBox1__SelectedIndexChanged);
             // 
             // label6
             // 
@@ -255,7 +253,7 @@
             this.Uhrzeitlabel.Size = new System.Drawing.Size(52, 13);
             this.Uhrzeitlabel.TabIndex = 11;
             this.Uhrzeitlabel.Text = "Labeltime";
-           
+            // 
             // dateTimePicker1
             // 
             this.dateTimePicker1.Enabled = false;

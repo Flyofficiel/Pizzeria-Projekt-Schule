@@ -354,33 +354,38 @@ namespace Pizzeria_Projekt_Schule
         // Aktualisiert die Tischliste basierend auf dem Bereich des Mitarbeiters
         private void AktualisiereTische()
         {
-            // Sicherheitscheck: Ist ein Mitarbeiter gewählt?
-            if (tischauswahl_comboBox2.SelectedValue == null || tischauswahl_comboBox2.SelectedValue is DataRowView) return;
+            // 1. Prüfen, ob überhaupt ein Mitarbeiter ausgewählt ist
+            if (tischauswahl_comboBox2.SelectedValue == null) return;
+
+            // 2. Verhindern, dass beim ersten Laden (DataRowView-Fehler) abgestürzt wird
+            if (tischauswahl_comboBox2.SelectedValue is System.Data.DataRowView) return;
 
             try
             {
                 int personalNr = Convert.ToInt32(tischauswahl_comboBox2.SelectedValue);
 
-                // Wir holen den Bereich (z.B. 'Tische 11-20') des gewählten Mitarbeiters
                 string query = "SELECT bereich FROM mitarbeiter WHERE personalnr = @pnr";
 
                 using (var conn = Database.GetConnection())
-                using (var cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@pnr", personalNr);
-                    object result = cmd.ExecuteScalar();
+                    if (conn == null) return; // Falls DB-Verbindung fehlgeschlagen
 
-                    if (result != null && result != DBNull.Value)
+                    using (var cmd = new MySqlCommand(query, conn))
                     {
-                        // Hier wird LadeTische mit dem String "Tische 11-20" etc. aufgerufen
-                        LadeTische(result.ToString());
+                        cmd.Parameters.AddWithValue("@pnr", personalNr);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            LadeTische(result.ToString());
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Hilft beim Debuggen, falls der Cast fehlschlägt
-                Console.WriteLine("Fehler beim Aktualisieren der Tische: " + ex.Message);
+                // Zeigt dir genau an, falls doch was schiefgeht
+                Console.WriteLine("Fehler: " + ex.Message);
             }
         }
 
@@ -400,17 +405,33 @@ namespace Pizzeria_Projekt_Schule
         private void Tischauswahl_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0) return;
+
             TischItem tisch = (TischItem)tischauswahl.Items[e.Index];
+
+            // Hintergrund zeichnen
             e.DrawBackground();
 
-            Color farbe = Color.Green;
-            if (tisch.Status == "Besetzt") farbe = Color.Red;
-            else if (tisch.Status == "Reserviert") farbe = Color.Orange;
+            // Farbe festlegen
+            Color textFarbe = Color.Green;
+            if (string.Equals(tisch.Status, "Besetzt", StringComparison.OrdinalIgnoreCase))
+                textFarbe = Color.Red;
+            else if (string.Equals(tisch.Status, "Reserviert", StringComparison.OrdinalIgnoreCase))
+                textFarbe = Color.Orange;
 
-            using (Brush brush = new SolidBrush(farbe))
+            // Falls ausgewählt, hellgrauer Hintergrund wie beim Rest
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
             {
-                e.Graphics.DrawString(tisch.ToString(), e.Font, brush, e.Bounds.Left, e.Bounds.Top);
+                e.Graphics.FillRectangle(Brushes.LightGray, e.Bounds);
             }
+
+            // TEXT ZEICHNEN mit der STANDARD-SCHRIFT (e.Font)
+            using (Brush brush = new SolidBrush(textFarbe))
+            {
+                // Hier nutzen wir e.Font – das ist die Schrift, die im Designer eingestellt ist
+                // Kein "Bold" mehr, damit es exakt wie die anderen Boxen aussieht
+                e.Graphics.DrawString(tisch.ToString(), e.Font, brush, e.Bounds.X + 2, e.Bounds.Y + 2);
+            }
+
             e.DrawFocusRectangle();
         }
 
@@ -462,9 +483,56 @@ namespace Pizzeria_Projekt_Schule
         }
 
         // Unbenutzte Event-Methoden (müssen bleiben, damit der Designer nicht meckert)
-        private void Summe_TextBox1_TextChanged(object sender, EventArgs e) { }
-        private void Mitarbeiter_combobox2_SelectedIndexChanged(object sender, EventArgs e) { }
-        private void Bestellkorb_listBox1_SelectedIndexChanged(object sender, EventArgs e) { }
-        private void Slot_comboBox1_SelectedIndexChanged_1(object sender, EventArgs e) { }
+        
+
+        private void tischauswahl_DrawItem_1(object sender, DrawItemEventArgs e)
+        {
+            // 1. Sicherheits-Check: Ist überhaupt ein Item vorhanden?
+            if (e.Index < 0) return;
+
+            // 2. Das Tisch-Objekt holen
+            TischItem tisch = (TischItem)tischauswahl.Items[e.Index];
+
+            // 3. Hintergrund zeichnen (verhindert Grafikfehler beim Scrollen)
+            e.DrawBackground();
+
+            // 4. Farbauswahl basierend auf dem Status
+            // Wir nutzen StringComparison.OrdinalIgnoreCase, falls in der DB mal 'besetzt' statt 'Besetzt' steht
+            Color textFarbe = Color.Green; // Standard: Frei
+
+            if (string.Equals(tisch.Status, "Besetzt", StringComparison.OrdinalIgnoreCase))
+            {
+                textFarbe = Color.Red;
+            }
+            else if (string.Equals(tisch.Status, "Reserviert", StringComparison.OrdinalIgnoreCase))
+            {
+                textFarbe = Color.Orange;
+            }
+
+            // 5. Spezial-Effekt: Wenn die Zeile gerade mit der Maus markiert ist
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(230, 230, 230)), e.Bounds);
+            }
+
+            // 6. Text zeichnen
+            using (Brush brush = new SolidBrush(textFarbe))
+            {
+                // Wir nehmen eine schöne fette Schrift
+                Font schrift = new Font("Segoe UI", 10, FontStyle.Bold);
+
+                // Zeichnet den Text: "Tisch 1 (Besetzt)"
+                e.Graphics.DrawString(tisch.ToString(), schrift, brush, e.Bounds.X + 3, e.Bounds.Y + 2);
+            }
+
+            // 7. Fokus-Rechteck zeichnen
+            e.DrawFocusRectangle();
+        }
+
+        private void slot_comboBox1__SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Sobald der Slot geändert wird, müssen die Tische neu geprüft werden
+            AktualisiereTische();
+        }
     }
-}
+    }

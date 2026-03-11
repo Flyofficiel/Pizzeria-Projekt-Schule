@@ -12,7 +12,12 @@ namespace Pizzeria_Projekt_Schule
         public int TischId { get; set; }
         public string Status { get; set; }
         public string Bereich { get; set; }
-        public override string ToString() => $"Tisch {TischId} ({Status})";
+
+        public override string ToString()
+        {
+            // Das wird in der Liste angezeigt
+            return $"Tisch {TischId} ({Status})";
+        }
     }
 
     // Hilfsklasse für die Artikel im Warenkorb
