@@ -151,9 +151,14 @@ namespace Pizzeria_Projekt_Schule
                 return;
             }
 
+            // Wir holen den Index der markierten Zeile (die man jetzt nicht mehr blau sieht)
             int rowIndex = dataGridView1.SelectedRows[0].Index;
-            WarenkorbAdd(rowIndex); // Logik zum Hinzufügen/Erhöhen
+
+            // Artikel hinzufügen
+            WarenkorbAdd(rowIndex);
             WarenkorbAktualisieren();
+
+           
         }
 
         // Lädt alle Mitarbeiter, die im 'Service' arbeiten, für die Zuweisung
@@ -179,18 +184,26 @@ namespace Pizzeria_Projekt_Schule
         // --- ARTIKEL ENTFERNEN ---
         private void Loeschen_Button2_Click(object sender, EventArgs e)
         {
+            // Wir prüfen leise, ob etwas ausgewählt ist
             if (Bestellkorb_listBox1.SelectedItem is WarenkorbItem item)
             {
-                item.Menge--; // Menge um 1 reduzieren
+                item.Menge--; // Menge reduzieren
+
                 if (item.Menge <= 0)
-                    warenkorb.Remove(item); // Ganz löschen, wenn 0 erreicht
+                {
+                    warenkorb.Remove(item);
+                }
 
                 WarenkorbAktualisieren();
+
+                // Optional: Wenn die Liste noch Items hat, wähle das nächste aus, 
+                // damit man "Dauer-Klicken" kann zum Löschen.
+                if (Bestellkorb_listBox1.Items.Count > 0)
+                {
+                    Bestellkorb_listBox1.SelectedIndex = Math.Max(0, Bestellkorb_listBox1.Items.Count - 1);
+                }
             }
-            else
-            {
-                MessageBox.Show("Bitte wähle den Artikel im Warenkorb aus, den du entfernen willst.");
-            }
+            // Keine else-MessageBox mehr -> Wenn nichts gewählt ist, passiert einfach nichts.
         }
 
         // --- BESTELLUNG ABSCHLIESSEN (TRANSAKTION) ---
@@ -480,10 +493,18 @@ namespace Pizzeria_Projekt_Schule
 
             if (dataGridView1.Columns.Contains("speisename")) dataGridView1.Columns["speisename"].HeaderText = "Gericht";
             if (dataGridView1.Columns.Contains("preis")) dataGridView1.Columns["preis"].HeaderText = "Preis (€)";
+            // Die Hintergrundfarbe der gewählten Zeile soll exakt wie die normale Zeile sein
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.White;
+
+            // Die Schriftfarbe der gewählten Zeile soll schwarz bleiben (statt weiß)
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+           
+             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(245, 245, 245);
         }
 
         // Unbenutzte Event-Methoden (müssen bleiben, damit der Designer nicht meckert)
-        
+
 
         private void tischauswahl_DrawItem_1(object sender, DrawItemEventArgs e)
         {

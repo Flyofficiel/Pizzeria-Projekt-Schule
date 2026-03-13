@@ -99,7 +99,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(507, 342);
             this.dataGridView1.TabIndex = 3;
-           
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.DataGridView1_SelectionChanged);
             // 
             // label5
@@ -138,7 +137,7 @@
             this.Miarbeiterverwaltung_name_textBox2.Name = "Miarbeiterverwaltung_name_textBox2";
             this.Miarbeiterverwaltung_name_textBox2.Size = new System.Drawing.Size(121, 20);
             this.Miarbeiterverwaltung_name_textBox2.TabIndex = 9;
-           
+            this.Miarbeiterverwaltung_name_textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Miarbeiterverwaltung_name_textBox2_KeyPress);
             // 
             // Miarbeiterverwaltung_passwort_textBox3
             // 
@@ -237,7 +236,7 @@
             this.Miarbeiterverwaltung_nachname_textBox4.Name = "Miarbeiterverwaltung_nachname_textBox4";
             this.Miarbeiterverwaltung_nachname_textBox4.Size = new System.Drawing.Size(121, 20);
             this.Miarbeiterverwaltung_nachname_textBox4.TabIndex = 18;
-           
+            this.Miarbeiterverwaltung_nachname_textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Miarbeiterverwaltung_nachname_textBox4_KeyPress);
             // 
             // label8
             // 

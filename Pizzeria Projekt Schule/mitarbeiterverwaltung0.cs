@@ -12,6 +12,10 @@ namespace Pizzeria_Projekt_Schule
         public Mitarbeiterverwaltung0()
         {
             InitializeComponent();
+
+            // Und vergiss nicht das hier, damit man keine Zahlen REINKOPIEREN kann:
+            Miarbeiterverwaltung_nachname_textBox4.ShortcutsEnabled = false;
+            Miarbeiterverwaltung_name_textBox2.ShortcutsEnabled = false;
         }
 
         private void Mitarbeiterverwaltungrichtig_Load(object sender, EventArgs e)
@@ -268,14 +272,51 @@ namespace Pizzeria_Projekt_Schule
 
         private void MitarbeiterGridDesign()
         {
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(235, 235, 235);
+            // 1. Grundlegende Optik
+            dataGridView1.ReadOnly = true;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.RowHeadersVisible = false; // Entfernt den leeren Balken ganz links
+            dataGridView1.AllowUserToAddRows = false;
 
-            if (dataGridView1.Columns.Contains("personalnr")) dataGridView1.Columns["personalnr"].HeaderText = "ID";
-            if (dataGridView1.Columns.Contains("nachname")) dataGridView1.Columns["nachname"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            if (dataGridView1.Columns.Contains("passwort")) dataGridView1.Columns["passwort"].Visible = false;
+            // 2. Schriftarten und Farben (Zebra-Muster)
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
+            dataGridView1.RowTemplate.Height = 35;
+
+            // 3. Spalten-Automatik (Anpassung an Textinhalt)
+            // Erstmal alle Spalten so breit wie ihr Inhalt machen
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // 4. Header-Texte verschönern
+            if (dataGridView1.Columns.Contains("personalnr"))
+                dataGridView1.Columns["personalnr"].HeaderText = "Personal-Nr.";
+
+            if (dataGridView1.Columns.Contains("vorname"))
+                dataGridView1.Columns["vorname"].HeaderText = "Vorname";
+
+            if (dataGridView1.Columns.Contains("nachname"))
+            {
+                dataGridView1.Columns["nachname"].HeaderText = "Nachname";
+                // Der Nachname darf den restlichen Platz ausfüllen
+                dataGridView1.Columns["nachname"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            if (dataGridView1.Columns.Contains("rolle"))
+                dataGridView1.Columns["rolle"].HeaderText = "Position / Rolle";
+
+            if (dataGridView1.Columns.Contains("bereich"))
+                dataGridView1.Columns["bereich"].HeaderText = "Zuständig für";
+
+            if (dataGridView1.Columns.Contains("Aktive_Tische"))
+                dataGridView1.Columns["Aktive_Tische"].HeaderText = "Tische";
+
+            if (dataGridView1.Columns.Contains("Offene_Bestellungen"))
+                dataGridView1.Columns["Offene_Bestellungen"].HeaderText = "Offene Best.";
+
+            // 5. Sicherheit: Passwort niemals in der Tabelle anzeigen
+            if (dataGridView1.Columns.Contains("passwort"))
+                dataGridView1.Columns["passwort"].Visible = false;
         }
 
         private void loeschenbutton_Click(object sender, EventArgs e)
@@ -287,6 +328,38 @@ namespace Pizzeria_Projekt_Schule
             if (MessageBox.Show($"Soll {v} {n} deaktiviert werden?", "Bestätigung", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 MitarbeiterLoeschen();
+            }
+        }
+
+        private void Miarbeiterverwaltung_name_textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Wir erlauben:
+            // 1. Buchstaben (IsLetter)
+            // 2. Das Leerzeichen (' ')
+            // 3. Die Löschtaste (IsControl)
+            if (!char.IsLetter(e.KeyChar) && e.KeyChar != ' ' && !char.IsControl(e.KeyChar))
+            {
+                // Wenn es keines davon ist (also z.B. eine Zahl), blockieren:
+                e.Handled = true;
+
+                // Optional: Ein kurzes "Ding" zur Warnung
+                System.Media.SystemSounds.Beep.Play();
+            }
+        }
+
+        private void Miarbeiterverwaltung_nachname_textBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Wir erlauben:
+            // 1. Buchstaben (IsLetter)
+            // 2. Das Leerzeichen (' ')
+            // 3. Die Löschtaste (IsControl)
+            if (!char.IsLetter(e.KeyChar) && e.KeyChar != ' ' && !char.IsControl(e.KeyChar))
+            {
+                // Wenn es keines davon ist (also z.B. eine Zahl), blockieren:
+                e.Handled = true;
+
+                // Optional: Ein kurzes "Ding" zur Warnung
+                System.Media.SystemSounds.Beep.Play();
             }
         }
     }

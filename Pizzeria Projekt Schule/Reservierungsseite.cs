@@ -18,9 +18,13 @@ namespace Pizzeria_Projekt_Schule
         {
             InitializeComponent();
             StammgastLaden(); // Lädt die Liste der bereits bekannten Gäste
+                              // Verhindert Strg+V, Strg+C und das Standard-Rechtsklick-Menü
+            Name_textBox1.ShortcutsEnabled = false;
+            Telefon_textBox2.ShortcutsEnabled = false;
             
-           
         }
+           
+        
 
         private void Abbrechen_button2_Click(object sender, EventArgs e)
         {
@@ -29,7 +33,7 @@ namespace Pizzeria_Projekt_Schule
             this.Close();
         }
 
-        // --- TISCHE FILTERN ---
+        //  TISCHE FILTERN 
         // Lädt alle Tische, die für die Personenanzahl groß genug und im Slot frei sind
         void LadeTische(int personen)
         {
@@ -108,7 +112,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        // --- RESERVIERUNG SPEICHERN ---
+        // RESERVIERUNG SPEICHERN 
         private void Reservierungspeichern_Button(object sender, EventArgs e)
         {
             try
@@ -261,7 +265,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        // --- FARBIGE ANZEIGE DER TISCHE ---
+        //  FARBIGE ANZEIGE DER TISCHE 
         private void Tischauswahl_comboBox2_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0) return;
@@ -288,7 +292,7 @@ namespace Pizzeria_Projekt_Schule
             e.DrawFocusRectangle();
         }
 
-        // --- STAMMGAST-FUNKTION ---
+        // --- STAMMGAST-FUNKTION 
         private void StammgastLaden()
         {
             using (MySqlConnection conn = Database.GetConnection())
@@ -320,8 +324,6 @@ namespace Pizzeria_Projekt_Schule
         {
 
         }
-
-       
 
        
     }

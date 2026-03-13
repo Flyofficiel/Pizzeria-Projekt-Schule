@@ -183,31 +183,45 @@ namespace Pizzeria_Projekt_Schule
         // Hier wird eingestellt, wie das Gitter (DataGridView) optisch aussieht
         private void DataGridDesign()
         {
-            Speissen_menu_dataGridView1.ReadOnly = true; // Keiner darf direkt in die Zellen schreiben
+            // 1. Basis-Einstellungen
+            Speissen_menu_dataGridView1.ReadOnly = true;
+            Speissen_menu_dataGridView1.AllowUserToAddRows = false; // Verhindert die leere Sternchen-Zeile unten
+            Speissen_menu_dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Wählt immer die ganze Zeile aus
 
-            // Schriftart für die Köpfe der Tabelle
-            Speissen_menu_dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 14, FontStyle.Bold);
+            // 2. Schriftarten und Header
+            Speissen_menu_dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Bold);
             Speissen_menu_dataGridView1.ColumnHeadersHeight = 45;
+            Speissen_menu_dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            Speissen_menu_dataGridView1.RowTemplate.Height = 40; // Etwas mehr Platz für Zeilenumbrüche
 
-            // Schriftart für die Zeilen
-            Speissen_menu_dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Regular);
-            Speissen_menu_dataGridView1.RowTemplate.Height = 35;
+            // 3. Spalten-Automatik (Der Kern deiner Frage)
+            // Wir setzen zuerst alle auf "Alles anzeigen"
+            Speissen_menu_dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
-            // Spaltenbreite automatisch so einstellen, dass alles draufpasst
-            Speissen_menu_dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
-            // Die Zutaten-Spalte darf den restlichen Platz verbrauchen (sie ist meist am längsten)
+            // 4. Spezialbehandlung für die Zutaten (Sinnvoll für lange Texte)
             if (Speissen_menu_dataGridView1.Columns.Contains("zutaten"))
             {
+                // "Fill" füllt das Fenster aus, damit kein grauer Rand rechts entsteht
                 Speissen_menu_dataGridView1.Columns["zutaten"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                // Erlaubt Zeilenumbrüche, falls die Zutatenliste sehr lang ist
+                Speissen_menu_dataGridView1.Columns["zutaten"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             }
 
-            // Die Spaltennamen im Fenster schöner benennen als in der Datenbank
+            // 5. Schöne Header-Texte
             if (Speissen_menu_dataGridView1.Columns.Contains("speisename"))
                 Speissen_menu_dataGridView1.Columns["speisename"].HeaderText = "Name der Speise";
 
             if (Speissen_menu_dataGridView1.Columns.Contains("preis"))
                 Speissen_menu_dataGridView1.Columns["preis"].HeaderText = "Preis (€)";
+
+            if (Speissen_menu_dataGridView1.Columns.Contains("speisentyp"))
+                Speissen_menu_dataGridView1.Columns["speisentyp"].HeaderText = "Kategorie";
+
+            // 6. ID ausblenden (sieht für den Nutzer professioneller aus, 
+            // bleibt aber im Hintergrund für den Code verfügbar)
+            if (Speissen_menu_dataGridView1.Columns.Contains("speise_id"))
+                Speissen_menu_dataGridView1.Columns["speise_id"].Visible = false;
         }
 
         // Platzhalter für Klick-Events, falls du sie später brauchst
