@@ -28,7 +28,7 @@ namespace Pizzeria_Projekt_Schule
         private void Label2_Click(object sender, EventArgs e) { }
         private void Label1_Click(object sender, EventArgs e) { }
 
-        // --- HIER KOMMT DIE NAVIGATION ZU DEN ANDEREN SEITEN ---
+        //  HIER KOMMT DIE NAVIGATION ZU DEN ANDEREN SEITEN 
 
         // Knopf für die Speisekarte: Öffnet die Verwaltung für Pizzen und Preise
         private void Speisemenü_Haupt_button1_Click(object sender, EventArgs e)
@@ -96,7 +96,7 @@ namespace Pizzeria_Projekt_Schule
 
         private void Reservierung_huaptmenu_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
-        // --- DATENBANK-LOGIK: Reservierungen für heute anzeigen ---
+        //  DATENBANK-LOGIK: Reservierungen für heute anzeigen 
 
         private void LadeReservierungen()
         {
@@ -178,7 +178,7 @@ namespace Pizzeria_Projekt_Schule
             if (grid.Columns.Contains("Telefon")) grid.Columns["Telefon"].HeaderText = "Tel. Nummer";
         }
 
-        // --- BUTTON: STORNIEREN ---
+        //  BUTTON: STORNIEREN 
         private void Reservierung_storno_button9_Click(object sender, EventArgs e)
         {
             // Erst checken, ob überhaupt eine Zeile ausgewählt wurde
@@ -220,6 +220,6 @@ namespace Pizzeria_Projekt_Schule
             LadeReservierungen();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e) { }
+        
     }
 }

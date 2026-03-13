@@ -100,7 +100,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(260, 318);
             this.panel2.TabIndex = 1;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel2_Paint);
+          
             // 
             // Telefon_textBox2
             // 
@@ -116,7 +116,7 @@
             this.Name_textBox1.Name = "Name_textBox1";
             this.Name_textBox1.Size = new System.Drawing.Size(200, 20);
             this.Name_textBox1.TabIndex = 4;
-            this.Name_textBox1.TextChanged += new System.EventHandler(this.Name_textBox1_TextChanged);
+           
             this.Name_textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Name_textBox1_KeyPress);
             // 
             // Tischauswahl_comboBox2
@@ -167,7 +167,7 @@
             this.Tischauswahl_comboBox2.Name = "Tischauswahl_comboBox2";
             this.Tischauswahl_comboBox2.Size = new System.Drawing.Size(200, 21);
             this.Tischauswahl_comboBox2.TabIndex = 3;
-            this.Tischauswahl_comboBox2.SelectedIndexChanged += new System.EventHandler(this.Tischauswahl_comboBox2_SelectedIndexChanged);
+          
             // 
             // nureservierung_personenzahl_numericUpDown1
             // 
@@ -315,7 +315,7 @@
             this.tabPage1.Size = new System.Drawing.Size(557, 367);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Reservierung";
-            this.tabPage1.Click += new System.EventHandler(this.TabPage1_Click);
+           
             // 
             // tabPage2
             // 
@@ -327,7 +327,7 @@
             this.tabPage2.Size = new System.Drawing.Size(557, 367);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Stammgäste";
-            this.tabPage2.Click += new System.EventHandler(this.TabPage2_Click);
+          
             // 
             // guestuebernehmen
             // 

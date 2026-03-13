@@ -36,52 +36,75 @@ namespace Pizzeria_Projekt_Schule
         // Hier passiert die eigentliche Arbeit mit der Datenbank
         private void LadeTische()
         {
-            // Wir holen uns die offene Verbindung aus unserer Database-Klasse
             MySqlConnection conn = Database.GetConnection();
 
             try
             {
-                // In diesem SQL-Befehl verknüpfen wir die Tische mit den Mitarbeitern (LEFT JOIN)
-                // So wird direkt angezeigt, welcher Kellner für welchen Bereich (z.B. Terrasse) zuständig ist
                 string query = @"
-                    SELECT  
-                        t.tisch_id AS 'Tisch Nr.',
-                        t.max_personen AS 'Plätze',
-                        t.bereich AS 'Bereich',
-                        t.lage AS 'Lage',
-                        t.ort AS 'Ort',
-                        CONCAT(m.vorname, ' ', m.nachname) AS 'Zuständiger Service'
-                    FROM tische t
-                    LEFT JOIN mitarbeiter m 
-                        ON t.bereich = m.bereich
-                        AND m.rolle = 'service'
-                    ORDER BY t.tisch_id;";
+        SELECT 
+            t.tisch_id AS 'Nr.', 
+            t.ort AS 'Lage/Bereich', 
+            t.max_personen AS 'Plätze',
+            -- Mitarbeiter-Info (wer ist für diesen Bereich zuständig?)
+            IFNULL(CONCAT(m.vorname, ' ', m.nachname), 'Kein Personal') AS 'Kellner',
+            CASE
+                -- 1. BESETZT: Offene Bestellung im aktuellen Slot
+                WHEN EXISTS (SELECT 1 FROM bestellungen b 
+                             WHERE b.tisch_id_fk = t.tisch_id 
+                             AND b.slot = @slot 
+                             AND DATE(b.datum) = @datum 
+                             AND b.status = 'offen') THEN '🔴 BESETZT'
 
-                // Der Adapter führt den Befehl aus und holt die Daten
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
-                DataTable dt = new DataTable(); // Eine leere Tabelle im Arbeitsspeicher erstellen
-                adapter.Fill(dt); // Die Tabelle mit den Datenbank-Ergebnissen befüllen
+                -- 2. GAST DA: Reservierung ist bereits 'aktiv'
+                WHEN EXISTS (SELECT 1 FROM reservierungen r 
+                             WHERE r.tisch_id_fk = t.tisch_id 
+                             AND DATE(r.datum) = @datum 
+                             AND r.slot = @slot 
+                             AND r.zustand = 'aktiv') THEN '🟡 AKTIV'
 
-                // Die befüllte Tabelle wird jetzt einfach im DataGridView (dem Gitter) angezeigt
+                -- 3. RESERVIERT: Zukünftige Reservierung für diesen Slot
+                WHEN EXISTS (SELECT 1 FROM reservierungen r 
+                             WHERE r.tisch_id_fk = t.tisch_id 
+                             AND DATE(r.datum) = @datum 
+                             AND r.slot = @slot 
+                             AND r.zustand = 'offen') THEN '🔵 RESERVIERT'
+
+                ELSE '🟢 FREI'
+            END AS 'Status'
+        FROM tische t
+        -- Join über das Feld 'bereich' (z.B. 'Tische 1-10')
+        LEFT JOIN mitarbeiter m ON t.bereich = m.bereich AND m.aktiv = true
+        WHERE t.aktiv = true 
+        ORDER BY t.tisch_id ASC"; // Sortiert von Tisch 1 bis 40
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                // Parameter für den aktuellen Zeit-Check
+                cmd.Parameters.AddWithValue("@slot", 1); 
+                cmd.Parameters.AddWithValue("@datum", DateTime.Now.ToString("yyyy-MM-dd"));
+
+                MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
                 Tischauswahl_dataGridView1.DataSource = dt;
 
-                // Hier machen wir die Tabelle noch ein bisschen hübscher
-                Tischauswahl_dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Spalten füllen das Fenster aus
-                Tischauswahl_dataGridView1.AllowUserToAddRows = false; // Verhindert, dass man unten neue Zeilen von Hand eintippt
-                Tischauswahl_dataGridView1.ReadOnly = true; // Sperrt das Bearbeiten, da es eine reine Info-Seite ist
+                //  OPTIK-FINISH
+                Tischauswahl_dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                Tischauswahl_dataGridView1.RowHeadersVisible = false;
+                Tischauswahl_dataGridView1.AllowUserToAddRows = false;
 
-                // Wir nehmen die Standard-Markierung der ersten Zelle raus
-                Tischauswahl_dataGridView1.ClearSelection();
+                // Damit man die Zeilen besser unterscheiden kann (Zebra-Muster)
+                Tischauswahl_dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
+
             }
             catch (Exception ex)
             {
-                // Falls der Server nicht erreichbar ist oder der SQL-Befehl einen Fehler hat
-                MessageBox.Show("Fehler beim Laden der Tischübersicht: " + ex.Message);
+                MessageBox.Show("Fehler beim Laden aller Tische: " + ex.Message);
             }
         }
 
-        // Leere Event-Methoden können hier stehen bleiben, damit es im Designer keine Fehler gibt
-        private void label1_Click(object sender, EventArgs e) { }
-        private void Tischauswahl_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+       
+
     }
 }

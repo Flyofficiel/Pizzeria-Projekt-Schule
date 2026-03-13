@@ -10,7 +10,7 @@ namespace Pizzeria_Projekt_Schule
     public static class Database
     {
         // Der ConnectionString ist quasi die 'Anschrift' der Datenbank.
-        // localhost = der eigene PC, uid/pwd = Benutzerdaten, database = Name unserer DB.
+        // localhost = der eigene PC, uid/pwd = Benutzerdaten, database = Pizzeria Vesuv
         private static string connectionString = "server=localhost;uid=root;pwd=root;database=pizzaprojekt";
 
         // Diese Methode gibt uns eine offene Verbindung zurück, mit der wir SQL-Befehle schicken können.
@@ -28,7 +28,7 @@ namespace Pizzeria_Projekt_Schule
             }
             catch (Exception ex)
             {
-                // Falls die Datenbank nicht erreichbar ist (z.B. MySQL in XAMPP ist aus),
+                // Falls die Datenbank nicht erreichbar ist
                 // zeigen wir eine Fehlermeldung an, statt das Programm abstürzen zu lassen.
                 MessageBox.Show("Fehler: Verbindung zur Datenbank fehlgeschlagen!\n" + ex.Message,
                                 "Datenbank-Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -224,10 +224,9 @@ namespace Pizzeria_Projekt_Schule
                 Speissen_menu_dataGridView1.Columns["speise_id"].Visible = false;
         }
 
-        // Platzhalter für Klick-Events, falls du sie später brauchst
-        private void Label1_Click(object sender, EventArgs e) { }
-        private void Speissen_menu_dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void Label2_Click(object sender, EventArgs e) { }
-        private void panel2_Paint(object sender, PaintEventArgs e) { }
+       
+      
+     
+        
     }
 }

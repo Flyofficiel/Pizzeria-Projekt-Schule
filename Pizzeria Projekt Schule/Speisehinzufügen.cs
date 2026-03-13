@@ -159,9 +159,6 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        // Diese Methoden lassen wir leer, falls wir später noch was beim Klicken ändern wollen
-        private void Speissen_typ_comboBox1_SelectedIndexChanged(object sender, EventArgs e) { }
-        private void Preis_textBox3_TextChanged(object sender, EventArgs e) { }
-        private void Zutaten_textBox4_TextChanged(object sender, EventArgs e) { }
+
     }
 }

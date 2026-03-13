@@ -13,7 +13,7 @@ namespace Pizzeria_Projekt_Schule
         {
             InitializeComponent();
 
-            // Und vergiss nicht das hier, damit man keine Zahlen REINKOPIEREN kann:
+            
             Miarbeiterverwaltung_nachname_textBox4.ShortcutsEnabled = false;
             Miarbeiterverwaltung_name_textBox2.ShortcutsEnabled = false;
         }

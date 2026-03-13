@@ -181,7 +181,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        // --- ARTIKEL ENTFERNEN ---
+        // ARTIKEL ENTFERNEN 
         private void Loeschen_Button2_Click(object sender, EventArgs e)
         {
             // Wir prüfen leise, ob etwas ausgewählt ist
@@ -203,21 +203,34 @@ namespace Pizzeria_Projekt_Schule
                     Bestellkorb_listBox1.SelectedIndex = Math.Max(0, Bestellkorb_listBox1.Items.Count - 1);
                 }
             }
-            // Keine else-MessageBox mehr -> Wenn nichts gewählt ist, passiert einfach nichts.
+            
         }
 
-        // --- BESTELLUNG ABSCHLIESSEN (TRANSAKTION) ---
+        //  BESTELLUNG ABSCHLIESSEN (TRANSAKTION) 
         private void An_kueche_Button3_Click_aa(object sender, EventArgs e)
         {
-            // Pflichtfelder prüfen
+            // 1. Pflichtfelder prüfen
             if (warenkorb.Count == 0) { MessageBox.Show("Der Warenkorb ist noch leer!"); return; }
             if (!(tischauswahl.SelectedItem is TischItem tisch)) { MessageBox.Show("Bitte einen Tisch wählen!"); return; }
             if (tischauswahl_comboBox2.SelectedValue == null) { MessageBox.Show("Wer bedient diesen Tisch? (Mitarbeiter wählen)"); return; }
 
+            // --- NEU: Zeit-Slot Kontrolle ---
+            int stunde = DateTime.Now.Hour;
+            int slot = HoleSlot();
+            bool zeitOk = (slot == 1 && stunde >= 12 && stunde < 15) ||
+                          (slot == 2 && stunde >= 15 && stunde < 18) ||
+                          (slot == 3 && stunde >= 18 && stunde < 21) ||
+                          (slot == 4 && stunde >= 21 && stunde < 24);
+
+            if (dateTimePicker1.Value.Date == DateTime.Today && !zeitOk)
+            {
+                MessageBox.Show("Der gewählte Slot passt nicht zur aktuellen Uhrzeit!");
+                return;
+            }
+            ///der letzte bestell ID Beginnung der Transaction
+
             int zuletztBestellterTischId = tisch.TischId;
 
-            // Wir nutzen eine Transaktion: Wenn beim Speichern der 10. Pizza ein Fehler auftritt, 
-            // wird auch die Bestellung an sich nicht gespeichert (ganz oder gar nicht!).
             using (var conn = Database.GetConnection())
             using (var transaction = conn.BeginTransaction())
             {
@@ -256,7 +269,7 @@ namespace Pizzeria_Projekt_Schule
                         cmd.Parameters.AddWithValue("@tisch", tisch.TischId);
                         cmd.Parameters.AddWithValue("@mitarbeiter", tischauswahl_comboBox2.SelectedValue);
                         cmd.Parameters.AddWithValue("@slot", HoleSlot());
-                        bestellNr = Convert.ToInt32(cmd.ExecuteScalar()); // Wir brauchen die neue ID für die Positionen
+                        bestellNr = Convert.ToInt32(cmd.ExecuteScalar()); 
                     }
 
                     // 3. Alle Pizzen/Getränke aus dem Warenkorb einzeln in 'bestellposition' speichern
@@ -286,6 +299,7 @@ namespace Pizzeria_Projekt_Schule
                 {
                     transaction.Rollback(); // Bei Fehlern: Alles rückgängig machen!
                     MessageBox.Show("Fehler beim Speichern: " + ex.Message);
+                    WarenkorbAktualisieren();
                 }
             }
         }
@@ -367,22 +381,24 @@ namespace Pizzeria_Projekt_Schule
         // Aktualisiert die Tischliste basierend auf dem Bereich des Mitarbeiters
         private void AktualisiereTische()
         {
-            // 1. Prüfen, ob überhaupt ein Mitarbeiter ausgewählt ist
             if (tischauswahl_comboBox2.SelectedValue == null) return;
-
-            // 2. Verhindern, dass beim ersten Laden (DataRowView-Fehler) abgestürzt wird
             if (tischauswahl_comboBox2.SelectedValue is System.Data.DataRowView) return;
 
             try
             {
-                int personalNr = Convert.ToInt32(tischauswahl_comboBox2.SelectedValue);
+                // Welcher Tisch war gerade ausgewählt?
+                int? vorherGewaehlteId = null;
+                if (tischauswahl.SelectedItem is TischItem alterTisch)
+                {
+                    vorherGewaehlteId = alterTisch.TischId;
+                }
 
+                int personalNr = Convert.ToInt32(tischauswahl_comboBox2.SelectedValue);
                 string query = "SELECT bereich FROM mitarbeiter WHERE personalnr = @pnr";
 
                 using (var conn = Database.GetConnection())
                 {
-                    if (conn == null) return; // Falls DB-Verbindung fehlgeschlagen
-
+                    if (conn == null) return;
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@pnr", personalNr);
@@ -391,13 +407,25 @@ namespace Pizzeria_Projekt_Schule
                         if (result != null && result != DBNull.Value)
                         {
                             LadeTische(result.ToString());
+
+                            // WIEDERHERSTELLEN: Den Tisch in der neuen Liste suchen
+                            if (vorherGewaehlteId.HasValue)
+                            {
+                                foreach (TischItem item in tischauswahl.Items)
+                                {
+                                    if (item.TischId == vorherGewaehlteId.Value)
+                                    {
+                                        tischauswahl.SelectedItem = item;
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Zeigt dir genau an, falls doch was schiefgeht
                 Console.WriteLine("Fehler: " + ex.Message);
             }
         }
@@ -451,25 +479,29 @@ namespace Pizzeria_Projekt_Schule
         // Wenn ein reservierter Tisch gewählt wird, fragen wir ob die Gäste da sind
         private void Tischauswahl_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (tischauswahl.SelectedItem is TischItem tisch && tisch.Status == "Reserviert")
+            if (tischauswahl.SelectedItem is TischItem tisch)
             {
-                var result = MessageBox.Show("Sind die Gäste für die Reservierung da? Tisch jetzt öffnen?", "Check-In", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
+                // Wenn der Status "Besetzt" ist (egal ob durch offene oder bezahlte Bestellung)
+                if (string.Equals(tisch.Status, "Besetzt", StringComparison.OrdinalIgnoreCase))
                 {
-                    using (var conn = Database.GetConnection())
-                    {
-                        string update = "UPDATE reservierungen SET zustand = 'aktiv' WHERE tisch_id_fk = @tid AND DATE(datum) = @datum AND slot = @slot AND zustand = 'offen'";
-                        using (var cmd = new MySqlCommand(update, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@tid", tisch.TischId);
-                            cmd.Parameters.AddWithValue("@datum", dateTimePicker1.Value.Date);
-                            cmd.Parameters.AddWithValue("@slot", HoleSlot());
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    AktualisiereTische();
+                    MessageBox.Show("dieser Tisch ist für diesen Slot schon erledigt oder noch besetzt! " +
+                                    "Wähl einen anderen Tisch.", "Tisch gesperrt");
+
+                    tischauswahl.SelectedIndex = -1; // Auswahl wird sofort aufgehoben
+                    return;
                 }
-                else { tischauswahl.SelectedIndex = -1; }
+
+                // Check-In Logik für Reservierungen 
+                if (tisch.Status == "Reserviert")
+                {
+                    var result = MessageBox.Show("Gäste für die Reservierung da? Tisch öffnen?", "Check-In", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                    {
+                        //  UPDATE Code für die Reservierung auf 'aktiv'
+                        AktualisiereTische();
+                    }
+                    else { tischauswahl.SelectedIndex = -1; }
+                }
             }
         }
 

@@ -56,7 +56,7 @@
             this.label1.Size = new System.Drawing.Size(471, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Speissen - Einfügen - Bearbeiten - Löschen";
-            this.label1.Click += new System.EventHandler(this.Label1_Click);
+           
             // 
             // panel1
             // 
@@ -75,7 +75,7 @@
             this.Speissen_menu_dataGridView1.Name = "Speissen_menu_dataGridView1";
             this.Speissen_menu_dataGridView1.Size = new System.Drawing.Size(678, 330);
             this.Speissen_menu_dataGridView1.TabIndex = 2;
-            this.Speissen_menu_dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Speissen_menu_dataGridView1_CellContentClick);
+           
             // 
             // panel2
             // 
@@ -87,7 +87,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(678, 51);
             this.panel2.TabIndex = 3;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+  
             // 
             // label4
             // 
@@ -121,7 +121,7 @@
             this.label2.Size = new System.Drawing.Size(29, 24);
             this.label2.TabIndex = 4;
             this.label2.Text = "ID";
-            this.label2.Click += new System.EventHandler(this.Label2_Click);
+           
             // 
             // button2
             // 

@@ -130,13 +130,12 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Zuruck_button2_Click(object sender, EventArgs e)
         {
             
             this.Close();
         }
 
-        // Diese Methoden bleiben leer, damit der Designer keine Fehler wirft
-
+      
     }
 }

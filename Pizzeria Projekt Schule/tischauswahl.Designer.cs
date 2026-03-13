@@ -55,7 +55,6 @@
             this.label1.Size = new System.Drawing.Size(200, 31);
             this.label1.TabIndex = 0;
             this.label1.Text = "Tisch auswahl";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // button41
             // 
@@ -71,14 +70,14 @@
             this.button41.UseVisualStyleBackColor = false;
             this.button41.Click += new System.EventHandler(this.Zuruck_button41_Click);
             // 
-            // dataGridView1
+            // Tischauswahl_dataGridView1
             // 
             this.Tischauswahl_dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Tischauswahl_dataGridView1.Location = new System.Drawing.Point(182, 125);
-            this.Tischauswahl_dataGridView1.Name = "dataGridView1";
+            this.Tischauswahl_dataGridView1.Name = "Tischauswahl_dataGridView1";
             this.Tischauswahl_dataGridView1.Size = new System.Drawing.Size(704, 314);
             this.Tischauswahl_dataGridView1.TabIndex = 13;
-            this.Tischauswahl_dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Tischauswahl_dataGridView1_CellContentClick);
+           
             // 
             // tischauswahl
             // 

@@ -54,7 +54,7 @@
             this.button2.TabIndex = 21;
             this.button2.Text = "Zurück";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.Zuruck_button2_Click);
             // 
             // button1
             // 
@@ -177,6 +177,7 @@
             this.Controls.Add(this.Name_speisseupd_textBox2);
             this.Name = "speiupd";
             this.Text = "Updaten";
+            
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

@@ -16,7 +16,7 @@ namespace Pizzeria_Projekt_Schule
             InitializeComponent();
         }
 
-        // --- LADEN DER SEITE ---
+        //  LADEN DER SEITE 
         private void Zahlung_Load(object sender, EventArgs e)
         {
             // Textfelder auf "Nur Lesen" setzen, da sie nur Ergebnisse anzeigen
@@ -122,7 +122,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        // --- BEZAHLVORGANG (TRANSAKTION) ---
+        // BEZAHLVORGANG (TRANSAKTION) 
         private void Button1_Click(object sender, EventArgs e)
         {
             if (!Bargeld_zahlen_radioButton1.Checked && !Kartenzahlung_radioButton2.Checked)
@@ -156,12 +156,22 @@ namespace Pizzeria_Projekt_Schule
                     // 2. Alle Bestellungen dieses Tisches auf 'bezahlt' setzen
                     int tischId = Convert.ToInt32(Tisch_zahlenseite_comboBox1.SelectedValue);
                     List<int> alleNummern = HoleAlleOffenenBestellnummern(tischId);
-                    string idsFilter = string.Join(",", alleNummern);
 
-                    string updateStatus = $"UPDATE bestellungen SET status = 'bezahlt' WHERE bestellnr IN ({idsFilter})";
-                    using (var statusCmd = new MySqlCommand(updateStatus, conn, trans))
+                    // NUR ausführen, wenn auch wirklich Bestellnummern da sind!
+                    if (alleNummern.Count > 0)
                     {
-                        statusCmd.ExecuteNonQuery();
+                        string idsFilter = string.Join(",", alleNummern);
+                        string updateStatus = $"UPDATE bestellungen SET status = 'bezahlt' WHERE bestellnr IN ({idsFilter})";
+
+                        using (var statusCmd = new MySqlCommand(updateStatus, conn, trans))
+                        {
+                            statusCmd.ExecuteNonQuery();
+                        }
+                    }
+                    else
+                    {
+                        // Falls keine Bestellungen offen sind, macht Bezahlen keinen Sinn
+                        throw new Exception("Es gibt keine offenen Bestellungen für diesen Tisch!");
                     }
 
                     // 3. Reservierung beenden, damit der Tisch wieder im System frei wird
@@ -174,7 +184,7 @@ namespace Pizzeria_Projekt_Schule
                     }
 
                     trans.Commit();
-                    MessageBox.Show("Zahlung erfolgreich! Der Tisch ist nun wieder für neue Gäste bereit.");
+                    MessageBox.Show("Zahlung erfolgreich!Tisch aber weiterhin auf besetzt aufgrund von Slotzeit.");
                     Hauptmenu hauptmenu = new Hauptmenu();
                     this.Close();
                     hauptmenu.Show();
@@ -188,7 +198,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        // --- STORNO-LOGIK ---
+        //  STORNO-LOGIK 
         private void Stornierungbutton_rechnungseite(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
@@ -214,28 +224,60 @@ namespace Pizzeria_Projekt_Schule
             BestellungenLaden();
         }
 
+        /// <summary>
+        /// Ruft alle Bestellnummern ab, die einem bestimmten Tisch zugeordnet und noch nicht abgeschlossen sind.
+        /// </summary>
+        /// <param name="tischId">Die ID des Tisches, für den die offenen Bestellungen gesucht werden.</param>
+        /// <returns>Eine Liste mit den IDs (Bestellnummern) der offenen Bestellungen.</returns>
         private List<int> HoleAlleOffenenBestellnummern(int tischId)
         {
             List<int> nummern = new List<int>();
+
+            // SQL-Query: Wählt die Spalte 'bestellnr' aus, gefiltert nach Tisch-ID und dem Status 'offen'
             string query = "SELECT bestellnr FROM bestellungen WHERE tisch_id_fk = @tisch AND status = 'offen'";
+
+            // 'using'-Blöcke sorgen dafür, dass die Datenbankressourcen (Verbindung, Command, Reader) 
+            // nach der Nutzung automatisch und sicher geschlossen werden.
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(query, conn))
             {
+                // Schutz vor SQL-Injection: Der Parameter @tisch wird sicher durch die tischId ersetzt
                 cmd.Parameters.AddWithValue("@tisch", tischId);
+
+                // Führt die Abfrage aus und öffnet einen Datenstrom (Reader) zum Lesen der Ergebnisse
                 using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read()) { nummern.Add(reader.GetInt32("bestellnr")); }
+                    // Gehe alle gefundenen Datensätze Zeile für Zeile durch
+                    while (reader.Read())
+                    {
+                        // Liest den Wert der Spalte 'bestellnr' als Integer und fügt ihn der Liste hinzu
+                        nummern.Add(reader.GetInt32("bestellnr"));
+                    }
                 }
             }
+
             return nummern;
+        }
+        private void AktualisiereGesamtbetrag()
+        {
+            // 1. Reinen Rechnungsbetrag parsen (aus der schreibgeschützten Summe-Box)
+            double.TryParse(Summe_zahlen_textBox2.Text.Replace(" €", "").Replace(",", "."),
+                System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double rechnung);
+
+            // 2. Trinkgeld parsen
+            double.TryParse(Trinkgeld_Zahlen_TextBox1.Text.Replace(",", "."),
+                System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double trinkgeld);
+
+            // 3. Zusammenrechnen und anzeigen
+            double gesamt = rechnung + trinkgeld;
+            gesamt_Zahlen_textBox3.Text = gesamt.ToString("N2") + " €";
         }
 
         // Verhindert falsche Eingaben im Trinkgeld-Feld
         private void Trinkgeld_Zahlen_TextBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',')) e.Handled = true;
-            if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') > -1)) e.Handled = true;
-            if (e.KeyChar == '.') { e.KeyChar = ','; e.Handled = false; }
+         
+            AktualisiereGesamtbetrag();
         }
 
         private void Tisch_zahlenseite_comboBox1_SelectedIndexChanged(object sender, EventArgs e) { BestellungenLaden(); }
@@ -273,6 +315,12 @@ namespace Pizzeria_Projekt_Schule
             {
                 e.Handled = true; // Zweites Komma wird abgelehnt
             }
+            
+        }
+
+        private void Trinkgeld_Zahlen_TextBox1_TextChanged(object sender, EventArgs e)
+        {
+            AktualisiereGesamtbetrag();
         }
     }
 }

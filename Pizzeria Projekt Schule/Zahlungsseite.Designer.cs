@@ -128,6 +128,7 @@
             this.Trinkgeld_Zahlen_TextBox1.ShortcutsEnabled = false;
             this.Trinkgeld_Zahlen_TextBox1.Size = new System.Drawing.Size(108, 20);
             this.Trinkgeld_Zahlen_TextBox1.TabIndex = 6;
+            this.Trinkgeld_Zahlen_TextBox1.TextChanged += new System.EventHandler(this.Trinkgeld_Zahlen_TextBox1_TextChanged);
             this.Trinkgeld_Zahlen_TextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Trinkgeld_Zahlen_TextBox1_KeyPress_1);
             // 
             // Summe_zahlen_textBox2

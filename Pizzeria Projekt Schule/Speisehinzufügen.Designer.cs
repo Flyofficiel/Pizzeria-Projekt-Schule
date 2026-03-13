@@ -120,7 +120,7 @@
             this.Speissen_typ_comboBox1.Name = "Speissen_typ_comboBox1";
             this.Speissen_typ_comboBox1.Size = new System.Drawing.Size(147, 21);
             this.Speissen_typ_comboBox1.TabIndex = 9;
-            this.Speissen_typ_comboBox1.SelectedIndexChanged += new System.EventHandler(this.Speissen_typ_comboBox1_SelectedIndexChanged);
+           
             // 
             // Preis_textBox3
             // 
@@ -128,7 +128,7 @@
             this.Preis_textBox3.Name = "Preis_textBox3";
             this.Preis_textBox3.Size = new System.Drawing.Size(147, 20);
             this.Preis_textBox3.TabIndex = 10;
-            this.Preis_textBox3.TextChanged += new System.EventHandler(this.Preis_textBox3_TextChanged);
+            
             this.Preis_textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox3_KeyPress);
             // 
             // zutaten_textBox4
@@ -137,7 +137,7 @@
             this.zutaten_textBox4.Name = "zutaten_textBox4";
             this.zutaten_textBox4.Size = new System.Drawing.Size(147, 20);
             this.zutaten_textBox4.TabIndex = 11;
-            this.zutaten_textBox4.TextChanged += new System.EventHandler(this.Zutaten_textBox4_TextChanged);
+           
             this.zutaten_textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox4_KeyPress);
             // 
             // panel1

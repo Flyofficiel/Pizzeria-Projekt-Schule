@@ -250,7 +250,7 @@ namespace Pizzeria_Projekt_Schule
         private void Reservierung_dateTimePicker1_ValueChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
         private void Uhrzeit_comboBox1_SelectedIndexChanged(object sender, EventArgs e) { AktualisiereTischeAuto(); }
 
-        // --- VALIDIERUNG DER EINGABE ---
+        //  VALIDIERUNG DER EINGABE 
         private void TextBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true;
@@ -315,15 +315,7 @@ namespace Pizzeria_Projekt_Schule
             }
         }
 
-        private void Name_textBox1_TextChanged(object sender, EventArgs e) { }
-        private void Panel2_Paint(object sender, PaintEventArgs e) { }
-        private void TabPage2_Click(object sender, EventArgs e) { }
-        private void TabPage1_Click(object sender, EventArgs e) { }
-
-        private void Tischauswahl_comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+       
 
        
     }
